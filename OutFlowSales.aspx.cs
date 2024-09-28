@@ -19,6 +19,7 @@ public partial class _Default : System.Web.UI.Page
         {
             divAlert.InnerHtml = "";
             ViewState["Category"] = null;
+            Fillddl(DdlUnit, "Usp_GetUnit");
         }
     }
     protected void btnMilk_Click(object sender, EventArgs e)
@@ -37,7 +38,6 @@ public partial class _Default : System.Web.UI.Page
             grdMilk.DataSource = null;
             grdMilk.DataBind();
         }
-
 
     }
     public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
@@ -85,7 +85,7 @@ public partial class _Default : System.Web.UI.Page
         StringBuilder sb = new StringBuilder();
         sb.Append("<div class=\"alert ");
         sb.Append(bgcolor);
-        sb.Append("alert-dismissible fade show\" role=\"alert\">");
+        sb.Append(" alert-dismissible fade show\" role=\"alert\">");
         sb.Append(msg);
         sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
@@ -94,35 +94,114 @@ public partial class _Default : System.Web.UI.Page
         divAlert.InnerHtml += sb.ToString();
     }
 
-    //protected void txt_TextChanged(object sender, EventArgs e)
-    //{
-    //    int total = 0;
-    //    foreach (GridViewRow row in grdProduct.Rows)
-    //    {
-    //        if (row.RowType == DataControlRowType.DataRow)
-    //        {
-    //            TextBox qty = (TextBox)row.FindControl("txtQty");
-    //            total += int.Parse(qty.Text);
-    //        }
-    //    }
-    //    grdProduct.FooterRow.Cells[0].Text = "Totel";
-    //    grdProduct.FooterRow.Cells[1].Text = total.ToString();
-    //}
-
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
         if (ViewState["Category"] != null)
         {
-
+            DataTable td;
             if (ViewState["Category"].ToString() == "Milk")
             {
-                //by.ByProcedure(string proc, string[] parm, string[] parmValues, string constr)
+                td = GetGridData(grdMilk);
+                SubmitItems(td, "Milk");
+            }
+            else if (ViewState["Category"].ToString() == "Product")
+            {
+                td = GetGridData(grdProduct);
+                SubmitItems(td, "Product");
             }
         }
     }
 
-    protected void btnProduct_Click(object sender, EventArgs e)
+    public DataTable GetGridData(GridView grd)
+
     {
+
+        DataTable dtItems = new DataTable();
+
+        dtItems.Columns.Add("ItemName", typeof(string));
+        dtItems.Columns.Add("Quantity", typeof(int));
+        dtItems.Columns.Add("AdvancedCard", typeof(int));
+
+        foreach (GridViewRow row in grd.Rows)
+        {
+            DataRow dr = dtItems.NewRow();
+            dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
+            dr["Quantity"] = int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
+
+            dtItems.Rows.Add(dr);
+        }
+        return dtItems;
+
+    }
+
+    public void SubmitItems(DataTable td, string Category)
+    {
+        DataSet ds = new DataSet();
+        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddSales", Connstr))
+        {
+            sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", TxtDate.Text);
+            sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", Category);
+            sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@NameOfUnit", DdlUnit.SelectedValue);
+            sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Items", td);
+
+            sqlDataAdapter.Fill(ds);
+        }
+        if (ds.Tables.Count > 0)
+        {
+            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+            {
+                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
+
+            }
+            else
+            {
+                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-danger");
+            }
+
+        }
+    }
+    public void Fillddl(DropDownList ddl, string proc)
+    {
+        ddl.DataSource = null;
+        ddl.DataBind();
+        ddl.Items.Insert(0, new ListItem("--Select--", ""));
+        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+        DataSet ds = new DataSet();
+        adpt.Fill(ds);
+        if (ds.Tables.Count > 1)
+        {
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                ddl.DataSource = ds.Tables[0];
+                ddl.DataTextField = "Name";
+                ddl.DataValueField = "Id";
+                ddl.DataBind();
+            }
+            else
+            {
+                alertmsg("Table is Empty", "bg-warning");
+            }
+                ddl.Items.Insert(0, new ListItem("--Select--", ""));
+        }
+        else if (ds.Tables.Count > 0)
+        {
+            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+            {
+                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
+
+            }
+        }
+        else
+        {
+            alertmsg("Somthing went wrong", "bg-warning");
+        }
+       
+
+
 
     }
 }

@@ -20,34 +20,9 @@
             <div class="row align-items-end">
                 <div class="col-lg-4 col-md-6 mt-2">
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select " ID="ddlRoutes" runat="server" AutoPostBack="true">
+                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" required >
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
-                        <asp:ListItem Text="BHOPAL Route" Value="BHOPAL Route"></asp:ListItem>
-                        <asp:ListItem Text="TIMARNI Route" Value="TIMARNI Route"></asp:ListItem>
-                        <asp:ListItem Text="HOSHANGABAD Route" Value="HOSHANGABAD Route"></asp:ListItem>
-                        <asp:ListItem Text="ITARSI Route" Value="ITARSI Route"></asp:ListItem>
-                        <asp:ListItem Text="PIPRIYA Route" Value="PIPRIYA Route"></asp:ListItem>
-                        <asp:ListItem Text="VIDISHA Route" Value="VIDISHA Route"></asp:ListItem>
-                        <asp:ListItem Text="GANJBASODA Route" Value="GANJBASODA Route"></asp:ListItem>
-                        <asp:ListItem Text="RAISEN Route" Value="RAISEN Route"></asp:ListItem>
-                        <asp:ListItem Text="BADI Route" Value="BADI Route"></asp:ListItem>
-                        <asp:ListItem Text="NARSINGHGARH Route" Value="NARSINGHGARH Route"></asp:ListItem>
-                        <asp:ListItem Text="GUNA Route" Value="GUNA Route"></asp:ListItem>
-                        <asp:ListItem Text="NASRULLAGANJ Route" Value="NASRULLAGANJ Route"></asp:ListItem>
-                        <asp:ListItem Text="SEHORE Route" Value="SEHORE Route"></asp:ListItem>
-                        <asp:ListItem Text="SIRONJ Route" Value="SIRONJ Route"></asp:ListItem>
-                        <asp:ListItem Text="HARDA Route" Value="HARDA Route"></asp:ListItem>
-                        <asp:ListItem Text="BARELI Route" Value="BARELI Route"></asp:ListItem>
-                        <asp:ListItem Text="BIAORA Route" Value="BIAORA Route"></asp:ListItem>
-                        <asp:ListItem Text="BETUL" Value="BETUL"></asp:ListItem>
-                        <asp:ListItem Text="SMP at BSDS" Value="SMP at BSDS"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Ware House" Value="SMP at Ware House"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Gwalior" Value="SMP at Gwalior"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Powan Shri Food" Value="SMP at Powan Shri Food"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Jai Shri Gayatri" Value="SMP at Jai Shri Gayatri"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Health Food LLP" Value="SMP at Health Food LLP"></asp:ListItem>
-                        <asp:ListItem Text="SMP at Indore" Value="SMP at Indore"></asp:ListItem>
-                        <asp:ListItem Text="SMP at USDS Ujjain" Value="SMP at USDS Ujjain"></asp:ListItem>
+                      
 
                     </asp:DropDownList>
                     <%--<script>
@@ -83,17 +58,16 @@
                             document.getElementById('<%= ddlRoutes.ClientID%>').innerHTML += '<option value="' + Routes[i] + '">' + Routes[i] + '</option>'
                         }
                     </script>--%>
-
                 </div>
                 <div class="col-lg-4 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
-                    <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required ></asp:TextBox>
                     <script> document.getElementById('<%= TxtDate.ClientID%>').value = currentDate;</script>
 
                 </div>
                 <div class="col-lg-4 col-md-6 mt-2 text-center">
                     <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
-                    <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" OnClick="btnProduct_Click" />
+                    <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
                     <%-- <button type="button" class=" mb-0 btn bg-gradient-primary" onclick='LoadInput(Milk, "UlMilk");'>Milk</button> <button type="button" class="mb-0  btn  bg-gradient-primary" onclick='LoadInput(Products, "UlProduct");'>Product</button>--%>
                 </div>
             </div>
@@ -129,7 +103,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" TextMode="Number" ID="lblQty" class="form-control" Text="0"></asp:TextBox>
+                                                <asp:TextBox runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -172,12 +146,10 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text="0" AutoPostBack="true"></asp:TextBox>
+                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
 
                                             </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:Label runat="server" ID="lblTotel" Text='<%# Container.DisplayIndex %>'> </asp:Label>
-                                            </FooterTemplate>
+
                                         </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
@@ -213,6 +185,29 @@
             var footerCell = footerRow.cells[1];
             var footerLabel = footerCell.children[0];
             footerLabel.innerHTML = total;
+        }
+        function updateTotalQuantity(textBox) {
+            var gridView = textBox.parentNode.parentNode.parentNode; // get the GridView
+            var totalQuantity = 0;
+            var rows = gridView.rows;
+
+            var footerRow = gridView.rows[gridView.rows.length - 1];
+            if (footerRow.cells[0].innerHTML.indexOf("Total:") == -1) {
+                // Add footer row if it doesn't exist
+                footerRow = gridView.insertRow(gridView.rows.length);
+                footerRow.innerHTML = '<td class="text-bolder" >Total:</td> <td ><span id="totalQuantity"></span></td>';
+            }
+            // Update total quantity in existing footer row
+            let totalQuantitySpan = footerRow.cells[1].children[0];
+
+            for (var i = 1; i < rows.length - 1; i++) { // skip header row
+                var quantityTextBox = rows[i].cells[1].children[0]; // get the TextBox in the Quantity column
+                totalQuantity += parseInt(quantityTextBox.value);
+            }
+            totalQuantitySpan.textContent = totalQuantity;
+
+            // Check if footer row exists
+
         }
         //First Load Milk Default
 
