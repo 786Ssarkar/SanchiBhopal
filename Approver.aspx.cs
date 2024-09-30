@@ -138,20 +138,17 @@ public partial class Approver : System.Web.UI.Page
         TextBox TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
         TextBox TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
         TextBox TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
+
         TextBox TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNF");
         TextBox TxtMilkFat = (TextBox)row.FindControl("TxtMilkFat");
 
         decimal milkQty = decimal.Parse(TxtMilkQty.Text);
         decimal milkSNFPerc = decimal.Parse(TxtMilkSNFPerc.Text);
-
-        decimal milkSNF = (milkQty * milkSNFPerc) / 100;
-        TxtMilkSNF.Text = milkSNF.ToString();
-
-
         decimal milkFatPerc = decimal.Parse(TxtMilkFatPerc.Text);
 
+        decimal milkSNF = (milkQty * milkSNFPerc) / 100;
         decimal milkFat = (milkQty * milkFatPerc) / 100;
+        TxtMilkSNF.Text = milkSNF.ToString();
         TxtMilkFat.Text = milkFat.ToString();
-
     }
     }

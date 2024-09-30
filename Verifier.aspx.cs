@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -22,17 +23,12 @@ public partial class VerifierAndApprover : System.Web.UI.Page
 
     protected void FillGrid()
     {
-        using (SqlConnection sqlConnection = new SqlConnection(_connectionString))
-        {
-            DataSet ds = new DataSet();
+         DataSet ds = new DataSet();
             try
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand("uspVerifierDetails", sqlConnection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+            {                                
+                using (SqlDataAdapter sda = new SqlDataAdapter("uspVerifierDetails", _connectionString))
                 {
-                    ds.Clear();
+                    sda.SelectCommand.CommandType = CommandType.StoredProcedure;
                     sda.Fill(ds);
                 }
                 if (ds != null)
@@ -47,15 +43,12 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-            }
-            finally
-            {
-
-            }
+            alertmsg(ex.Message, "bg-danger");
         }
+          
+        
     }
 
     protected void GVDetails_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -109,14 +102,15 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                             {
                                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["sts"]))
                                 {
-                                    lblmsg.Text = ds.Tables[0].Rows[0]["msg"].ToString();
-                                    lblmsg.CssClass = "text-success";
+                                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-success");
+
+                                    FillGrid();
 
                                 }
                                 else
                                 {
-                                    lblmsg.Text = ds.Tables[0].Rows[0]["msg"].ToString();
-                                    lblmsg.CssClass = "text-danger";
+                                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-danger");
+
                                 }
                                 ViewState["id"] = "";
                             }
@@ -136,7 +130,19 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         }
     }
 
-
+    protected void alertmsg(string msg, string bgcolor)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append("<div class=\"alert ");
+        sb.Append(bgcolor);
+        sb.Append(" alert-dismissible fade show\" role=\"alert\">");
+        sb.Append(msg);
+        sb.Append("<button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
+        sb.Append("<span aria-hidden=\"true\">&times;</span>");
+        sb.Append("</button>");
+        sb.Append("</div> ");
+        divAlert.InnerHtml += sb.ToString();
+    }
 
     protected void GVIMilkQty_TextChanged(object sender, EventArgs e)
     {
