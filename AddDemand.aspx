@@ -197,7 +197,8 @@
                             <div class="col-md-5 text-center">
                                 <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
                                <%-- <button type="button" class="Alert-Save  mb-0 btn bg-gradient-success">Submit</button>--%>
-                                <button type="reset" class=" mb-0 btn bg-gradient-warning">Clear</button>
+
+                                <a href="AddDemand.aspx"  class=" mb-0 btn bg-gradient-warning">Clear</a>
                             </div>
                         </div>
                     </div>

@@ -50,7 +50,8 @@
                     <div class="row justify-content-center">
                         <div class="col-md-5 text-center">
                             <asp:Button runat="server" ID="BtnSubmit" Text="Submit" CssClass="btn bg-gradient-success " OnClick="BtnSubmit_Click1" />
-                            <asp:Button runat="server" ID="BtnClear" Text="Clear" CssClass="btn bg-gradient-danger " />
+                            
+                            <a href="PlantManufacturing.aspx"  class=" btn bg-gradient-warning">Clear</a>
                         </div>
                     </div>
                 </div>
