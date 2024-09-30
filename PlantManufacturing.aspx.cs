@@ -18,7 +18,7 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
 
-        FillGrid(gvPlantItems, "GetItemsByCategory");
+            FillGrid(gvPlantItems, "GetItemsByCategory");
             divAlert.InnerHtml = "";
         }
     }
@@ -41,7 +41,10 @@ public partial class _Default : System.Web.UI.Page
 
     public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
     {
+        try
+        {
 
+      
         SqlDataAdapter adpt = new SqlDataAdapter(proc, _connectionString);
         adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
         adpt.SelectCommand.Parameters.Clear();
@@ -79,18 +82,20 @@ public partial class _Default : System.Web.UI.Page
         {
             alertmsg("Somthing went wrong", "bg-warning");
         }
+        }
+        catch (Exception ex)
+        {
 
+            alertmsg(ex.Message, "bg-danger");
+        }
 
 
     }
 
-
-
-
     protected void BtnSubmit_Click1(object sender, EventArgs e)
     {
-        
-
+        try
+        {
             if (Page.IsValid)
             {
                 DataTable dtItems = new DataTable();
@@ -98,14 +103,14 @@ public partial class _Default : System.Web.UI.Page
                 dtItems.Columns.Add("ItemName", typeof(string));
                 dtItems.Columns.Add("Quantity", typeof(int));
                 dtItems.Columns.Add("advance", typeof(int));
-              
+
 
                 foreach (GridViewRow row in gvPlantItems.Rows)
                 {
                     DataRow dr = dtItems.NewRow();
                     dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;
                     dr["Quantity"] = int.Parse(((TextBox)row.FindControl("GVIQuantity")).Text);
-                   
+
                     dtItems.Rows.Add(dr);
                 }
 
@@ -114,7 +119,7 @@ public partial class _Default : System.Web.UI.Page
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddManufItem", _connectionString))
                 {
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date",(DateTime.Now).ToString("yyyy-MM-dd"));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", (DateTime.Now).ToString("yyyy-MM-dd"));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ManufItems", dtItems);
 
                     sqlDataAdapter.Fill(ds);
@@ -134,7 +139,11 @@ public partial class _Default : System.Web.UI.Page
 
                 }
             }
-
         }
-}
+        catch (Exception ex)
+        {
+            alertmsg(ex.Message, "bg-danger");
+        }
 
+    }
+}

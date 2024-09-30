@@ -24,6 +24,10 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void btnMilk_Click(object sender, EventArgs e)
     {
+        try
+        {
+
+       
         if (((Button)sender).Text == "Milk")
         {
             FillGrid(grdMilk, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { "Milk" });
@@ -38,10 +42,20 @@ public partial class _Default : System.Web.UI.Page
             grdMilk.DataSource = null;
             grdMilk.DataBind();
         }
+        }
+        catch (Exception ex)
+        {
+
+            alertmsg(ex.Message, "bg-danger");
+        }
 
     }
     public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
     {
+        try
+        {
+
+      
         SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
         adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
         adpt.SelectCommand.Parameters.Clear();
@@ -79,6 +93,12 @@ public partial class _Default : System.Web.UI.Page
         {
             alertmsg("Somthing went wrong", "bg-warning");
         }
+        }
+        catch (Exception ex)
+        {
+
+            alertmsg(ex.Message, "bg-danger");
+        }
     }
     protected void alertmsg(string msg, string bgcolor)
     {
@@ -96,6 +116,10 @@ public partial class _Default : System.Web.UI.Page
 
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
+        try
+        {
+
+       
         if (ViewState["Category"] != null)
         {
             DataTable td;
@@ -110,12 +134,17 @@ public partial class _Default : System.Web.UI.Page
                 SubmitItems(td, "Product");
             }
         }
+        }
+        catch (Exception ex)
+        {
+
+            alertmsg(ex.Message, "bg-danger");
+        }
     }
 
     public DataTable GetGridData(GridView grd)
 
     {
-
         DataTable dtItems = new DataTable();
 
         dtItems.Columns.Add("ItemName", typeof(string));
@@ -136,6 +165,10 @@ public partial class _Default : System.Web.UI.Page
 
     public void SubmitItems(DataTable td, string Category)
     {
+        try
+        {
+
+       
         DataSet ds = new DataSet();
         using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddSales", Connstr))
         {
@@ -161,45 +194,60 @@ public partial class _Default : System.Web.UI.Page
             }
 
         }
+        }
+        catch (Exception ex)
+        {
+
+            alertmsg(ex.Message, "bg-danger");
+        }
     }
     public void Fillddl(DropDownList ddl, string proc)
     {
-        ddl.DataSource = null;
-        ddl.DataBind();
-        ddl.Items.Insert(0, new ListItem("--Select--", ""));
-        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-
-        DataSet ds = new DataSet();
-        adpt.Fill(ds);
-        if (ds.Tables.Count > 1)
+        try
         {
-            if (ds.Tables[0].Rows.Count > 0)
+
+
+            ddl.DataSource = null;
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
             {
-                ddl.DataSource = ds.Tables[0];
-                ddl.DataTextField = "Name";
-                ddl.DataValueField = "Id";
-                ddl.DataBind();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ddl.DataSource = ds.Tables[0];
+                    ddl.DataTextField = "Name";
+                    ddl.DataValueField = "Id";
+                    ddl.DataBind();
+                }
+                else
+                {
+                    alertmsg("Table is Empty", "bg-warning");
+                }
+                ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
+
+                }
             }
             else
             {
-                alertmsg("Table is Empty", "bg-warning");
+                alertmsg("Somthing went wrong", "bg-warning");
             }
-                ddl.Items.Insert(0, new ListItem("--Select--", ""));
         }
-        else if (ds.Tables.Count > 0)
+        catch (Exception ex)
         {
-            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-            {
-                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
 
-            }
+            alertmsg(ex.Message, "bg-danger");
         }
-        else
-        {
-            alertmsg("Somthing went wrong", "bg-warning");
-        }
-       
 
 
 
