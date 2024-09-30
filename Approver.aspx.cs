@@ -18,14 +18,14 @@ public partial class Approver : System.Web.UI.Page
         if (!IsPostBack)
         {
             divAlert.InnerHtml = "";
-            FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved"},new[] { "0"});
+            FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "0" });
 
         }
 
     }
 
     protected void grdApprove_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
+    {
         if (e.CommandName == "Approve")
         {
             GridViewRow row = (GridViewRow)((Control)e.CommandSource).NamingContainer;
@@ -125,10 +125,33 @@ public partial class Approver : System.Web.UI.Page
         sb.Append(bgcolor);
         sb.Append(" alert-dismissible fade show\" role=\"alert\">");
         sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
+        sb.Append("<button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
         divAlert.InnerHtml += sb.ToString();
     }
-}
+
+    protected void CalculateSnfAndFat(object sender, EventArgs e)
+    {
+        GridViewRow row = (GridViewRow)((TextBox)sender).NamingContainer;
+        TextBox TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
+        TextBox TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
+        TextBox TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
+        TextBox TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNF");
+        TextBox TxtMilkFat = (TextBox)row.FindControl("TxtMilkFat");
+
+        decimal milkQty = decimal.Parse(TxtMilkQty.Text);
+        decimal milkSNFPerc = decimal.Parse(TxtMilkSNFPerc.Text);
+
+        decimal milkSNF = (milkQty * milkSNFPerc) / 100;
+        TxtMilkSNF.Text = milkSNF.ToString();
+
+
+        decimal milkFatPerc = decimal.Parse(TxtMilkFatPerc.Text);
+
+        decimal milkFat = (milkQty * milkFatPerc) / 100;
+        TxtMilkFat.Text = milkFat.ToString();
+
+    }
+    }

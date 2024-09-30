@@ -42,27 +42,27 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk <br/> Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk <br/>Fat %">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkFatPerc" class="form-control" Text='<%# Eval("MilkfatPerc").ToString() %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkFatPerc" class="form-control" Text='<%# Eval("MilkfatPerc").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk <br/>SNF %">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk <br/> Fat ">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkFat" class="form-control" Text='<%# Eval("Milkfat").ToString() %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkFat" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk <br/>SNF ">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkSNF" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkSNF" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="White Butter <br/>Quantity">
