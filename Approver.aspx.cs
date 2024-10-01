@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Configuration;
+using System.Security.Cryptography;
 
 public partial class Approver : System.Web.UI.Page
 {
@@ -19,6 +20,7 @@ public partial class Approver : System.Web.UI.Page
         {
             divAlert.InnerHtml = "";
             FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "0" });
+            FillGrid(grdApproved, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "1" });
 
         }
 
@@ -41,6 +43,10 @@ public partial class Approver : System.Web.UI.Page
                 TextBox Row_TxtButterStck = (TextBox)row.FindControl("TxtButterStck");
                 TextBox Row_TxtMilkPwderQty = (TextBox)row.FindControl("TxtMilkPwderQty");
                 TextBox Row_TxtMilkPwderStk = (TextBox)row.FindControl("TxtMilkPwderStk");
+                TextBox Row_TxtWholeMilkPwderqty = (TextBox)row.FindControl("TxtWholeMilkPwderqty");
+                TextBox Row_TxtWholeMilkPwderStk = (TextBox)row.FindControl("TxtWholeMilkPwderStk");
+                TextBox Row_TxtGheeqty = (TextBox)row.FindControl("TxtGheeqty");
+                TextBox Row_TxtGheeStk = (TextBox)row.FindControl("TxtGheeStk");
 
                 Code by = new Code();
                 DataSet ds = by.ByProcedure("Usp_AproveInflow",
@@ -48,12 +54,12 @@ public partial class Approver : System.Web.UI.Page
                     "Milkfat", "MilkSNF",
                     "Milkfatperc","MilkSNFperc",
                     "Butterqty","Butterstock",
-                    "MilkPowderqty", "MilkPowderstock"
+                    "MilkPowderqty", "MilkPowderstock", "WholeMilkPowderqty"  ,"WholeMilkPowderstock","Gheeqty","Gheestock"
                      }, new[] {e.CommandArgument.ToString(),Row_TxtMilkQty.Text,
                     Row_TxtMilkFat.Text, Row_TxtMilkSNF.Text,
                     Row_TxtMilkFatPerc.Text,Row_TxtMilkSNFPerc.Text,
                    Row_TxtButterQty.Text,Row_TxtButterStck.Text,
-                    Row_TxtMilkPwderQty.Text, Row_TxtMilkPwderStk.Text,
+                    Row_TxtMilkPwderQty.Text, Row_TxtMilkPwderStk.Text,Row_TxtWholeMilkPwderqty.Text,Row_TxtWholeMilkPwderStk.Text,Row_TxtGheeqty.Text,Row_TxtGheeStk.Text
                      }, Connstr);
 
 

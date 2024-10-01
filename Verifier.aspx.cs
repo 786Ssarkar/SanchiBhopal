@@ -54,16 +54,23 @@ public partial class VerifierAndApprover : System.Web.UI.Page
     protected void GVDetails_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         GridViewRow gridViewRow = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-        TextBox GVIUnitName = ((TextBox)gridViewRow.FindControl("GVIUnitName"));
-        TextBox GVIMilkQty = ((TextBox)gridViewRow.FindControl("GVIMilkQty"));
-        TextBox GVIMilkFat = ((TextBox)gridViewRow.FindControl("GVIMilkFat"));
-        TextBox GVIMilkSNF = ((TextBox)gridViewRow.FindControl("GVIMilkSNF"));
-        TextBox GVIMilkFatPerc = ((TextBox)gridViewRow.FindControl("GVIMilkFatPerc"));
-        TextBox GVIMilkSNFPerc = ((TextBox)gridViewRow.FindControl("GVIMilkSNFPerc"));
-        TextBox GVIButterQty = ((TextBox)gridViewRow.FindControl("GVIButterQty"));
-        TextBox GVIButterStck = ((TextBox)gridViewRow.FindControl("GVIButterStck"));
-        TextBox GVIMilkPwderQty = ((TextBox)gridViewRow.FindControl("GVIMilkPwderQty"));
+        Label GVIUnitName = ((Label)gridViewRow.FindControl("GVIUnitName"));
+        TextBox  GVIMilkQty  = ((TextBox)gridViewRow.FindControl("GVIMilkQty"));
+        TextBox  GVIMilkFat  = ((TextBox)gridViewRow.FindControl("GVIMilkFat"));
+        TextBox  GVIMilkSNF = ((TextBox)gridViewRow.FindControl("GVIMilkSNF"));
+        TextBox  GVIMilkFatPerc = ((TextBox)gridViewRow.FindControl("GVIMilkFatPerc"));
+        TextBox  GVIMilkSNFPerc = ((TextBox)gridViewRow.FindControl("GVIMilkSNFPerc"));
+        TextBox  GVIButterQty = ((TextBox)gridViewRow.FindControl("GVIButterQty"));
+        TextBox  GVIButterStck = ((TextBox)gridViewRow.FindControl("GVIButterStck"));
+        TextBox  GVIMilkPwderQty = ((TextBox)gridViewRow.FindControl("GVIMilkPwderQty"));
         TextBox GVIMilkPwderStk = ((TextBox)gridViewRow.FindControl("GVIMilkPwderStk"));
+        TextBox GVIWholeMilkPwderqty = ((TextBox)gridViewRow.FindControl("GVIWholeMilkPwderqty"));
+        TextBox GVIWholeMilkPwderStk = ((TextBox)gridViewRow.FindControl("GVIWholeMilkPwderStk"));
+        TextBox GVIGheeqty = ((TextBox)gridViewRow.FindControl("GVIGheeqty"));
+        TextBox GVIGheeStk = ((TextBox)gridViewRow.FindControl("GVIGheeStk"));
+        
+
+
 
 
         ViewState["id"] = e.CommandArgument.ToString();
@@ -88,6 +95,10 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@Butterstock", GVIButterStck.Text.Trim());
                     cmd.Parameters.AddWithValue("@MilkPowderqty", GVIMilkPwderQty.Text.Trim());
                     cmd.Parameters.AddWithValue("@MilkPowderstock", GVIMilkPwderStk.Text.Trim());
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderqty", GVIWholeMilkPwderqty.Text);
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderstock", GVIWholeMilkPwderStk.Text);
+                    cmd.Parameters.AddWithValue("@Gheeqty", GVIGheeqty.Text);
+                    cmd.Parameters.AddWithValue("@Gheestock", GVIGheeStk.Text);
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -105,6 +116,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                                     alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-success");
 
                                     FillGrid();
+                         
 
                                 }
                                 else
@@ -165,4 +177,6 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         decimal milkFat = (milkQty * milkFatPerc) / 100;
         TxtMilkFat.Text = milkFat.ToString();
     }
+
+   
 }
