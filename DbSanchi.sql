@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [DbSanchi]    Script Date: 30-Sep-24 1:45:54 PM ******/
+/****** Object:  Database [DbSanchi]    Script Date: 01-Oct-24 3:14:34 PM ******/
 CREATE DATABASE [DbSanchi]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,14 +84,14 @@ ALTER DATABASE [DbSanchi] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_
 GO
 USE [DbSanchi]
 GO
-/****** Object:  UserDefinedTableType [dbo].[DemandItems]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[DemandItems]    Script Date: 01-Oct-24 3:14:34 PM ******/
 CREATE TYPE [dbo].[DemandItems] AS TABLE(
 	[ItemName] [varchar](50) NULL,
 	[Quantity] [int] NULL,
 	[AdvancedCard] [int] NULL
 )
 GO
-/****** Object:  Table [dbo].[mst_Item]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[mst_Item]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +106,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[mst_Unit]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[mst_Unit]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -120,7 +120,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PlantManufacturingData]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[PlantManufacturingData]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -132,7 +132,7 @@ CREATE TABLE [dbo].[PlantManufacturingData](
 	[Quantity] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[trn_Demand]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[trn_Demand]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -151,7 +151,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[trn_DemandsChild]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[trn_DemandsChild]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -168,7 +168,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Trn_InflowDetails]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[Trn_InflowDetails]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,13 +188,17 @@ CREATE TABLE [dbo].[Trn_InflowDetails](
 	[MilkPowderstock] [int] NULL,
 	[IsVerifed] [bit] NULL,
 	[IsApproved] [bit] NULL,
+	[WholeMilkPowderqty] [int] NULL,
+	[WholeMilkPowderstock] [int] NULL,
+	[Gheeqty] [int] NULL,
+	[Gheestock] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[InflowId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[trn_Sale]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[trn_Sale]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -210,7 +214,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[trn_SaleChild]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  Table [dbo].[trn_SaleChild]    Script Date: 01-Oct-24 3:14:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -534,6 +538,252 @@ INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quant
 GO
 INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (123, CAST(N'2024-09-30' AS Date), N'Amrakhand 100 gms', 8)
 GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (124, CAST(N'2024-10-01' AS Date), N'STD', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (125, CAST(N'2024-10-01' AS Date), N'DTM', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (126, CAST(N'2024-10-01' AS Date), N'LITE', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (127, CAST(N'2024-10-01' AS Date), N'FCM', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (128, CAST(N'2024-10-01' AS Date), N'Diamond', 66)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (129, CAST(N'2024-10-01' AS Date), N'TM', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (130, CAST(N'2024-10-01' AS Date), N'CHAH', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (131, CAST(N'2024-10-01' AS Date), N'FCM 1L', 66)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (132, CAST(N'2024-10-01' AS Date), N'Chai spl. 1000ML', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (133, CAST(N'2024-10-01' AS Date), N'SMP', 66)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (134, CAST(N'2024-10-01' AS Date), N'Sweeten SMP', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (135, CAST(N'2024-10-01' AS Date), N'WB', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (136, CAST(N'2024-10-01' AS Date), N'Plain curd', 66)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (137, CAST(N'2024-10-01' AS Date), N'Sweet Curd', 6)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (138, CAST(N'2024-10-01' AS Date), N'Salted Butter Milk 200 ML', 66)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (139, CAST(N'2024-10-01' AS Date), N'Plain Butter Milk', 67)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (140, CAST(N'2024-10-01' AS Date), N'Cold Coffee', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (141, CAST(N'2024-10-01' AS Date), N'Fl.Milk Pet Bottle', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (142, CAST(N'2024-10-01' AS Date), N'S.F.M Glass(Bottles)', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (143, CAST(N'2024-10-01' AS Date), N'Lassi 200 ML Glass', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (144, CAST(N'2024-10-01' AS Date), N'Lite Lassi 200 ML', 77)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (145, CAST(N'2024-10-01' AS Date), N'Shrikhand', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (146, CAST(N'2024-10-01' AS Date), N'Chena Rabdi', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (147, CAST(N'2024-10-01' AS Date), N'Sabudana Kheer 100 gm', 77)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (148, CAST(N'2024-10-01' AS Date), N'Peda', 77)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (149, CAST(N'2024-10-01' AS Date), N'Milk Cake', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (150, CAST(N'2024-10-01' AS Date), N'Mawa', 77)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (151, CAST(N'2024-10-01' AS Date), N'Paneer', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (152, CAST(N'2024-10-01' AS Date), N'Vaccum Paneer', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (153, CAST(N'2024-10-01' AS Date), N'Rasogulla', 77)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (154, CAST(N'2024-10-01' AS Date), N'Gulabjamun', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (155, CAST(N'2024-10-01' AS Date), N'Shrikhand Lite 100 gms cups', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (156, CAST(N'2024-10-01' AS Date), N'Table Butter', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (157, CAST(N'2024-10-01' AS Date), N'Cookies', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (158, CAST(N'2024-10-01' AS Date), N'Sugar Free Peda', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (159, CAST(N'2024-10-01' AS Date), N'Butter Chiplet', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (160, CAST(N'2024-10-01' AS Date), N'Besan Laddu', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (161, CAST(N'2024-10-01' AS Date), N'Sanchi Neer lit', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (162, CAST(N'2024-10-01' AS Date), N'Misti Doi 100gm', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (163, CAST(N'2024-10-01' AS Date), N'Braj Peda', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (164, CAST(N'2024-10-01' AS Date), N'Amrakhand 100 gms', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (165, CAST(N'2024-10-01' AS Date), N'STD', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (166, CAST(N'2024-10-01' AS Date), N'DTM', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (167, CAST(N'2024-10-01' AS Date), N'LITE', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (168, CAST(N'2024-10-01' AS Date), N'FCM', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (169, CAST(N'2024-10-01' AS Date), N'Diamond', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (170, CAST(N'2024-10-01' AS Date), N'TM', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (171, CAST(N'2024-10-01' AS Date), N'CHAH', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (172, CAST(N'2024-10-01' AS Date), N'FCM 1L', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (173, CAST(N'2024-10-01' AS Date), N'Chai spl. 1000ML', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (174, CAST(N'2024-10-01' AS Date), N'SMP', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (175, CAST(N'2024-10-01' AS Date), N'Sweeten SMP', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (176, CAST(N'2024-10-01' AS Date), N'WB', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (177, CAST(N'2024-10-01' AS Date), N'Plain curd', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (178, CAST(N'2024-10-01' AS Date), N'Sweet Curd', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (179, CAST(N'2024-10-01' AS Date), N'Salted Butter Milk 200 ML', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (180, CAST(N'2024-10-01' AS Date), N'Plain Butter Milk', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (181, CAST(N'2024-10-01' AS Date), N'Cold Coffee', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (182, CAST(N'2024-10-01' AS Date), N'Fl.Milk Pet Bottle', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (183, CAST(N'2024-10-01' AS Date), N'S.F.M Glass(Bottles)', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (184, CAST(N'2024-10-01' AS Date), N'Lassi 200 ML Glass', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (185, CAST(N'2024-10-01' AS Date), N'Lite Lassi 200 ML', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (186, CAST(N'2024-10-01' AS Date), N'Shrikhand', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (187, CAST(N'2024-10-01' AS Date), N'Chena Rabdi', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (188, CAST(N'2024-10-01' AS Date), N'Sabudana Kheer 100 gm', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (189, CAST(N'2024-10-01' AS Date), N'Peda', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (190, CAST(N'2024-10-01' AS Date), N'Milk Cake', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (191, CAST(N'2024-10-01' AS Date), N'Mawa', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (192, CAST(N'2024-10-01' AS Date), N'Paneer', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (193, CAST(N'2024-10-01' AS Date), N'Vaccum Paneer', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (194, CAST(N'2024-10-01' AS Date), N'Rasogulla', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (195, CAST(N'2024-10-01' AS Date), N'Gulabjamun', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (196, CAST(N'2024-10-01' AS Date), N'Shrikhand Lite 100 gms cups', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (197, CAST(N'2024-10-01' AS Date), N'Table Butter', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (198, CAST(N'2024-10-01' AS Date), N'Cookies', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (199, CAST(N'2024-10-01' AS Date), N'Sugar Free Peda', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (200, CAST(N'2024-10-01' AS Date), N'Butter Chiplet', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (201, CAST(N'2024-10-01' AS Date), N'Besan Laddu', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (202, CAST(N'2024-10-01' AS Date), N'Sanchi Neer lit', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (203, CAST(N'2024-10-01' AS Date), N'Misti Doi 100gm', 7)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (204, CAST(N'2024-10-01' AS Date), N'Braj Peda', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (205, CAST(N'2024-10-01' AS Date), N'Amrakhand 100 gms', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (206, CAST(N'2024-10-01' AS Date), N'SMP', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (207, CAST(N'2024-10-01' AS Date), N'Sweeten SMP', 99)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (208, CAST(N'2024-10-01' AS Date), N'WB', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (209, CAST(N'2024-10-01' AS Date), N'Plain curd', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (210, CAST(N'2024-10-01' AS Date), N'Sweet Curd', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (211, CAST(N'2024-10-01' AS Date), N'Salted Butter Milk 200 ML', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (212, CAST(N'2024-10-01' AS Date), N'Plain Butter Milk', 99)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (213, CAST(N'2024-10-01' AS Date), N'Cold Coffee', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (214, CAST(N'2024-10-01' AS Date), N'Fl.Milk Pet Bottle', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (215, CAST(N'2024-10-01' AS Date), N'S.F.M Glass(Bottles)', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (216, CAST(N'2024-10-01' AS Date), N'Lassi 200 ML Glass', 99)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (217, CAST(N'2024-10-01' AS Date), N'Lite Lassi 200 ML', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (218, CAST(N'2024-10-01' AS Date), N'Shrikhand', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (219, CAST(N'2024-10-01' AS Date), N'Chena Rabdi', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (220, CAST(N'2024-10-01' AS Date), N'Sabudana Kheer 100 gm', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (221, CAST(N'2024-10-01' AS Date), N'Peda', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (222, CAST(N'2024-10-01' AS Date), N'Milk Cake', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (223, CAST(N'2024-10-01' AS Date), N'Mawa', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (224, CAST(N'2024-10-01' AS Date), N'Paneer', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (225, CAST(N'2024-10-01' AS Date), N'Vaccum Paneer', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (226, CAST(N'2024-10-01' AS Date), N'Rasogulla', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (227, CAST(N'2024-10-01' AS Date), N'Gulabjamun', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (228, CAST(N'2024-10-01' AS Date), N'Shrikhand Lite 100 gms cups', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (229, CAST(N'2024-10-01' AS Date), N'Table Butter', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (230, CAST(N'2024-10-01' AS Date), N'Cookies', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (231, CAST(N'2024-10-01' AS Date), N'Sugar Free Peda', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (232, CAST(N'2024-10-01' AS Date), N'Butter Chiplet', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (233, CAST(N'2024-10-01' AS Date), N'Besan Laddu', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (234, CAST(N'2024-10-01' AS Date), N'Sanchi Neer lit', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (235, CAST(N'2024-10-01' AS Date), N'Misti Doi 100gm', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (236, CAST(N'2024-10-01' AS Date), N'Braj Peda', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (237, CAST(N'2024-10-01' AS Date), N'Amrakhand 100 gms', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (238, CAST(N'2024-10-01' AS Date), N'STD', 0)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (239, CAST(N'2024-10-01' AS Date), N'DTM', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (240, CAST(N'2024-10-01' AS Date), N'LITE', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (241, CAST(N'2024-10-01' AS Date), N'FCM', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (242, CAST(N'2024-10-01' AS Date), N'Diamond', 99)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (243, CAST(N'2024-10-01' AS Date), N'TM', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (244, CAST(N'2024-10-01' AS Date), N'CHAH', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (245, CAST(N'2024-10-01' AS Date), N'FCM 1L', 9)
+GO
+INSERT [dbo].[PlantManufacturingData] ([ManufItemId], [Date], [ItemName], [Quantity]) VALUES (246, CAST(N'2024-10-01' AS Date), N'Chai spl. 1000ML', 9)
+GO
 SET IDENTITY_INSERT [dbo].[PlantManufacturingData] OFF
 GO
 SET IDENTITY_INSERT [dbo].[trn_Demand] ON 
@@ -555,6 +805,10 @@ GO
 INSERT [dbo].[trn_Demand] ([DemandId], [Date], [ItemCategory], [Shift], [Retailer], [VehicleNo], [DemandType]) VALUES (8, CAST(N'2024-09-24' AS Date), N'Milk', N'Morning', N'Depot No. 94[D75]', N'MP-04-GB-0338', N'Regular')
 GO
 INSERT [dbo].[trn_Demand] ([DemandId], [Date], [ItemCategory], [Shift], [Retailer], [VehicleNo], [DemandType]) VALUES (9, CAST(N'2024-09-10' AS Date), N'Milk', N'Morning', N'Depot No. 94[D75]', N'MP-04-HR-0554', N'Regular')
+GO
+INSERT [dbo].[trn_Demand] ([DemandId], [Date], [ItemCategory], [Shift], [Retailer], [VehicleNo], [DemandType]) VALUES (10, CAST(N'2024-10-18' AS Date), N'Milk', N'Morning', N'Depot No. 81[D05]', N'MP-04-HR-0554', N'Regular')
+GO
+INSERT [dbo].[trn_Demand] ([DemandId], [Date], [ItemCategory], [Shift], [Retailer], [VehicleNo], [DemandType]) VALUES (11, CAST(N'2024-10-04' AS Date), N'Milk', N'Morning', N'Depot No. 81[D05]', N'MP-04-GB-0338', N'Regular')
 GO
 SET IDENTITY_INSERT [dbo].[trn_Demand] OFF
 GO
@@ -768,25 +1022,71 @@ INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quan
 GO
 INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (104, 9, N'Chai spl. 1000ML', 6, 0)
 GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (105, 10, N'STD', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (106, 10, N'DTM', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (107, 10, N'LITE', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (108, 10, N'FCM', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (109, 10, N'Diamond', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (110, 10, N'TM', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (111, 10, N'CHAH', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (112, 10, N'FCM 1L', 55, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (113, 10, N'Chai spl. 1000ML', 5, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (114, 11, N'STD', 8, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (115, 11, N'DTM', 8, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (116, 11, N'LITE', 0, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (117, 11, N'FCM', 8, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (118, 11, N'Diamond', 0, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (119, 11, N'TM', 0, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (120, 11, N'CHAH', 0, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (121, 11, N'FCM 1L', 0, 0)
+GO
+INSERT [dbo].[trn_DemandsChild] ([DemandsChildID], [DemandId], [ItemName], [Quantity], [AdvancedCard]) VALUES (122, 11, N'Chai spl. 1000ML', 0, 0)
+GO
 SET IDENTITY_INSERT [dbo].[trn_DemandsChild] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Trn_InflowDetails] ON 
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (1, 3, CAST(N'2024-09-08' AS Date), 500, CAST(40.00 AS Decimal(18, 2)), CAST(36.65 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), CAST(7.33 AS Decimal(18, 2)), 789, 5555, 78954, 230, 1, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (1, 3, CAST(N'2024-09-08' AS Date), 500, CAST(40.00 AS Decimal(18, 2)), CAST(36.65 AS Decimal(18, 2)), CAST(8.00 AS Decimal(18, 2)), CAST(7.33 AS Decimal(18, 2)), 789, 5555, 78954, 230, 1, 1, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (2, 7, CAST(N'2024-09-08' AS Date), 9999, CAST(77.99 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), CAST(0.78 AS Decimal(18, 2)), CAST(0.30 AS Decimal(18, 2)), 52, 859, 996, 859, 1, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (2, 7, CAST(N'2024-09-08' AS Date), 9999, CAST(77.99 AS Decimal(18, 2)), CAST(30.00 AS Decimal(18, 2)), CAST(0.78 AS Decimal(18, 2)), CAST(0.30 AS Decimal(18, 2)), 52, 859, 996, 859, 1, 1, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (3, 9, CAST(N'2024-09-28' AS Date), 555, CAST(27.75 AS Decimal(18, 2)), CAST(27.75 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 555, 555, 55, 55, 1, 1)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (3, 9, CAST(N'2024-09-28' AS Date), 555, CAST(27.75 AS Decimal(18, 2)), CAST(27.75 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 555, 555, 55, 55, 1, 1, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (4, 12, CAST(N'2024-09-25' AS Date), 8568, CAST(59.98 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(0.70 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 1, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (4, 12, CAST(N'2024-09-25' AS Date), 8568, CAST(59.98 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(0.70 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 1, 0, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (5, 12, CAST(N'2024-09-28' AS Date), 8568, CAST(85.68 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 1, 1)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (5, 12, CAST(N'2024-09-28' AS Date), 8568, CAST(85.68 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 1, 1, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (6, 12, CAST(N'2024-09-28' AS Date), 8568, CAST(59.98 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(0.70 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 0, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (6, 12, CAST(N'2024-09-28' AS Date), 8568, CAST(59.98 AS Decimal(18, 2)), CAST(6.68 AS Decimal(18, 2)), CAST(0.70 AS Decimal(18, 2)), CAST(0.08 AS Decimal(18, 2)), 4734, 44, 444, 44, 1, 0, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (7, 4, CAST(N'2024-09-30' AS Date), 5555, CAST(277.75 AS Decimal(18, 2)), CAST(277.75 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 555, 55, 55, 55, 0, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (7, 4, CAST(N'2024-09-30' AS Date), 5555, CAST(277.75 AS Decimal(18, 2)), CAST(277.75 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), CAST(5.00 AS Decimal(18, 2)), 555, 55, 55, 55, 0, 0, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved]) VALUES (8, 3, CAST(N'2024-09-30' AS Date), 10, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 55, 55, 55, 55, 0, 0)
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (8, 3, CAST(N'2024-09-30' AS Date), 10, CAST(1.00 AS Decimal(18, 2)), CAST(1.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), CAST(10.00 AS Decimal(18, 2)), 55, 55, 55, 55, 0, 0, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (9, 4, CAST(N'2024-10-17' AS Date), 5000, CAST(100.00 AS Decimal(18, 2)), CAST(450.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 90, 988, 899, 98, 0, 0, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (10, 4, CAST(N'2024-10-01' AS Date), 5000, CAST(100.00 AS Decimal(18, 2)), CAST(450.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), CAST(9.00 AS Decimal(18, 2)), 90, 988, 899, 98, 0, 0, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (11, 4, CAST(N'2024-10-17' AS Date), 8555, CAST(171.10 AS Decimal(18, 2)), CAST(171.10 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), CAST(2.00 AS Decimal(18, 2)), 8555, 444, 444, 22, 0, 0, NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (12, 4, CAST(N'2024-10-11' AS Date), 1200, CAST(144.00 AS Decimal(18, 2)), CAST(144.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 12, 12, 12, 12, 0, 0, 12, 12, 12, 12)
+GO
+INSERT [dbo].[Trn_InflowDetails] ([InflowId], [UnitID], [Date], [Milkqty], [Milkfat], [MilkSNF], [Milkfatperc], [MilkSNFperc], [Butterqty], [Butterstock], [MilkPowderqty], [MilkPowderstock], [IsVerifed], [IsApproved], [WholeMilkPowderqty], [WholeMilkPowderstock], [Gheeqty], [Gheestock]) VALUES (13, 4, CAST(N'2024-10-01' AS Date), 1200, CAST(144.00 AS Decimal(18, 2)), CAST(144.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), CAST(12.00 AS Decimal(18, 2)), 12, 12, 12, 12, 0, 0, 16, 17, 18, 19)
 GO
 SET IDENTITY_INSERT [dbo].[Trn_InflowDetails] OFF
 GO
@@ -811,6 +1111,10 @@ GO
 INSERT [dbo].[trn_Sale] ([SalesID], [NameOfUnit], [Date], [ItemCategory]) VALUES (9, N'6', CAST(N'2024-09-30' AS Date), N'Milk')
 GO
 INSERT [dbo].[trn_Sale] ([SalesID], [NameOfUnit], [Date], [ItemCategory]) VALUES (10, N'8', CAST(N'2024-09-30' AS Date), N'Product')
+GO
+INSERT [dbo].[trn_Sale] ([SalesID], [NameOfUnit], [Date], [ItemCategory]) VALUES (11, N'4', CAST(N'2024-10-01' AS Date), N'Milk')
+GO
+INSERT [dbo].[trn_Sale] ([SalesID], [NameOfUnit], [Date], [ItemCategory]) VALUES (12, N'4', CAST(N'2024-10-01' AS Date), N'Product')
 GO
 SET IDENTITY_INSERT [dbo].[trn_Sale] OFF
 GO
@@ -1226,12 +1530,94 @@ INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) 
 GO
 INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (205, 10, N'Amrakhand 100 gms', 55)
 GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (206, 11, N'STD', 666)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (207, 11, N'DTM', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (208, 11, N'LITE', 66)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (209, 11, N'FCM', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (210, 11, N'Diamond', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (211, 11, N'TM', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (212, 11, N'CHAH', 66)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (213, 11, N'FCM 1L', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (214, 11, N'Chai spl. 1000ML', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (215, 12, N'SMP', 5555)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (216, 12, N'Sweeten SMP', 5)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (217, 12, N'WB', 5)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (218, 12, N'Plain curd', 5)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (219, 12, N'Sweet Curd', 55)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (220, 12, N'Salted Butter Milk 200 ML', 5)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (221, 12, N'Plain Butter Milk', 55)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (222, 12, N'Cold Coffee', 656)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (223, 12, N'Fl.Milk Pet Bottle', 6)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (224, 12, N'S.F.M Glass(Bottles)', 67)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (225, 12, N'Lassi 200 ML Glass', 87)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (226, 12, N'Lite Lassi 200 ML', 7)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (227, 12, N'Shrikhand', 7)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (228, 12, N'Chena Rabdi', 77)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (229, 12, N'Sabudana Kheer 100 gm', 7)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (230, 12, N'Peda', 7)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (231, 12, N'Milk Cake', 788)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (232, 12, N'Mawa', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (233, 12, N'Paneer', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (234, 12, N'Vaccum Paneer', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (235, 12, N'Rasogulla', 88)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (236, 12, N'Gulabjamun', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (237, 12, N'Shrikhand Lite 100 gms cups', 88)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (238, 12, N'Table Butter', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (239, 12, N'Cookies', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (240, 12, N'Sugar Free Peda', 88)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (241, 12, N'Butter Chiplet', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (242, 12, N'Besan Laddu', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (243, 12, N'Sanchi Neer lit', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (244, 12, N'Misti Doi 100gm', 8)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (245, 12, N'Braj Peda', 88)
+GO
+INSERT [dbo].[trn_SaleChild] ([SaleChildid], [SalesID], [ItemName], [Quantity]) VALUES (246, 12, N'Amrakhand 100 gms', 8)
+GO
 SET IDENTITY_INSERT [dbo].[trn_SaleChild] OFF
 GO
 ALTER TABLE [dbo].[trn_DemandsChild]  WITH CHECK ADD FOREIGN KEY([DemandId])
 REFERENCES [dbo].[trn_Demand] ([DemandId])
 GO
-/****** Object:  StoredProcedure [dbo].[GetItemsByCategory]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetItemsByCategory]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1254,7 +1640,7 @@ GO
     END CATCH;
   end
 GO
-/****** Object:  StoredProcedure [dbo].[usp_AddDemand]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_AddDemand]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1311,7 +1697,7 @@ GO
 		 SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[usp_AddInFlow]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_AddInFlow]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1328,6 +1714,10 @@ GO
 	,@Butterstock  		int
 	,@MilkPowderqty  	int
 	,@MilkPowderstock  	int
+	,@WholeMilkPowderqty	int
+	,@WholeMilkPowderstock	int
+	,@Gheeqty				int
+	,@Gheestock				int
 		
   as
   begin
@@ -1346,6 +1736,10 @@ GO
 				,[Butterstock]
 				,[MilkPowderqty]
 				,[MilkPowderstock]
+				,WholeMilkPowderqty 
+				,WholeMilkPowderstock	
+				,Gheeqty				
+				,Gheestock				
 				,[IsVerifed]
 				,[IsApproved])
 			VALUES
@@ -1360,6 +1754,10 @@ GO
 				,@Butterstock  	
 				,@MilkPowderqty  
 				,@MilkPowderstock
+				,@WholeMilkPowderqty 
+				,@WholeMilkPowderstock	
+				,@Gheeqty				
+				,@Gheestock				
 				,0
 				,0)
 	
@@ -1373,7 +1771,7 @@ GO
 	SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[usp_AddManufItem]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_AddManufItem]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1399,7 +1797,7 @@ BEGIN
     SELECT @status AS [status], @msg AS [msg];
 END
 GO
-/****** Object:  StoredProcedure [dbo].[usp_AddSales]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[usp_AddSales]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1447,12 +1845,12 @@ CREATE proc  [dbo].[usp_AddSales]
 		 SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[Usp_AproveInflow]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[Usp_AproveInflow]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-create  proc  [dbo].[Usp_AproveInflow]
+CREATE  proc  [dbo].[Usp_AproveInflow]
     
 				 @InflowId 				 int
 				,@Milkqty				 int
@@ -1464,6 +1862,10 @@ create  proc  [dbo].[Usp_AproveInflow]
 				,@Butterstock			 int
 				,@MilkPowderqty			 int
 				,@MilkPowderstock		 int
+				,@WholeMilkPowderqty int
+				,@WholeMilkPowderstock	int
+				,@Gheeqty				int
+				,@Gheestock				int
 				
   as
   begin
@@ -1481,6 +1883,10 @@ create  proc  [dbo].[Usp_AproveInflow]
 			,[Butterstock]	   =@Butterstock	
 			,[MilkPowderqty]	=@MilkPowderqty	
 			,[MilkPowderstock]  =@MilkPowderstock
+			,WholeMilkPowderqty 	   =@WholeMilkPowderqty 
+			,WholeMilkPowderstock	   =@WholeMilkPowderstock	
+			,Gheeqty				   =@Gheeqty				
+			,Gheestock				   =@Gheestock				
 			,IsApproved     =    1
 			where 
 			InflowId=@InflowId
@@ -1494,7 +1900,7 @@ create  proc  [dbo].[Usp_AproveInflow]
 	SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[Usp_GetInflowToAprove]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[Usp_GetInflowToAprove]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1520,6 +1926,11 @@ CREATE  proc  [dbo].[Usp_GetInflowToAprove]
 				,Butterstock
 				,MilkPowderqty
 				,MilkPowderstock
+				,WholeMilkPowderqty		
+				,WholeMilkPowderstock	
+				,Gheeqty				
+				,Gheestock				
+				
 				,IsApproved from [Trn_InflowDetails]
 				inner join mst_Unit on mst_Unit.UnitID= [Trn_InflowDetails].UnitID
 				where IsVerifed =1 and( IsApproved= @IsApproved or @IsApproved is NULL)
@@ -1534,7 +1945,7 @@ CREATE  proc  [dbo].[Usp_GetInflowToAprove]
 	SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[Usp_GetUnit]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[Usp_GetUnit]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1554,7 +1965,7 @@ GO
 	SELECT	@status [status] ,@msg [msg]
   end
 GO
-/****** Object:  StoredProcedure [dbo].[uspVerifierDetails]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[uspVerifierDetails]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1576,16 +1987,21 @@ BEGIN
         tf.Butterqty,
         tf.Butterstock,
         tf.MilkPowderqty,
-        tf.MilkPowderstock,
-		IsVerifed
+        tf.MilkPowderstock
+			,tf.WholeMilkPowderqty	
+			,tf.WholeMilkPowderstock	
+			,tf.Gheeqty				
+			,tf.Gheestock				
+		,IsVerifed
 
     FROM Trn_InflowDetails tf
     INNER JOIN mst_Unit mu
     ON tf.UnitID = mu.UnitID
 		where IsApproved =0 and( IsVerifed= @IsVerifed or @IsVerifed is NULL)
+	order by IsVerifed
 END
 GO
-/****** Object:  StoredProcedure [dbo].[uspVerifierUpdate]    Script Date: 30-Sep-24 1:45:55 PM ******/
+/****** Object:  StoredProcedure [dbo].[uspVerifierUpdate]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1601,6 +2017,10 @@ CREATE PROCEDURE [dbo].[uspVerifierUpdate]
     @Butterstock int, 
     @MilkPowderqty int, 
     @MilkPowderstock int
+	,@WholeMilkPowderqty		int
+	,@WholeMilkPowderstock		int
+	,@Gheeqty					int
+	,@Gheestock					int
 AS
 BEGIN
     DECLARE @Status bit, @msg varchar(100) = ''
@@ -1617,8 +2037,13 @@ BEGIN
             Butterqty = @Butterqty,
             Butterstock = @Butterstock,
             MilkPowderqty = @MilkPowderqty,
-            MilkPowderstock = @MilkPowderstock,
-			IsVerifed   = 1
+            MilkPowderstock = @MilkPowderstock
+			,WholeMilkPowderqty		 =@WholeMilkPowderqty		
+			,WholeMilkPowderstock	 =@WholeMilkPowderstock	
+			,Gheeqty				 =@Gheeqty				
+			,Gheestock				 =@Gheestock				
+
+			,IsVerifed   = 1
         WHERE InflowId = @InflowId
 
         SET @Status = 1
