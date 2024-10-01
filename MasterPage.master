@@ -22,6 +22,14 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
     <link href="https://dpihrms.tserver.co.in/mis/dist/css/sweetalert2.min.css" rel="stylesheet" />
+    <style>
+         .catchy-title {
+     font-size: 24px;
+     font-weight: bold;
+     color: #06048a;
+     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+ }
+    </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>

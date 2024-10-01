@@ -1,15 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InflowDetails.aspx.cs" Inherits="Default2" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <style>
-        .catchy-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #06048a;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
+     
         .large-text {
             font-size: 24px;
             font-weight: bold;
@@ -17,18 +10,13 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        .catchy-title {
-            font-size: 18px; /* increase font size */
-            font-weight: bold; /* make it bold */
-            color: #06048a; /* change the text color */
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* add a subtle shadow */
-        }
+       
 
-        .card {
-            margin: 10px; /* add some margin around each card */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* add a subtle shadow */
-            border-radius: 10px; /* add some border radius to make it more rounded */
-        }
+        /*.card {
+            margin: 10px;*/ /* add some margin around each card */
+            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/ /* add a subtle shadow */
+            /*border-radius: 10px;*/ /* add some border radius to make it more rounded */
+        /*}*/
 
         .custom-label {
             font-size: 16px; /* increase font size */
@@ -43,9 +31,9 @@
         let currentDate = new Date().toISOString().substring(0, 10);
     </script>
     <div runat="server" id="divAlert" clientidmode="Static"></div>
-    <div class="card text-center">
+    <div class="card">
         <div class="card-header catchy-title">
-            Sanchi Details
+            In Flow  Details
         </div>
 
         <div class="card-body">
@@ -71,7 +59,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h2 class="card-title catchy-title">Milk Details</h2>
+                                <h2 class="catchy-title">Milk Details</h2>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
@@ -123,17 +111,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class="card-title catchy-title">White Butter</h5>
+                                <h5 class=" catchy-title">White Butter</h5>
                             </div>
-                            <div class="row align-items-center">
+                            <div class="row align-items-end">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                           Received Quantity (in KG)
+                                           Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
@@ -150,17 +138,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class="card-title catchy-title">Skimmed Milk Powder</h5>
+                                <h5 class="catchy-title">Skimmed Milk Powder</h5>
                             </div>
-                            <div class="row align-items-center">
+                            <div class="row align-items-end">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Received Quantity (in KG)
+                                            Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" placeholder="Enter Received Quantity" />
                                     </div>
@@ -171,6 +159,60 @@
                                             In Stock (in KG)
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" placeholder="Enter Stock" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>        
+                <div class="col-md-6">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Whole Milk Powder</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received in KG
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" placeholder="Enter Received Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            In Stock (in KG)
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" placeholder="Enter Stock" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+                <div class="col-md-6">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Ghee</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received in KG
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" placeholder="Enter Received Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            In Stock (in KG)
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeStock" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>

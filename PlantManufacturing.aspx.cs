@@ -18,7 +18,9 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
 
-            FillGrid(gvPlantItems, "GetItemsByCategory");
+            //FillGrid(gvPlantItems, "GetItemsByCategory");
+            FillGrid(gvProductItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { "Product" });
+            FillGrid(gvMilkItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { "Milk" });
             divAlert.InnerHtml = "";
         }
     }
@@ -105,7 +107,15 @@ public partial class _Default : System.Web.UI.Page
                 dtItems.Columns.Add("advance", typeof(int));
 
 
-                foreach (GridViewRow row in gvPlantItems.Rows)
+                foreach (GridViewRow row in gvProductItems.Rows)
+                {
+                    DataRow dr = dtItems.NewRow();
+                    dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;
+                    dr["Quantity"] = int.Parse(((TextBox)row.FindControl("GVIQuantity")).Text);
+
+                    dtItems.Rows.Add(dr);
+                }   
+                foreach (GridViewRow row in gvMilkItems.Rows)
                 {
                     DataRow dr = dtItems.NewRow();
                     dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;

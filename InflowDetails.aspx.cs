@@ -57,6 +57,10 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", Wbstock.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", MilkPowderQty.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", MilkPowderStock.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", WholeMilkPowderQty.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", WholeMilkPowderStock.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", txtGheeQty.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", txtGheeStock.Text);              
                     sqlDataAdapter.Fill(ds);
                 }
                 if (ds.Tables.Count > 0)
@@ -64,8 +68,6 @@ public partial class Default2 : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
-
-
                     }
                     else
                     {
