@@ -1965,6 +1965,49 @@ GO
 	SELECT	@status [status] ,@msg [msg]
   end
 GO
+
+------------------------------------------
+
+USE [DbSanchi]
+GO
+/****** Object:  StoredProcedure [dbo].[Usp_GetInflowToAprove]    Script Date: 01/10/2024 02:09:07 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc  [dbo].uspTransReport
+   
+		
+  as
+  begin
+	declare @status bit=0 ,@msg varchar(100)=null  
+	BEGIN TRY
+		BEGIN TRANSACTION   
+		select sc.ItemName, sc.Demand, sc.Sales, sum(m.Quantity) as Manufacturing  from 
+				(select dc.ItemName , dc.Demand , sum(sc.Quantity) as Sales from(SELECT 
+					dc.ItemName,
+					SUM(dc.Quantity) AS Demand    
+				FROM 
+					trn_DemandsChild dc
+				GROUP BY dc.ItemName
+					) as DC
+				join trn_SaleChild sc on dc.ItemName = sc.ItemName
+				group by dc.ItemName , dc.Demand) as SC
+				join PlantManufacturingData m on m.ItemName = sc.ItemName
+				group by sc.ItemName, sc.Demand, sc.Sales
+	
+			SELECT	@status =1 ,@msg='In Flow Details Selected  Successfully'	 	
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH   
+		ROLLBACK TRANSACTION;
+		SELECT	@status =0 ,@msg=ERROR_MESSAGE()	 
+	END CATCH;
+	SELECT @status AS [status], @msg AS [msg];
+  end
+
+
+GO
 /****** Object:  StoredProcedure [dbo].[uspVerifierDetails]    Script Date: 01-Oct-24 3:14:35 PM ******/
 SET ANSI_NULLS ON
 GO
