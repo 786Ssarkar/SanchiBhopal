@@ -69,6 +69,7 @@ public partial class Approver : System.Web.UI.Page
                     {
                         alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
                         FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "0" });
+                        FillGrid(grdApproved, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "1" });
                     }
                     else
                     {
@@ -118,13 +119,12 @@ public partial class Approver : System.Web.UI.Page
             }
             else if (ds.Tables.Count > 0)
             {
-                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-                {
-                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
-                }
+                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
             }
             else
             {
+                grd.DataSource = null;
+                grd.DataBind();
                 alertmsg("Somthing went wrong", "bg-warning");
             }
         }
@@ -142,7 +142,7 @@ public partial class Approver : System.Web.UI.Page
         sb.Append(bgcolor);
         sb.Append(" alert-dismissible fade show\" role=\"alert\">");
         sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
+        sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");

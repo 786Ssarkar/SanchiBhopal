@@ -149,7 +149,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         sb.Append(bgcolor);
         sb.Append(" alert-dismissible fade show\" role=\"alert\">");
         sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
+        sb.Append("<button type=\"button\" class=\" btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
