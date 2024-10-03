@@ -18,7 +18,7 @@ public partial class Default2 : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            Fillddl(DddlUnit, "Usp_GetUnit");
+            Fillddl(DddlUnit, "[Usp_GetinflowUnit]");
 
         }
     }
