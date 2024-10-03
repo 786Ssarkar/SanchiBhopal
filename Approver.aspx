@@ -32,7 +32,7 @@
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk Quantity">
+                                        <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
                                                 <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -57,7 +57,7 @@
                                                 <asp:TextBox runat="server" ID="TxtMilkSNF" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="White Butter Quantity">
+                                        <asp:TemplateField HeaderText="White Butter KG">
                                             <ItemTemplate>
                                                 <asp:TextBox runat="server" ID="TxtButterQty" class="form-control" Text='<%# Eval("Butterqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -67,7 +67,7 @@
                                                 <asp:TextBox runat="server" ID="TxtButterStck" class="form-control" Text='<%# Eval("Butterstock").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk Powder Quantity">
+                                        <asp:TemplateField HeaderText="Milk Powder KG">
                                             <ItemTemplate>
                                                 <asp:TextBox runat="server" ID="TxtMilkPwderQty" class="form-control" Text='<%# Eval("MilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -77,7 +77,7 @@
                                                 <asp:TextBox runat="server" ID="TxtMilkPwderStk" class="form-control" Text='<%# Eval("MilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP Quantity">
+                                        <asp:TemplateField HeaderText="WMP KG">
                                             <ItemTemplate>
                                                 <asp:TextBox runat="server" ID="txtWholeMilkPwderqty" class="form-control" Text='<%# Eval("WholeMilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -87,7 +87,7 @@
                                                 <asp:TextBox runat="server" ID="txtWholeMilkPwderStk" class="form-control" Text='<%# Eval("WholeMilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee Quantity">
+                                        <asp:TemplateField HeaderText="Ghee KG">
                                             <ItemTemplate>
                                                 <asp:TextBox runat="server" ID="txtGheeqty" class="form-control" Text='<%# Eval("Gheeqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -140,7 +140,7 @@
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk Quantity">
+                                        <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtMilkQty" Text='<%# Eval("Milkqty").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true"></asp:Label>
                                             </ItemTemplate>
@@ -165,7 +165,7 @@
                                                 <asp:Label runat="server" ID="TxtMilkSNF" Text='<%# Eval("MilkSNF").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WB Quantity">
+                                        <asp:TemplateField HeaderText="WB KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtButterQty" Text='<%# Eval("Butterqty").ToString() %>'></asp:Label>
                                             </ItemTemplate>
@@ -175,7 +175,7 @@
                                                 <asp:Label runat="server" ID="TxtButterStck" Text='<%# Eval("Butterstock").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk Powder Quantity">
+                                        <asp:TemplateField HeaderText="Milk Powder KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtMilkPwderQty" Text='<%# Eval("MilkPowderqty").ToString() %>'></asp:Label>
                                             </ItemTemplate>
@@ -185,7 +185,7 @@
                                                 <asp:Label runat="server" ID="TxtMilkPwderStk" Text='<%# Eval("MilkPowderstock").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP  Quantity">
+                                        <asp:TemplateField HeaderText="WMP  KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="txtWholeMilkPwderqty" Text='<%# Eval("WholeMilkPowderqty").ToString() %>'></asp:Label>
                                             </ItemTemplate>
@@ -195,7 +195,7 @@
                                                 <asp:Label runat="server" ID="txtWholeMilkPwderStk" Text='<%# Eval("WholeMilkPowderstock").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee Quantity">
+                                        <asp:TemplateField HeaderText="Ghee KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="txtGheeqty" Text='<%# Eval("Gheeqty").ToString() %>'></asp:Label>
                                             </ItemTemplate>

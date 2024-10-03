@@ -104,6 +104,8 @@ public partial class Approver : System.Web.UI.Page
             }
             DataSet ds = new DataSet();
             adpt.Fill(ds);
+            grd.DataSource = null;
+            grd.DataBind();
             if (ds.Tables.Count > 1)
             {
                 if (ds.Tables[0].Rows.Count > 0)
@@ -123,8 +125,7 @@ public partial class Approver : System.Web.UI.Page
             }
             else
             {
-                grd.DataSource = null;
-                grd.DataBind();
+              
                 alertmsg("Somthing went wrong", "bg-warning");
             }
         }
