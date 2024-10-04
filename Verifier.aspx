@@ -26,9 +26,13 @@
             <div class="row align-items-end">
                 <div class="col-lg-12">
                     <div class="row">
+                        
+                        <div class="col-lg-12 text-end">
+                        <asp:Button Text="Verify All" runat="server" OnClick="VerifyAll_Click" CssClass="btn bg-gradient-info"  />
+                            </div>
                         <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false" CssClass="table" OnRowCommand="GVDetails_RowCommand"  HeaderStyle-CssClass="text-dark">
+                            <div class="table-responsive ">
+                                <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false" CssClass="table ps" OnRowCommand="GVDetails_RowCommand"  HeaderStyle-CssClass="text-dark" >
                                     <Columns>
                                         <asp:TemplateField HeaderText="Sr. No">
                                             <ItemTemplate>

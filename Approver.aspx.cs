@@ -112,7 +112,6 @@ public partial class Approver : System.Web.UI.Page
                 {
                     grd.DataSource = ds.Tables[0];
                     grd.DataBind();
-
                 }
                 else
                 {
@@ -124,17 +123,14 @@ public partial class Approver : System.Web.UI.Page
                 alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
             }
             else
-            {
-              
+            {                   
                 alertmsg("Somthing went wrong", "bg-warning");
             }
         }
         catch (Exception ex)
         {
-
             alertmsg(ex.Message, "bg-danger");
         }
-
     }
     protected void alertmsg(string msg, string bgcolor)
     {

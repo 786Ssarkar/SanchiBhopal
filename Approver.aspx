@@ -24,7 +24,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="table-responsive">
+                            <div class="table-responsive ps">
                                 <asp:GridView runat="server" ID="grdApprove" AutoGenerateColumns="false" CssClass="table" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Name of Unit">
@@ -127,7 +127,7 @@
                     <div class="row">
                         <div class="col-lg-12">
 
-                            <div class="table-responsive">
+                            <div class="table-responsive ps">
                                 <asp:GridView runat="server" ID="grdApproved" AutoGenerateColumns="false" CssClass="table" HeaderStyle-Wrap="true" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark text-lg">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Name of Unit">

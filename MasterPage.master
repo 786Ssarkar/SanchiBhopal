@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>Sanchi Dashboard
-</title>
+    </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -23,17 +23,18 @@
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
     <link href="https://dpihrms.tserver.co.in/mis/dist/css/sweetalert2.min.css" rel="stylesheet" />
     <style>
-         .catchy-title {
-     font-size: 24px;
-     font-weight: bold;
-     color: #06048a;
-     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
- }
-    </style>
+        .catchy-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #06048a;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+           </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body class="g-sidenav-show  bg-info-100 ">
+<body class="g-sidenav-show  bg-info-100 ps ">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 ps ps--active-y bg-white" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -146,7 +147,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Approver</span>
                     </a>
-                </li>        
+                </li>
                 <li class="nav-item">
                     <a class="nav-link " href="/OutFlowSales.aspx">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -325,10 +326,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8="
         crossorigin="anonymous"></script>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="/assets/js/core/popper.min.js"></script>
+    <script src="/assets/js/core/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -337,7 +338,7 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-</script>
+    </script>
 
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -345,7 +346,7 @@
     <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
     <script src="https://dpihrms.tserver.co.in/mis/dist/js/sweetalert2.all.min.js"></script>
     <script>
-        debugger;
+
         !function ($) {
             "use strict";
             var SweetAlert = function () { };

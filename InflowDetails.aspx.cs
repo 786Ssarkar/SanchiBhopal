@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 public partial class Default2 : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
-    Code obj;
+    //// Code obj;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -42,6 +42,7 @@ public partial class Default2 : System.Web.UI.Page
         {
             if (Page.IsValid)
             {
+
                 DataSet ds = new DataSet();
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddInFlow", Connstr))
                 {
@@ -60,7 +61,7 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", WholeMilkPowderQty.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", WholeMilkPowderStock.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", txtGheeQty.Text);
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", txtGheeStock.Text);              
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", txtGheeStock.Text);
                     sqlDataAdapter.Fill(ds);
                 }
                 if (ds.Tables.Count > 0)
