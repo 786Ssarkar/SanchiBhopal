@@ -18,7 +18,9 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         if (!IsPostBack)
         {
             FillGrid();
-        }
+            
+
+		}
     }
 
     protected void FillGrid()
@@ -150,7 +152,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
-        divAlert.InnerHtml += sb.ToString();
+        divAlert.InnerHtml = sb.ToString();
     }
 
     protected void GVIMilkQty_TextChanged(object sender, EventArgs e)

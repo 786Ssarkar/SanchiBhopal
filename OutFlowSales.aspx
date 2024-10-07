@@ -7,7 +7,13 @@
     <style>
         .col-md-3, .col-md-9 {
             transition: width .9s ease-in-out;
+            
         }
+        .table th{
+             background-color:lightsteelblue !important;
+            
+        }
+     
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -20,9 +26,9 @@
             <div class="row align-items-end">
                 <div class="col-lg-4 col-md-6 mt-2">
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" required >
+                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" required="required">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
-                      
+
 
                     </asp:DropDownList>
                     <%--<script>
@@ -61,7 +67,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
-                    <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required ></asp:TextBox>
+                    <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
                     <script> document.getElementById('<%= TxtDate.ClientID%>').value = currentDate;</script>
 
                 </div>
@@ -92,7 +98,7 @@
                             <div class="table-responsive">
                                 <asp:GridView runat="server" ID="grdMilk"
                                     AutoGenerateColumns="false"
-                                    CssClass="table table-borderless"
+                                    CssClass="table table-bordered"
                                     BorderWidth="0"
                                     HeaderStyle-CssClass=" text-dark text-lg">
                                     <Columns>
@@ -157,17 +163,90 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mt-4">
-                    <div class="row justify-content-center">
-                        <div class="col-md-5 text-center">
-                            <asp:Button Text="Submit" runat="server" CssClass=" mb-0 btn bg-gradient-success" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
-                            <a href="OutFlowSales.aspx" class="mb-0 btn bg-gradient-warning">Clear</a>
-                            <%--<button type="button" class="Alert-Save mb-0 btn bg-gradient-success">Submit</button>
-                              <button type="reset" class=" mb-0 btn bg-gradient-warning">Clear</button> --%>
-                        </div>
+            </div>
+            <div class="col-12 mt-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-5 text-center">
+                        <asp:Button Text="Submit" runat="server" CssClass=" mb-0 btn bg-gradient-success" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
+                        <a href="OutFlowSales.aspx" class="mb-0 btn bg-gradient-warning">Clear</a>
+                        <%--<button type="button" class="Alert-Save mb-0 btn bg-gradient-success">Submit</button>
+                    <button type="reset" class=" mb-0 btn bg-gradient-warning">Clear</button> --%>
                     </div>
                 </div>
             </div>
+            <div>
+                <div class="card-body p-5">
+                    <div class="card-header pb-0 px-3 d-flex">
+                        
+                        <div class="col text-end">
+                            <button id="ExcelBtn" class="btn bg-gradient-info" onclick="exportToExcel()" type="button">Export Excel</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <asp:GridView runat="server" ID="grdItems" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg">
+                                    <Columns>
+                                        <asp:TemplateField HeaderText="Sr. No">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Name of Unit">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("NameOfUnit") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Item Category">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblDemand" Text='<%# Eval("ItemCategory") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Item Name">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblSales" Text='<%# Eval("ItemName") %>'></asp:Label>
+
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Quantity">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblManufacturing" Text='<%# Eval("Quantity") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+
+                                </asp:GridView>
+                                <%--<table class="table table-bordered text-center">
+              <thead>
+                  <tr class="nowrap">
+                      <th>Sr. No</th>
+                      <th>Item Name</th>
+                      <th>Quantity</th>
+                      <th>Advanced Card</th>
+
+                  </tr>
+              </thead>
+              <tbody id="TblBody">
+                  <tr>
+                      <td>1.</td>
+                      <td>Standard 500ML</td>
+                      <td>
+                          <input type="text" class="form-control" placeholder=" 0" /></td>
+                      <td>
+                          <input type="text" class="form-control" placeholder=" 0" disabled /></td>
+                  </tr>
+                  <tr></tr>
+              </tbody>
+
+          </table>--%>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
     <script>
@@ -258,7 +337,33 @@
         //    calculateGroupTotal(ID);
         //}
 
+    
+            function exportToExcel() {
 
+         // Get the GridView element
+         var gridView = document.getElementById('<%= grdItems.ClientID%>');
+
+             // Initialize CSV string with header
+             var csv = 'data:text/csv;charset=utf-8,';
+         csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
+
+         // Iterate through rows
+         gridView.querySelectorAll('tr').forEach(row => {
+                 // Iterate through cells
+                 csv += Array.from(row.querySelectorAll('td')).map(td => td.innerText).join(',') + '\n';
+         });
+
+             // Create a download link and trigger download
+             var encodedUri = encodeURI(csv);
+             var link = document.createElement('a');
+             link.setAttribute('href', encodedUri);
+             link.setAttribute('download', 'grdItems.csv');
+             document.body.appendChild(link);
+             link.click();
+
+
+     }
+   
 
     </script>
 
