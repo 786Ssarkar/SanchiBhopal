@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
-     
         .large-text {
             font-size: 24px;
             font-weight: bold;
@@ -10,12 +9,12 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-       
+
 
         /*.card {
             margin: 10px;*/ /* add some margin around each card */
-            /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/ /* add a subtle shadow */
-            /*border-radius: 10px;*/ /* add some border radius to make it more rounded */
+        /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/ /* add a subtle shadow */
+        /*border-radius: 10px;*/ /* add some border radius to make it more rounded */
         /*}*/
 
         .custom-label {
@@ -62,15 +61,23 @@
                                 <h2 class="catchy-title">Milk Details</h2>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                             Received Quantity (in KG)
+                                            Received Quantity (in KG)
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            LYSD (in KG)
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSD" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculatePercentages()"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="custom-label catchy-title">
                                             Fat %
@@ -80,7 +87,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="custom-label catchy-title">
                                             SNF %
@@ -104,7 +111,7 @@
                                         <label class="custom-label">
                                             SNF (in KG)
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF" ></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +128,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                           Received in KG
+                                            Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
@@ -164,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                </div>        
+                </div>
                 <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
@@ -191,7 +198,7 @@
                             </div>
                         </div>
                     </div>
-                </div>              
+                </div>
                 <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">

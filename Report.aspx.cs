@@ -32,7 +32,7 @@ public partial class Report : System.Web.UI.Page
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
-        divAlert.InnerHtml += sb.ToString();
+        divAlert.InnerHtml = sb.ToString();
 
     }
 

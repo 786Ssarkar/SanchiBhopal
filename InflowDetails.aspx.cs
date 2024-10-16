@@ -33,7 +33,7 @@ public partial class Default2 : System.Web.UI.Page
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
-        divAlert.InnerHtml += sb.ToString();
+        divAlert.InnerHtml = sb.ToString();
 
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
@@ -50,6 +50,7 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Date", Txtdate.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UnitID", DddlUnit.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", qtyDispatched.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@lysdqty", txtLYSD.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(fatPercent.Text) / 100) * Convert.ToDecimal(qtyDispatched.Text)).ToString("F2"));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(snfPercent.Text) / 100) * Convert.ToDecimal(qtyDispatched.Text)).ToString("F2"));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc", fatPercent.Text);

@@ -31,7 +31,7 @@ public partial class AddDemand : System.Web.UI.Page
         sb.Append("<span aria-hidden=\"true\">&times;</span>");
         sb.Append("</button>");
         sb.Append("</div> ");
-        divAlert.InnerHtml += sb.ToString();
+        divAlert.InnerHtml = sb.ToString();
 
     }
     public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
