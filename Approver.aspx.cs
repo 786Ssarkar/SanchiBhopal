@@ -35,8 +35,8 @@ public partial class Approver : System.Web.UI.Page
             {
                 GridViewRow row = (GridViewRow)((Control)e.CommandSource).NamingContainer;
                 TextBox Row_TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
-                TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFat");
-                TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNF");
+                TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFatKg");
+                TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNFKg");
                 TextBox Row_TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
                 TextBox Row_TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
                 TextBox Row_TxtButterQty = (TextBox)row.FindControl("TxtButterQty");
@@ -47,6 +47,7 @@ public partial class Approver : System.Web.UI.Page
                 TextBox Row_TxtWholeMilkPwderStk = (TextBox)row.FindControl("TxtWholeMilkPwderStk");
                 TextBox Row_TxtGheeqty = (TextBox)row.FindControl("TxtGheeqty");
                 TextBox Row_TxtGheeStk = (TextBox)row.FindControl("TxtGheeStk");
+
 
                 Code by = new Code();
                 DataSet ds = by.ByProcedure("Usp_AproveInflow",

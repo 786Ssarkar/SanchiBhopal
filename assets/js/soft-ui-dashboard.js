@@ -234,9 +234,11 @@ function sidebarColor(a) {
 
 // Set Navbar Fixed
 function navbarFixed(el) {
-  let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];
+  let classes = ['position-sticky','shadow-blur',  'z-index-sticky'];
   const navbar = document.getElementById('navbarBlur');
-
+     /* mt-4 left-auto top-1 on loading */
+     /* on uncheck */
+     /* position-sticky blur shadow-blur mt-4 left-auto top-1 z-index-sticky on check */
   if (!el.getAttribute("checked")) {
     navbar.classList.add(...classes);
     navbar.setAttribute('navbar-scroll', 'true');

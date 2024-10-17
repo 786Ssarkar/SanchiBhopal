@@ -34,27 +34,54 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>'  oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk Fat %">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkFatPerc" class="form-control" Text='<%# Eval("MilkfatPerc").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkFatPerc" class="form-control" Text='<%# Eval("MilkfatPerc").ToString() %>' oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk SNF %">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>'  oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk  Fat ">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkFat" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkFatKg" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk SNF ">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkSNF" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkSNFKg" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk KG">
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" ID="Txtlysdqty" class="form-control" Text='<%# Eval("lysdqty").ToString() %>' oninput="calculateValues(this)"
+                                                    ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="LYSD Milk Fat %">
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" ID="TxtLYSDFatPercent" TextMode="Number" class="form-control" Text='<%# Eval("LYSDFatPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk SNF %">
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" ID="TxtLYSDSNFPercent" class="form-control" Text='<%# Eval("LYSDSNFPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk Fat ">
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" ID="TxtLYSDFatKG" class="form-control" Text='<%# Eval("LYSDFatKG").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk SNF ">
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" ID="TxtLYSDSNFKG" class="form-control" Text='<%# Eval("LYSDSNFKG").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="White Butter KG">
@@ -127,7 +154,7 @@
                     <div class="row">
                         <div class="col-lg-12">
 
-                            <div class="table-responsive ps">
+                            <div class="table-responsive ">
                                 <asp:GridView runat="server" ID="grdApproved" AutoGenerateColumns="false" CssClass="table" HeaderStyle-Wrap="true" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark text-lg">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Name of Unit">
@@ -135,7 +162,7 @@
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                      <%--  <asp:TemplateField HeaderText="Date of Inflow">
+                                        <%--  <asp:TemplateField HeaderText="Date of Inflow">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
                                             </ItemTemplate>
@@ -163,6 +190,32 @@
                                         <asp:TemplateField HeaderText="Milk SNF ">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtMilkSNF" Text='<%# Eval("MilkSNF").ToString() %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk KG">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server"  Text='<%# (!string.IsNullOrEmpty(Eval("lysdqty").ToString())) ? Eval("lysdqty").ToString() : "0"  %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="LYSD Milk Fat %">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="TxtLYSDFatPercent" Text='<%#  (!string.IsNullOrEmpty(Eval("LYSDFatPercent").ToString())) ? Eval("LYSDFatPercent").ToString() : "0" %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk SNF %">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="TxtLYSDSNFPercent" Text='<%#  (!string.IsNullOrEmpty(Eval("LYSDSNFPercent").ToString())) ? Eval("LYSDSNFPercent").ToString() : "0"  %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk Fat ">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="TxtLYSDFatKG" Text='<%# (!string.IsNullOrEmpty(Eval("LYSDFatKG").ToString())) ? Eval("LYSDFatKG").ToString() : "0" %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="LYSD Milk SNF ">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="TxtLYSDSNFKG" Text='<%# (!string.IsNullOrEmpty(Eval("LYSDSNFKG").ToString())) ? Eval("LYSDSNFKG").ToString() : "0" %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="WB KG">
@@ -215,12 +268,12 @@
         </div>
     </div>
     <script>
-        function exportToExcel( ) {
-            
+        function exportToExcel() {
+
             // Get the GridView element
-          
-            var gridView    = document.getElementById('<%= grdApproved.ClientID%>');
-            
+
+            var gridView = document.getElementById('<%= grdApproved.ClientID%>');
+
             // Initialize CSV string with header
             var csv = 'data:text/csv;charset=utf-8,';
             csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
@@ -242,6 +295,60 @@
 
         }
     </script>
+    <script>
+        function calculateCurrentValues(input) {
+            // Get the current row of the input field
+            const row = input.closest('tr');
+
+            // Access the relevant input fields in the same row
+            const TxtMilkQty = row.querySelector('input[id*="TxtMilkQty"]')                                                                    
+            
+            const TxtTxtMilkSNF = row.querySelector('input[id*="TxtMilkSNFKg"]')
+            const TxtMilkFat = row.querySelector('input[id*="TxtMilkFatKg"]')
+            const TxtMilkFatPerc = row.querySelector('input[id*="TxtMilkFatPerc"]')
+            const TxtMilkSNFPerc = row.querySelector('input[id*="TxtMilkSNFPerc"]')
+
+            // Parse input values as decimals
+            const milkQty = parseFloat(TxtMilkQty.value) || 0; // Default to 0 if NaN
+            const milkSNFPerc = parseFloat(TxtMilkSNFPerc.value) || 0;
+            const milkFatPerc = parseFloat(TxtMilkFatPerc.value) || 0;
+
+            // Calculate milk SNF and fat
+            const milkSNF = (milkQty * milkSNFPerc) / 100;
+            const milkFat = (milkQty * milkFatPerc) / 100;
+
+            // Update the corresponding fields
+            TxtTxtMilkSNF.value = milkSNF.toFixed(2); // Set SNF value with two decimal places
+            TxtMilkFat.value = milkFat.toFixed(2); // Set fat value with two decimal places
+        }
+
+        function calculateValues(input) {
+            // Get the current row of the input field
+            const row = input.closest('tr');
+
+            // Access the relevant input fields in the same row
+            const Txtlysdqty = row.querySelector('input[id*="Txtlysdqty"]')
+            const TxtLYSDFatPercent = row.querySelector('input[id*="TxtLYSDFatPercent"]')
+            const TxtLYSDSNFPercent = row.querySelector('input[id*="TxtLYSDSNFPercent"]')
+            const TxtLYSDSNFKG = row.querySelector('input[id*="TxtLYSDSNFKG"]')
+            const TxtLYSDFatKG = row.querySelector('input[id*="TxtLYSDFatKG"]')
+
+            // Parse input values as decimals
+            const milkQty = parseFloat(Txtlysdqty.value) || 0; // Default to 0 if NaN
+            const milkSNFPerc = parseFloat(TxtLYSDSNFPercent.value) || 0;
+            const milkFatPerc = parseFloat(TxtLYSDFatPercent.value) || 0;
+
+            // Calculate milk SNF and fat
+            const milkSNF = (milkQty * milkSNFPerc) / 100;
+            const milkFat = (milkQty * milkFatPerc) / 100;
+
+            // Update the corresponding fields
+            TxtLYSDSNFKG.value = milkSNF.toFixed(2); // Set SNF value with two decimal places
+            TxtLYSDFatKG.value = milkFat.toFixed(2); // Set fat value with two decimal places
+        }
+    </script>
+
+
 
 </asp:Content>
 

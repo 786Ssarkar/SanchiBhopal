@@ -12,15 +12,15 @@ using System.Web.UI.WebControls;
 public partial class VerifierAndApprover : System.Web.UI.Page
 {
     string _connectionString = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
-    DataSet ds = new DataSet();
+    Code obj = new Code();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             FillGrid();
-            
 
-		}
+
+        }
     }
 
     protected void FillGrid()
@@ -47,7 +47,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
 
 
@@ -59,8 +59,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         GridViewRow gridViewRow = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
         Label GVIUnitName = ((Label)gridViewRow.FindControl("GVIUnitName"));
         TextBox GVIMilkQty = ((TextBox)gridViewRow.FindControl("GVIMilkQty"));
-        TextBox GVIMilkFat = ((TextBox)gridViewRow.FindControl("GVIMilkFat"));
-        TextBox GVIMilkSNF = ((TextBox)gridViewRow.FindControl("GVIMilkSNF"));
+        //TextBox GVIMilkFat = ((TextBox)gridViewRow.FindControl("GVIMilkFatKg"));
+        //TextBox GVIMilkSNF = ((TextBox)gridViewRow.FindControl("GVIMilkSNFKg"));
         TextBox GVIMilkFatPerc = ((TextBox)gridViewRow.FindControl("GVIMilkFatPerc"));
         TextBox GVIMilkSNFPerc = ((TextBox)gridViewRow.FindControl("GVIMilkSNFPerc"));
         TextBox GVIButterQty = ((TextBox)gridViewRow.FindControl("GVIButterQty"));
@@ -72,8 +72,11 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         TextBox GVIGheeqty = ((TextBox)gridViewRow.FindControl("GVIGheeqty"));
         TextBox GVIGheeStk = ((TextBox)gridViewRow.FindControl("GVIGheeStk"));
 
-
-
+        TextBox GVIlysdqty = ((TextBox)gridViewRow.FindControl("GVIlysdqty"));    
+        TextBox GVILYSDFatPercent = ((TextBox)gridViewRow.FindControl("GVILYSDFatPercent"));
+        TextBox GVILYSDSNFPercent = ((TextBox)gridViewRow.FindControl("GVILYSDSNFPercent"));
+        //TextBox GVILYSDFatKG = ((TextBox)gridViewRow.FindControl("GVILYSDFatKG"));
+        //TextBox GVILYSDSNFKG = ((TextBox)gridViewRow.FindControl("GVILYSDSNFKG"));
 
 
         ViewState["id"] = e.CommandArgument.ToString();
@@ -90,8 +93,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@InflowId", ViewState["id"]);
                     cmd.Parameters.AddWithValue("@Milkqty", GVIMilkQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Milkfat", GVIMilkFat.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkSNF", GVIMilkSNF.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(GVIMilkFatPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(GVIMilkSNFPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
                     cmd.Parameters.AddWithValue("@Milkfatperc", GVIMilkFatPerc.Text.Trim());
                     cmd.Parameters.AddWithValue("@MilkSNFperc", GVIMilkSNFPerc.Text.Trim());
                     cmd.Parameters.AddWithValue("@Butterqty", GVIButterQty.Text.Trim());
@@ -102,6 +105,11 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@WholeMilkPowderstock", GVIWholeMilkPwderStk.Text);
                     cmd.Parameters.AddWithValue("@Gheeqty", GVIGheeqty.Text);
                     cmd.Parameters.AddWithValue("@Gheestock", GVIGheeStk.Text);
+                    cmd.Parameters.AddWithValue("@lysdqty", GVIlysdqty.Text);
+                    cmd.Parameters.AddWithValue("@LYSDFatPercent", GVILYSDFatPercent.Text);
+                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", GVILYSDSNFPercent.Text);
+                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(GVILYSDFatPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(GVILYSDSNFPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -115,13 +123,13 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                             {
                                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["sts"]))
                                 {
-                                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-success");
+                                    obj.alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), divAlert, "bg-success");
 
                                     FillGrid();
                                 }
                                 else
                                 {
-                                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-danger");
+                                    obj.alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), divAlert, "bg-danger");
                                 }
                                 ViewState["id"] = "";
                             }
@@ -130,7 +138,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    obj.alertmsg(ex.Message, divAlert, "bg-danger");
                 }
                 finally
                 {
@@ -187,8 +195,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
             {
                 Label GVIUnitName = ((Label)row.FindControl("GVIUnitName"));
                 TextBox GVIMilkQty = ((TextBox)row.FindControl("GVIMilkQty"));
-                TextBox GVIMilkFat = ((TextBox)row.FindControl("GVIMilkFat"));
-                TextBox GVIMilkSNF = ((TextBox)row.FindControl("GVIMilkSNF"));
+                //TextBox GVIMilkFat = ((TextBox)row.FindControl("GVIMilkFatKg"));
+                //TextBox GVIMilkSNF = ((TextBox)row.FindControl("GVIMilkSNFKg"));
                 TextBox GVIMilkFatPerc = ((TextBox)row.FindControl("GVIMilkFatPerc"));
                 TextBox GVIMilkSNFPerc = ((TextBox)row.FindControl("GVIMilkSNFPerc"));
                 TextBox GVIButterQty = ((TextBox)row.FindControl("GVIButterQty"));
@@ -200,6 +208,12 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                 TextBox GVIGheeqty = ((TextBox)row.FindControl("GVIGheeqty"));
                 TextBox GVIGheeStk = ((TextBox)row.FindControl("GVIGheeStk"));
                 LinkButton BtnAction = ((LinkButton)row.FindControl("BtnAction"));
+
+                TextBox GVIlysdqty = ((TextBox)row.FindControl("GVIlysdqty"));
+                TextBox GVILYSDFatPercent = ((TextBox)row.FindControl("GVILYSDFatPercent"));
+                TextBox GVILYSDSNFPercent = ((TextBox)row.FindControl("GVILYSDSNFPercent"));
+                //TextBox GVILYSDFatKG = ((TextBox)row.FindControl("GVILYSDFatKG"));
+                //TextBox GVILYSDSNFKG = ((TextBox)row.FindControl("GVILYSDSNFKG"));
 
                 ViewState["id"] = BtnAction.CommandArgument.ToString();
 
@@ -213,8 +227,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@InflowId", ViewState["id"]);
                     cmd.Parameters.AddWithValue("@Milkqty", GVIMilkQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Milkfat", GVIMilkFat.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkSNF", GVIMilkSNF.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Milkfat",  ((Convert.ToDecimal(GVIMilkFatPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(GVIMilkSNFPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
                     cmd.Parameters.AddWithValue("@Milkfatperc", GVIMilkFatPerc.Text.Trim());
                     cmd.Parameters.AddWithValue("@MilkSNFperc", GVIMilkSNFPerc.Text.Trim());
                     cmd.Parameters.AddWithValue("@Butterqty", GVIButterQty.Text.Trim());
@@ -225,6 +239,12 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@WholeMilkPowderstock", GVIWholeMilkPwderStk.Text);
                     cmd.Parameters.AddWithValue("@Gheeqty", GVIGheeqty.Text);
                     cmd.Parameters.AddWithValue("@Gheestock", GVIGheeStk.Text);
+
+                    cmd.Parameters.AddWithValue("@lysdqty", GVIlysdqty.Text);
+                    cmd.Parameters.AddWithValue("@LYSDFatPercent", GVILYSDFatPercent.Text);
+                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", GVILYSDSNFPercent.Text);
+                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(GVILYSDFatPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(GVILYSDSNFPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -244,7 +264,7 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                                 }
                                 else
                                 {
-                                    alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), "bg-danger");
+                                    obj.alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), divAlert, "bg-danger");
 
                                 }
                                 ViewState["id"] = "";
@@ -256,11 +276,16 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            alertmsg((ex.Message).ToString(), "bg-danger");
+            obj.alertmsg((ex.Message).ToString(), divAlert, "bg-danger");
         }
 
     }
+
+   
+
 }
+
+
 
 
 

@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 public partial class Default2 : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
-    //// Code obj;
+    Code obj = new Code();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -22,20 +23,7 @@ public partial class Default2 : System.Web.UI.Page
 
         }
     }
-    protected void alertmsg(string msg, string bgcolor)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append("<div class=\"alert ");
-        sb.Append(bgcolor);
-        sb.Append(" alert-dismissible fade show\" role=\"alert\">");
-        sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"> ");
-        sb.Append("<span aria-hidden=\"true\">&times;</span>");
-        sb.Append("</button>");
-        sb.Append("</div> ");
-        divAlert.InnerHtml = sb.ToString();
 
-    }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
@@ -50,7 +38,12 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Date", Txtdate.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UnitID", DddlUnit.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", qtyDispatched.Text);
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@lysdqty", txtLYSD.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDDate", txtLYSDDate.Text); //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@lysdqty", txtLYSDQty.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatPercent", txtLYSDFatPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFPercent", txtLYSDSNFPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(txtLYSDFatPercent.Text) / 100) * Convert.ToDecimal(txtLYSDQty.Text)).ToString("F2"));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(txtLYSDSNFPercent.Text) / 100) * Convert.ToDecimal(txtLYSDQty.Text)).ToString("F2"));      //
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(fatPercent.Text) / 100) * Convert.ToDecimal(qtyDispatched.Text)).ToString("F2"));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(snfPercent.Text) / 100) * Convert.ToDecimal(qtyDispatched.Text)).ToString("F2"));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc", fatPercent.Text);
@@ -69,11 +62,12 @@ public partial class Default2 : System.Web.UI.Page
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
+                        obj.clearFields((HtmlForm)Master.FindControl("form1"));
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
                     }
                     else
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-danger");
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                     }
 
                 }
@@ -82,7 +76,7 @@ public partial class Default2 : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
     public void Fillddl(DropDownList ddl, string proc)
@@ -108,7 +102,7 @@ public partial class Default2 : System.Web.UI.Page
                 }
                 else
                 {
-                    alertmsg("Table is Empty", "bg-warning");
+                    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
                 }
                 ddl.Items.Insert(0, new ListItem("--Select--", ""));
             }
@@ -116,19 +110,19 @@ public partial class Default2 : System.Web.UI.Page
             {
                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                 {
-                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
 
                 }
             }
             else
             {
-                alertmsg("Somthing went wrong", "bg-warning");
+                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
             }
         }
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
 }
