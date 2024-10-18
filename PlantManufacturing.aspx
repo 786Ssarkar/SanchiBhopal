@@ -36,6 +36,7 @@
                                 <asp:TemplateField HeaderText="Milk Products">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="GVItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
+                                         <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Quantity">
@@ -58,6 +59,7 @@
                                 <asp:TemplateField HeaderText="Indigenous Products" ControlStyle-CssClass="">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="GVItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
+                                         <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Quantity">

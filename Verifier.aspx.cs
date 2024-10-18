@@ -53,9 +53,22 @@ public partial class VerifierAndApprover : System.Web.UI.Page
 
     }
 
-
-    protected void GVDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    private int ParseValue(TextBox textBox)
     {
+        if (textBox != null && !string.IsNullOrEmpty(textBox.Text.Trim()))
+        {
+            // Try to parse the value, return 0 if parsing fails
+            int result;
+            if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
+            {
+                return result;
+            }
+        }
+        return 0; // Return 0 if the TextBox is null or empty
+    }
+    protected void GVDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    {   
+
         GridViewRow gridViewRow = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
         Label GVIUnitName = ((Label)gridViewRow.FindControl("GVIUnitName"));
         TextBox GVIMilkQty = ((TextBox)gridViewRow.FindControl("GVIMilkQty"));
@@ -79,6 +92,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         //TextBox GVILYSDSNFKG = ((TextBox)gridViewRow.FindControl("GVILYSDSNFKG"));
 
 
+      
+
         ViewState["id"] = e.CommandArgument.ToString();
 
         if (e.CommandName == "btnUpdate")
@@ -92,24 +107,24 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     SqlCommand cmd = new SqlCommand("uspVerifierUpdate", sqlConnection);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@InflowId", ViewState["id"]);
-                    cmd.Parameters.AddWithValue("@Milkqty", GVIMilkQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(GVIMilkFatPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@Milkqty", ParseValue(GVIMilkQty));
+                    cmd.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(ParseValue(GVIMilkFatPerc)) / 100) * Convert.ToDecimal(ParseValue(GVIMilkQty))).ToString("F2"));
                     cmd.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(GVIMilkSNFPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@Milkfatperc", GVIMilkFatPerc.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkSNFperc", GVIMilkSNFPerc.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Butterqty", GVIButterQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Butterstock", GVIButterStck.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkPowderqty", GVIMilkPwderQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkPowderstock", GVIMilkPwderStk.Text.Trim());
-                    cmd.Parameters.AddWithValue("@WholeMilkPowderqty", GVIWholeMilkPwderqty.Text);
-                    cmd.Parameters.AddWithValue("@WholeMilkPowderstock", GVIWholeMilkPwderStk.Text);
-                    cmd.Parameters.AddWithValue("@Gheeqty", GVIGheeqty.Text);
-                    cmd.Parameters.AddWithValue("@Gheestock", GVIGheeStk.Text);
-                    cmd.Parameters.AddWithValue("@lysdqty", GVIlysdqty.Text);
-                    cmd.Parameters.AddWithValue("@LYSDFatPercent", GVILYSDFatPercent.Text);
-                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", GVILYSDSNFPercent.Text);
-                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(GVILYSDFatPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(GVILYSDSNFPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@Milkfatperc", ParseValue(GVIMilkFatPerc));
+                    cmd.Parameters.AddWithValue("@MilkSNFperc", ParseValue(GVIMilkSNFPerc));
+                    cmd.Parameters.AddWithValue("@Butterqty", ParseValue(GVIButterQty));
+                    cmd.Parameters.AddWithValue("@Butterstock", ParseValue(GVIButterStck));
+                    cmd.Parameters.AddWithValue("@MilkPowderqty", ParseValue(GVIMilkPwderQty));
+                    cmd.Parameters.AddWithValue("@MilkPowderstock", ParseValue(GVIMilkPwderStk));
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(GVIWholeMilkPwderqty));
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderstock", ParseValue(GVIWholeMilkPwderStk));
+                    cmd.Parameters.AddWithValue("@Gheeqty", ParseValue(GVIGheeqty));
+                    cmd.Parameters.AddWithValue("@Gheestock", ParseValue(GVIGheeStk));
+                    cmd.Parameters.AddWithValue("@lysdqty", ParseValue(GVIlysdqty));
+                    cmd.Parameters.AddWithValue("@LYSDFatPercent", ParseValue(GVILYSDFatPercent));
+                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", ParseValue(GVILYSDSNFPercent));
+                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(ParseValue(GVILYSDFatPercent)) / 100) * Convert.ToDecimal(ParseValue(GVIlysdqty))).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(ParseValue(GVILYSDSNFPercent)) / 100) * Convert.ToDecimal(ParseValue(GVIlysdqty))).ToString("F2"));
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -226,25 +241,24 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     SqlCommand cmd = new SqlCommand("uspVerifierUpdate", sqlConnection);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@InflowId", ViewState["id"]);
-                    cmd.Parameters.AddWithValue("@Milkqty", GVIMilkQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Milkfat",  ((Convert.ToDecimal(GVIMilkFatPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@Milkqty", ParseValue(GVIMilkQty));
+                    cmd.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(ParseValue(GVIMilkFatPerc)) / 100) * Convert.ToDecimal(ParseValue(GVIMilkQty))).ToString("F2"));
                     cmd.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(GVIMilkSNFPerc.Text) / 100) * Convert.ToDecimal(GVIMilkQty.Text)).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@Milkfatperc", GVIMilkFatPerc.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkSNFperc", GVIMilkSNFPerc.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Butterqty", GVIButterQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Butterstock", GVIButterStck.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkPowderqty", GVIMilkPwderQty.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MilkPowderstock", GVIMilkPwderStk.Text.Trim());
-                    cmd.Parameters.AddWithValue("@WholeMilkPowderqty", GVIWholeMilkPwderqty.Text);
-                    cmd.Parameters.AddWithValue("@WholeMilkPowderstock", GVIWholeMilkPwderStk.Text);
-                    cmd.Parameters.AddWithValue("@Gheeqty", GVIGheeqty.Text);
-                    cmd.Parameters.AddWithValue("@Gheestock", GVIGheeStk.Text);
-
-                    cmd.Parameters.AddWithValue("@lysdqty", GVIlysdqty.Text);
-                    cmd.Parameters.AddWithValue("@LYSDFatPercent", GVILYSDFatPercent.Text);
-                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", GVILYSDSNFPercent.Text);
-                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(GVILYSDFatPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(GVILYSDSNFPercent.Text) / 100) * Convert.ToDecimal(GVIlysdqty.Text)).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@Milkfatperc", ParseValue(GVIMilkFatPerc));
+                    cmd.Parameters.AddWithValue("@MilkSNFperc", ParseValue(GVIMilkSNFPerc));
+                    cmd.Parameters.AddWithValue("@Butterqty", ParseValue(GVIButterQty));
+                    cmd.Parameters.AddWithValue("@Butterstock", ParseValue(GVIButterStck));
+                    cmd.Parameters.AddWithValue("@MilkPowderqty", ParseValue(GVIMilkPwderQty));
+                    cmd.Parameters.AddWithValue("@MilkPowderstock", ParseValue(GVIMilkPwderStk));
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(GVIWholeMilkPwderqty));
+                    cmd.Parameters.AddWithValue("@WholeMilkPowderstock", ParseValue(GVIWholeMilkPwderStk));
+                    cmd.Parameters.AddWithValue("@Gheeqty", ParseValue(GVIGheeqty));
+                    cmd.Parameters.AddWithValue("@Gheestock", ParseValue(GVIGheeStk));
+                    cmd.Parameters.AddWithValue("@lysdqty", ParseValue(GVIlysdqty));
+                    cmd.Parameters.AddWithValue("@LYSDFatPercent", ParseValue(GVILYSDFatPercent));
+                    cmd.Parameters.AddWithValue("@LYSDSNFPercent", ParseValue(GVILYSDSNFPercent));
+                    cmd.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(ParseValue(GVILYSDFatPercent)) / 100) * Convert.ToDecimal(ParseValue(GVIlysdqty))).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(ParseValue(GVILYSDSNFPercent)) / 100) * Convert.ToDecimal(ParseValue(GVIlysdqty))).ToString("F2"));
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {

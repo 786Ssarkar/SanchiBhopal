@@ -105,6 +105,7 @@
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
+                                                <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
@@ -145,6 +146,7 @@
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
+                                                <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                             </ItemTemplate>
                                             <FooterTemplate>
                                                 <asp:Label runat="server" Text='Total'></asp:Label>

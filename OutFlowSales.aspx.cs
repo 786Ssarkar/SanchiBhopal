@@ -34,14 +34,14 @@ public partial class _Default : System.Web.UI.Page
 
             if (((Button)sender).Text == "Milk")
             {
-                FillGrid(grdMilk, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { "Milk" });
+                obj.FillGrid(grdMilk, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
                 ViewState["Category"] = "Milk";
                 grdProduct.DataSource = null;
                 grdProduct.DataBind();
             }
             else if (((Button)sender).Text == "Product")
             {
-                FillGrid(grdProduct, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { "Product" });
+                obj.FillGrid(grdProduct, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
                 ViewState["Category"] = "Product";
                 grdMilk.DataSource = null;
                 grdMilk.DataBind();
@@ -53,54 +53,54 @@ public partial class _Default : System.Web.UI.Page
         }
 
     }
-    public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
-    {
-        try
-        {
-            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-            adpt.SelectCommand.Parameters.Clear();
-            if (prm != null && values != null)
-            {
-                for (int i = 0; i < prm.Length; i++)
-                {
-                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-                }
-            }
-            DataSet ds = new DataSet();
-            adpt.Fill(ds);
-            if (ds.Tables.Count > 1)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    grd.DataSource = ds.Tables[0];
-                    grd.DataBind();
-                    //value = ds.Tables[0].AsEnumerable().Select(row => row["ItemName"].ToString()).ToList();
-                    //ViewState[values[0]] = value;
-                }
-                else
-                {
-                    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
-                }
-            }
-            else if (ds.Tables.Count > 0)
-            {
-                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-                {
-                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
-                }
-            }
-            else
-            {
-                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
-            }
-        }
-        catch (Exception ex)
-        {
+    //public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
+    //{
+    //    try
+    //    {
+    //        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+    //        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+    //        adpt.SelectCommand.Parameters.Clear();
+    //        if (prm != null && values != null)
+    //        {
+    //            for (int i = 0; i < prm.Length; i++)
+    //            {
+    //                adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+    //            }
+    //        }
+    //        DataSet ds = new DataSet();
+    //        adpt.Fill(ds);
+    //        if (ds.Tables.Count > 1)
+    //        {
+    //            if (ds.Tables[0].Rows.Count > 0)
+    //            {
+    //                grd.DataSource = ds.Tables[0];
+    //                grd.DataBind();
+    //                //value = ds.Tables[0].AsEnumerable().Select(row => row["ItemName"].ToString()).ToList();
+    //                //ViewState[values[0]] = value;
+    //            }
+    //            else
+    //            {
+    //                obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+    //            }
+    //        }
+    //        else if (ds.Tables.Count > 0)
+    //        {
+    //            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+    //            {
+    //                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+    //            }
+    //        }
+    //        else
+    //        {
+    //            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
 
-            obj.alertmsg(ex.Message, divAlert, "bg-danger");
-        }
-    }
+    //        obj.alertmsg(ex.Message, divAlert, "bg-danger");
+    //    }
+    //}
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
         try
@@ -135,7 +135,7 @@ public partial class _Default : System.Web.UI.Page
 
     {
         DataTable dtItems = new DataTable();
-
+        dtItems.Columns.Add("ItemID", typeof(int));
         dtItems.Columns.Add("ItemName", typeof(string));
         dtItems.Columns.Add("Quantity", typeof(int));
         dtItems.Columns.Add("AdvancedCard", typeof(int));
@@ -143,8 +143,12 @@ public partial class _Default : System.Web.UI.Page
         foreach (GridViewRow row in grd.Rows)
         {
             DataRow dr = dtItems.NewRow();
+            dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
             dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
-            dr["Quantity"] = int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
+
+            dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("TxtQty")).Text)
+                             ? 0
+                             : int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
 
             dtItems.Rows.Add(dr);
         }

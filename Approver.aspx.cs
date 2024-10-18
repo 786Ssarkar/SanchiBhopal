@@ -14,31 +14,46 @@ using System.Security.Cryptography;
 public partial class Approver : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
+    Code obj = new Code();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             divAlert.InnerHtml = "";
-            FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "0" });
-            FillGrid(grdApproved, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "1" });
-
+            obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
+            obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
         }
-
     }
-
+    private string ParseValue(TextBox textBox)
+    {
+        if (textBox != null && !string.IsNullOrEmpty(textBox.Text.Trim()))
+        {
+            // Try to parse the value, return 0 if parsing fails
+            int result;
+            if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
+            {
+                return result.ToString();
+            }
+        }
+        return "0"; // Return 0 if the TextBox is null or empty
+    }
     protected void grdApprove_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
         {
-
             if (e.CommandName == "Approve")
             {
                 GridViewRow row = (GridViewRow)((Control)e.CommandSource).NamingContainer;
                 TextBox Row_TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
-                TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFatKg");
-                TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNFKg");
+
+                //TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFatKg");
+                //TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNFKg");
                 TextBox Row_TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
                 TextBox Row_TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
+
+                string Row_TxtMilkFat = ((Convert.ToDecimal(ParseValue(Row_TxtMilkFatPerc)) / 100) * Convert.ToDecimal(ParseValue(Row_TxtMilkQty))).ToString("F2");
+                string Row_TxtMilkSNF = ((Convert.ToDecimal(ParseValue(Row_TxtMilkSNFPerc)) / 100) * Convert.ToDecimal(ParseValue(Row_TxtMilkQty))).ToString("F2");
+
                 TextBox Row_TxtButterQty = (TextBox)row.FindControl("TxtButterQty");
                 TextBox Row_TxtButterStck = (TextBox)row.FindControl("TxtButterStck");
                 TextBox Row_TxtMilkPwderQty = (TextBox)row.FindControl("TxtMilkPwderQty");
@@ -48,19 +63,61 @@ public partial class Approver : System.Web.UI.Page
                 TextBox Row_TxtGheeqty = (TextBox)row.FindControl("TxtGheeqty");
                 TextBox Row_TxtGheeStk = (TextBox)row.FindControl("TxtGheeStk");
 
+                TextBox Row_Txtlysdqty = (TextBox)row.FindControl("Txtlysdqty");
+                TextBox Row_TxtLYSDFatPercent = (TextBox)row.FindControl("TxtLYSDFatPercent");
+                TextBox Row_TxtLYSDSNFPercent = (TextBox)row.FindControl("TxtLYSDSNFPercent");
+                //TextBox Row_TxtLYSDFatKG = (TextBox)row.FindControl("TxtLYSDFatKG");
+                //TextBox Row_TxtLYSDSNFKG = (TextBox)row.FindControl("TxtLYSDSNFKG");
+               string Row_TxtLYSDFatKG = ( (Convert.ToDecimal(ParseValue(Row_TxtLYSDFatPercent)) / 100) * Convert.ToDecimal(ParseValue(Row_Txtlysdqty)) ).ToString("F2");
+               string Row_TxtLYSDSNFKG = ( (Convert.ToDecimal(ParseValue(Row_TxtLYSDSNFPercent)) / 100) * Convert.ToDecimal(ParseValue(Row_Txtlysdqty)) ).ToString("F2");
 
-                Code by = new Code();
-                DataSet ds = by.ByProcedure("Usp_AproveInflow",
-                     new[] {"InflowId","Milkqty",
-                    "Milkfat", "MilkSNF",
-                    "Milkfatperc","MilkSNFperc",
-                    "Butterqty","Butterstock",
-                    "MilkPowderqty", "MilkPowderstock", "WholeMilkPowderqty"  ,"WholeMilkPowderstock","Gheeqty","Gheestock"
-                     }, new[] {e.CommandArgument.ToString(),Row_TxtMilkQty.Text,
-                    Row_TxtMilkFat.Text, Row_TxtMilkSNF.Text,
-                    Row_TxtMilkFatPerc.Text,Row_TxtMilkSNFPerc.Text,
-                   Row_TxtButterQty.Text,Row_TxtButterStck.Text,
-                    Row_TxtMilkPwderQty.Text, Row_TxtMilkPwderStk.Text,Row_TxtWholeMilkPwderqty.Text,Row_TxtWholeMilkPwderStk.Text,Row_TxtGheeqty.Text,Row_TxtGheeStk.Text
+
+
+              
+                DataSet ds = obj.ByProcedure("Usp_AproveInflow",
+                     new[] {
+                         "InflowId",
+                         "Milkqty",
+                         "Milkfat",
+                         "MilkSNF",
+                         "Milkfatperc",
+                         "MilkSNFperc",                    
+                         "Butterqty",
+                         "Butterstock",
+                         "MilkPowderqty",
+                         "MilkPowderstock", 
+                         "WholeMilkPowderqty"  ,
+                         "WholeMilkPowderstock",
+                         "Gheeqty",
+                         "Gheestock",
+
+                         "lysdqty",   
+                         "LYSDFatPercent", 
+                         "LYSDSNFPercent",
+                         "LYSDFatKG",  
+                         "LYSDSNFKG"
+                     }, 
+                     new[] {
+                         e.CommandArgument.ToString(),
+                         ParseValue(Row_TxtMilkQty),
+                         Row_TxtMilkFat,
+                         Row_TxtMilkSNF,
+                         ParseValue(Row_TxtMilkFatPerc),
+                         ParseValue(Row_TxtMilkSNFPerc), 
+                         ParseValue(Row_TxtButterQty),
+                         ParseValue(Row_TxtButterStck),
+                         ParseValue(Row_TxtMilkPwderQty) ,
+                         ParseValue(Row_TxtMilkPwderStk),
+                         ParseValue(Row_TxtWholeMilkPwderqty),
+                         ParseValue(Row_TxtWholeMilkPwderStk),
+                         ParseValue(Row_TxtGheeqty),
+                         ParseValue(Row_TxtGheeStk),
+
+                         ParseValue(Row_Txtlysdqty),
+                         ParseValue(Row_TxtLYSDFatPercent),
+                         ParseValue(Row_TxtLYSDSNFPercent),
+                        Row_TxtLYSDFatKG,
+                        Row_TxtLYSDSNFKG
                      }, Connstr);
 
 
@@ -68,84 +125,28 @@ public partial class Approver : System.Web.UI.Page
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
-                        FillGrid(grdApprove, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "0" });
-                        FillGrid(grdApproved, "Usp_GetInflowToAprove", new[] { "IsApproved" }, new[] { "1" });
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]),divAlert, "bg-success");
+                        obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
+                        obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
                     }
                     else
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
                     }
                 }
                 else
                 {
-                    alertmsg("Somthing went wrong", "bg-danger");
+                    obj.alertmsg("Somthing went wrong", divAlert, "bg-danger");
                 }
             }
         }
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+                obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-    public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
-    {
-        try
-        {
-            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-            adpt.SelectCommand.Parameters.Clear();
-            if (prm != null && values != null)
-            {
-                for (int i = 0; i < prm.Length; i++)
-                {
-                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-                }
-            }
-            DataSet ds = new DataSet();
-            adpt.Fill(ds);
-            grd.DataSource = null;
-            grd.DataBind();
-            if (ds.Tables.Count > 1)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    grd.DataSource = ds.Tables[0];
-                    grd.DataBind();
-                }
-                else
-                {
-                    alertmsg("Table is Empty", "bg-warning");
-                }
-            }
-            else if (ds.Tables.Count > 0)
-            {
-                alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
-            }
-            else
-            {                   
-                alertmsg("Somthing went wrong", "bg-warning");
-            }
-        }
-        catch (Exception ex)
-        {
-            alertmsg(ex.Message, "bg-danger");
-        }
-    }
-    protected void alertmsg(string msg, string bgcolor)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append("<div class=\"alert ");
-        sb.Append(bgcolor);
-        sb.Append(" alert-dismissible fade show\" role=\"alert\">");
-        sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"> ");
-        sb.Append("<span aria-hidden=\"true\">&times;</span>");
-        sb.Append("</button>");
-        sb.Append("</div> ");
-        divAlert.InnerHtml = sb.ToString();
-    }
+    
 
     protected void CalculateSnfAndFat(object sender, EventArgs e)
     {
@@ -171,7 +172,7 @@ public partial class Approver : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message,divAlert, "bg-danger");
         }
 
     }

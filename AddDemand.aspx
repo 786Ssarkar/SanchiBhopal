@@ -21,13 +21,13 @@
                         <label for="date-picker" class="text-dark text-lg">Date</label>
                         <div class="col-md-10">
                             <input type="date" id="Txtdate" runat="server" class="form-control" required="required">
-                              <script> document.getElementById('<%= Txtdate.ClientID%>').value = currentDate;</script>
+                            <script> document.getElementById('<%= Txtdate.ClientID%>').value = currentDate;</script>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label  class="text-dark text-lg">
+                        <label class="text-dark text-lg">
                             Select Item <span style="color: red">*</span></label>
                         <asp:DropDownList runat="server" ID="DdlItemCat" CssClass="form-control" required="required">
                             <asp:ListItem Text="--Select--" Value="" />
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label  class="text-dark text-lg">
+                        <label class="text-dark text-lg">
                             Select Shift <span style="color: red">*</span></label>
                         <asp:DropDownList runat="server" ID="DdlShift" CssClass="form-control" required="required">
                             <asp:ListItem Text="--Select--" Value="" />
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label  class="text-dark text-lg">
+                        <label class="text-dark text-lg">
                             Select Retailer <span style="color: red">*</span></label>
                         <asp:DropDownList runat="server" ID="DdlRetailer" CssClass="form-control" required="required">
                             <asp:ListItem Text="--Select--" Value="" />
@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label  class="text-dark text-lg">
+                        <label class="text-dark text-lg">
                             Select Vehicle No <span style="color: red">*</span></label>
                         <asp:DropDownList runat="server" ID="DdlVehicleNo" CssClass="form-control" required="required">
                             <asp:ListItem Text="--Select--" Value="" />
@@ -99,14 +99,14 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label  class="text-dark text-lg">
+                        <label class="text-dark text-lg">
                             Select Demand Type<span style="color: red">*</span></label>
                         <asp:DropDownList runat="server" ID="DdlDemandType" CssClass="form-control" required="required">
                             <asp:ListItem Text="--Select--" Value="" />
                             <asp:ListItem Text="Regular Demand" Value="Regular" />
                             <asp:ListItem Text="Irregular Demand" Value="Irregular" />
                         </asp:DropDownList>
-                      <%--  <select class="form-control" id="DdlDemandType" runat="server">
+                        <%--  <select class="form-control" id="DdlDemandType" runat="server">
                             <option selected="selected" value="0">--Select--</option>
                             <option value="2">Regular Demand</option>
                             <option value="3">Irregular Demand</option>
@@ -138,54 +138,32 @@
                                     <asp:TemplateField HeaderText="Item Name">
                                         <ItemTemplate>
                                             <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName") %>'></asp:Label>
+                                            <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Quantity">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtQuantity" Text="0" ></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtQuantity" Text="0"></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Advanced Card">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control"  ID="txtAdvancedCard" Text="0" ReadOnly="true"></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtAdvancedCard" Text="0" ReadOnly="true"></asp:TextBox>
 
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
 
                             </asp:GridView>
-                            <%--<table class="table table-bordered text-center">
-                                <thead>
-                                    <tr class="nowrap">
-                                        <th>Sr. No</th>
-                                        <th>Item Name</th>
-                                        <th>Quantity</th>
-                                        <th>Advanced Card</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody id="TblBody">
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Standard 500ML</td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder=" 0" /></td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder=" 0" disabled /></td>
-                                    </tr>
-                                    <tr></tr>
-                                </tbody>
-
-                            </table>--%>
                         </div>
                     </div>
                     <div class="col-12 mt-4">
                         <div class="row justify-content-center">
                             <div class="col-md-5 text-center">
                                 <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
-                               <%-- <button type="button" class="Alert-Save  mb-0 btn bg-gradient-success">Submit</button>--%>
+                                <%-- <button type="button" class="Alert-Save  mb-0 btn bg-gradient-success">Submit</button>--%>
 
-                                <a href="AddDemand.aspx"  class=" mb-0 btn bg-gradient-warning">Clear</a>
+                                <a href="AddDemand.aspx" class=" mb-0 btn bg-gradient-warning">Clear</a>
                             </div>
                         </div>
                     </div>

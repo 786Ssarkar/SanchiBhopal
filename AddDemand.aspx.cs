@@ -5,12 +5,14 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using System.Text;
+using System.Web.UI.HtmlControls;
 
 
 
 public partial class AddDemand : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
+    Code obj = new Code();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -20,73 +22,59 @@ public partial class AddDemand : System.Web.UI.Page
         }
 
     }
-    protected void alertmsg(string msg, string bgcolor)
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.Append("<div class=\"alert ");
-        sb.Append(bgcolor);
-        sb.Append(" alert-dismissible fade show\" role=\"alert\">");
-        sb.Append(msg);
-        sb.Append("<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"> ");
-        sb.Append("<span aria-hidden=\"true\">&times;</span>");
-        sb.Append("</button>");
-        sb.Append("</div> ");
-        divAlert.InnerHtml = sb.ToString();
+    //public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
+    //{
+    //    try
+    //    {
+    //        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+    //        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+    //        adpt.SelectCommand.Parameters.Clear();
+    //        if (prm.Length != 0 && values.Length != 0)
+    //        {
+    //            for (int i = 0; i < prm.Length; i++)
+    //            {
+    //                adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+    //            }
+    //        }
 
-    }
-    public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
-    {
-        try
-        {
-            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-            adpt.SelectCommand.Parameters.Clear();
-            if (prm.Length != 0 && values.Length != 0)
-            {
-                for (int i = 0; i < prm.Length; i++)
-                {
-                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-                }
-            }
+    //        DataSet ds = new DataSet();
+    //        adpt.Fill(ds);
+    //        if (ds.Tables.Count > 1)
+    //        {
+    //            if (ds.Tables[0].Rows.Count > 0)
+    //            {
+    //                grd.DataSource = ds.Tables[0];
+    //                grd.DataBind();
+    //            }
+    //            else
+    //            {
+    //                obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+    //            }
+    //        }
+    //        else if (ds.Tables.Count > 0)
+    //        {
+    //            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+    //            {
+    //                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
 
-            DataSet ds = new DataSet();
-            adpt.Fill(ds);
-            if (ds.Tables.Count > 1)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    grd.DataSource = ds.Tables[0];
-                    grd.DataBind();
-                }
-                else
-                {
-                    alertmsg("Table is Empty", "bg-warning");
-                }
-            }
-            else if (ds.Tables.Count > 0)
-            {
-                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-                {
-                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
+    //            }
+    //        }
+    //        else
+    //        {
+    //            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+    //        }
 
-                }
-            }
-            else
-            {
-                alertmsg("Somthing went wrong", "bg-warning");
-            }
+    //    }
+    //    catch (Exception ex)
+    //    {
 
-        }
-        catch (Exception ex)
-        {
-
-            alertmsg(ex.Message, "bg-danger");
-        }
+    //        obj.alertmsg(ex.Message, divAlert, "bg-danger");
+    //    }
 
 
 
 
-    }
+    //}
 
 
 
@@ -97,14 +85,14 @@ public partial class AddDemand : System.Web.UI.Page
 
             if (DdlItemCat.SelectedValue != "")
             {
-                FillGrid(grdItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
+                obj.FillGrid(grdItems, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
                 FS_Details.Visible = true;
             }
         }
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
 
@@ -116,6 +104,7 @@ public partial class AddDemand : System.Web.UI.Page
             {
                 DataTable dtItems = new DataTable();
 
+                dtItems.Columns.Add("ItemID", typeof(int));
                 dtItems.Columns.Add("ItemName", typeof(string));
                 dtItems.Columns.Add("Quantity", typeof(int));
                 dtItems.Columns.Add("AdvancedCard", typeof(int));
@@ -126,9 +115,18 @@ public partial class AddDemand : System.Web.UI.Page
 
 
 
+                    dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
                     dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
-                    dr["Quantity"] = int.Parse(((TextBox)row.FindControl("txtQuantity")).Text);
-                    dr["AdvancedCard"] = int.Parse(((TextBox)row.FindControl("txtAdvancedCard")).Text);
+                    dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtQuantity")).Text)
+                                    ? 0
+                                    : int.Parse(((TextBox)row.FindControl("txtQuantity")).Text);
+                    dr["AdvancedCard"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtAdvancedCard")).Text)
+                                         ? 0
+                                         : int.Parse(((TextBox)row.FindControl("txtAdvancedCard")).Text);
+
+
+
+
                     dtItems.Rows.Add(dr);
                 }
 
@@ -151,13 +149,13 @@ public partial class AddDemand : System.Web.UI.Page
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
-                        Page_Load(sender, e);
-
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.clearFields((HtmlForm)Master.FindControl("form1"));
+                        FS_Details.Visible = false;
                     }
                     else
                     {
-                        alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-danger");
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                     }
 
                 }
@@ -166,7 +164,7 @@ public partial class AddDemand : System.Web.UI.Page
         catch (Exception ex)
         {
 
-            alertmsg(ex.Message, "bg-danger");
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
 }

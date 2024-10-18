@@ -77,4 +77,56 @@ public class Code
         div.InnerHtml = sb.ToString();
 
     }
+    public void FillGrid(GridView grd, string proc, string ConnStr, HtmlGenericControl alertdiv, string[] prm = null, string[] values = null )
+    {                                                                                                         
+        try
+        {
+            grd.DataSource = null;
+            grd.DataBind();
+
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, ConnStr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+            adpt.SelectCommand.Parameters.Clear();
+            if (prm != null && values != null)
+            {
+                for (int i = 0; i < prm.Length; i++)
+                {
+                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+                }
+            }
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    grd.DataSource = ds.Tables[0];
+                    grd.DataBind();
+                }
+                else
+                {
+                    alertmsg("Table is Empty", alertdiv, "bg-warning");
+                }
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), alertdiv, "bg-warning");
+
+                }
+            }
+            else
+            {
+                alertmsg("Somthing went wrong", alertdiv, "bg-warning");
+            }
+        }
+        catch (Exception ex)
+        {
+
+            alertmsg(ex.Message, alertdiv, "bg-danger");
+        }
+
+
+    }
 }
