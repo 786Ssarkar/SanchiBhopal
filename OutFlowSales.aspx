@@ -7,11 +7,13 @@
     <style>
         .col-md-3, .col-md-9 {
             transition: width .9s ease-in-out;
+            
         }
-
-        .table th {
-            background-color: lightsteelblue !important;
+        .table th{
+             background-color:lightsteelblue !important;
+            
         }
+     
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -112,35 +114,6 @@
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Sale Target Date">
-                                            <ItemTemplate>
-                                                <asp:TextBox TextMode="Date" runat="server" ID="lblSaleTargetDate" CssClass="form-control"
-                                                    Text='<%# DateTime.Now.ToString("yyyy-MM-dd") %>'>
-                                                </asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Target">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtTarget" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Cumulative">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtCumulative" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Absolute">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtAbsolute" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="AvgGrowthPer">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" CssClass="form-control" ID="txtAvgGrowthPer" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
                                     </Columns>
                                 </asp:GridView>
                             </div>
@@ -181,40 +154,11 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" CssClass="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
+                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
 
                                             </ItemTemplate>
 
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Sale Target Date">
-                                            <ItemTemplate>
-                                                <asp:TextBox TextMode="Date" runat="server" ID="lblSaleTargetDate" CssClass="form-control" Text='<%# DateTime.Now.ToString("yyyy-MM-dd") %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Target">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="txtTarget" CssClass="form-control" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Cumulative">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="txtCumulative" CssClass="form-control" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Absolute">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="txtAbsolute" CssClass="form-control" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="AvgGrowthPer">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="txtAvgGrowthPer" CssClass="form-control" Text='0'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
                                     </Columns>
                                 </asp:GridView>
                             </div>
@@ -235,7 +179,7 @@
             <div>
                 <div class="card-body p-5">
                     <div class="card-header pb-0 px-3 d-flex">
-
+                        
                         <div class="col text-end">
                             <button id="ExcelBtn" class="btn bg-gradient-info" onclick="exportToExcel()" type="button">Export Excel</button>
                         </div>
@@ -271,41 +215,45 @@
                                                 <asp:Label runat="server" ID="lblManufacturing" Text='<%# Eval("Quantity") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Sale Target Date">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="lblSaleTargetDate" Text='<%# DateTime.Now.ToString("yyyy-MM-dd") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Target">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="lblTarget" Text='<%# Eval("SaleTarget") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Cumulative">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="lblCumulative" Text='<%# Eval("SaleCumulative") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Absolute">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="lblAbsolute" Text='<%# Eval("SaleAbsolute") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="AvgGrowthPer">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="lblAvgGrowthPer" Text='<%# Eval("AvgGrowthPer") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
                                     </Columns>
+
                                 </asp:GridView>
+                                <%--<table class="table table-bordered text-center">
+              <thead>
+                  <tr class="nowrap">
+                      <th>Sr. No</th>
+                      <th>Item Name</th>
+                      <th>Quantity</th>
+                      <th>Advanced Card</th>
+
+                  </tr>
+              </thead>
+              <tbody id="TblBody">
+                  <tr>
+                      <td>1.</td>
+                      <td>Standard 500ML</td>
+                      <td>
+                          <input type="text" class="form-control" placeholder=" 0" /></td>
+                      <td>
+                          <input type="text" class="form-control" placeholder=" 0" disabled /></td>
+                  </tr>
+                  <tr></tr>
+              </tbody>
+
+          </table>--%>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
     <script>
+
+
         function calculateTotal(gridId) {
             var grid = document.getElementById(gridId);
             var rows = grid.rows;
@@ -369,6 +317,8 @@
 
 
         //function LoadInput(Fields, ID) {
+
+
         //    document.getElementById('UlProduct').innerHTML = ""
         //    document.getElementById('UlMilk').innerHTML = ""
         //    var ul = document.getElementById(ID)
@@ -388,30 +338,37 @@
         //    }
         //    calculateGroupTotal(ID);
         //}
-        function exportToExcel() {
 
-            // Get the GridView element
-            var gridView = document.getElementById('<%= grdItems.ClientID%>');
+    
+            function exportToExcel() {
 
-            // Initialize CSV string with header
-            var csv = 'data:text/csv;charset=utf-8,';
-            csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
+         // Get the GridView element
+         var gridView = document.getElementById('<%= grdItems.ClientID%>');
 
-            // Iterate through rows
-            gridView.querySelectorAll('tr').forEach(row => {
-                // Iterate through cells
-                csv += Array.from(row.querySelectorAll('td')).map(td => td.innerText).join(',') + '\n';
-            });
+             // Initialize CSV string with header
+             var csv = 'data:text/csv;charset=utf-8,';
+         csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
 
-            // Create a download link and trigger download
-            var encodedUri = encodeURI(csv);
-            var link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'grdItems.csv');
-            document.body.appendChild(link);
-            link.click();
-        }
+         // Iterate through rows
+         gridView.querySelectorAll('tr').forEach(row => {
+                 // Iterate through cells
+                 csv += Array.from(row.querySelectorAll('td')).map(td => td.innerText).join(',') + '\n';
+         });
+
+             // Create a download link and trigger download
+             var encodedUri = encodeURI(csv);
+             var link = document.createElement('a');
+             link.setAttribute('href', encodedUri);
+             link.setAttribute('download', 'grdItems.csv');
+             document.body.appendChild(link);
+             link.click();
+
+
+     }
+   
+
     </script>
+
 </asp:Content>
 
 
