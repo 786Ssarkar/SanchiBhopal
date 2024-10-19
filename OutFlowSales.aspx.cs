@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Text;
 using System.Configuration;
-using System.Web.UI.WebControls.WebParts;
 public partial class _Default : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
@@ -22,16 +16,12 @@ public partial class _Default : System.Web.UI.Page
             Fillddl(DdlUnit, "Usp_GetUnit");
             FillDetailGrid("Milk");
             FillDetailGrid("Product");
-
-
         }
     }
     protected void btnMilk_Click(object sender, EventArgs e)
     {
         try
         {
-
-
             if (((Button)sender).Text == "Milk")
             {
                 obj.FillGrid(grdMilk, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
@@ -105,9 +95,7 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
-
-
-            if (ViewState["Category"] != null)
+            if (ViewState["Category"].ToString() == "Milk" || ViewState["Category"].ToString() == "Product")
             {
                 DataTable td;
                 if (ViewState["Category"].ToString() == "Milk")
@@ -119,9 +107,10 @@ public partial class _Default : System.Web.UI.Page
                 else if (ViewState["Category"].ToString() == "Product")
                 {
                     td = GetGridData(grdProduct);
-                    SubmitItems(td, "Product");
-
+                    SubmitItems(td, "Milk");
+                    FillDetailGrid(ViewState["Category"].ToString());
                 }
+                    
             }
         }
         catch (Exception ex)
@@ -132,13 +121,16 @@ public partial class _Default : System.Web.UI.Page
     }
 
     public DataTable GetGridData(GridView grd)
-
     {
         DataTable dtItems = new DataTable();
         dtItems.Columns.Add("ItemID", typeof(int));
         dtItems.Columns.Add("ItemName", typeof(string));
         dtItems.Columns.Add("Quantity", typeof(int));
-        dtItems.Columns.Add("AdvancedCard", typeof(int));
+        dtItems.Columns.Add("SaleTargetDate", typeof(string));
+        dtItems.Columns.Add("SaleTarget", typeof(decimal));
+        dtItems.Columns.Add("SaleCumulative", typeof(decimal));
+        dtItems.Columns.Add("SaleAbsolute", typeof(decimal));
+        dtItems.Columns.Add("AvgGrowthPer", typeof(decimal));
 
         foreach (GridViewRow row in grd.Rows)
         {
@@ -150,6 +142,23 @@ public partial class _Default : System.Web.UI.Page
                              ? 0
                              : int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
 
+            dr["SaleTargetDate"] = string.IsNullOrEmpty(((TextBox)row.FindControl("lblSaleTargetDate")).Text)
+                           ? DateTime.Now.ToString("yyyy-MM-dd")
+                           : ((TextBox)row.FindControl("lblSaleTargetDate")).Text;
+
+            dr["SaleTarget"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtTarget")).Text)
+                           ? 0
+                           : int.Parse(((TextBox)row.FindControl("txtTarget")).Text);
+            dr["SaleCumulative"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtCumulative")).Text)
+                           ? 0
+                           : int.Parse(((TextBox)row.FindControl("txtCumulative")).Text);
+            dr["SaleAbsolute"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtAbsolute")).Text)
+                           ? 0
+                           : int.Parse(((TextBox)row.FindControl("txtAbsolute")).Text);
+            dr["AvgGrowthPer"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtAvgGrowthPer")).Text)
+                           ? 0
+                           : int.Parse(((TextBox)row.FindControl("txtAvgGrowthPer")).Text);
+
             dtItems.Rows.Add(dr);
         }
         return dtItems;
@@ -160,18 +169,14 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
-
-
             DataSet ds = new DataSet();
             using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddSales", Connstr))
             {
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", TxtDate.Text);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", Category);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@NameOfUnit", DdlUnit.SelectedValue);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Items", td);
-
                 sqlDataAdapter.Fill(ds);
                 FillDetailGrid(ViewState["Category"].ToString());
             }
@@ -186,12 +191,10 @@ public partial class _Default : System.Web.UI.Page
                 {
                     obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                 }
-
             }
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
@@ -199,14 +202,12 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
-
-
             ddl.DataSource = null;
             ddl.DataBind();
+
             ddl.Items.Insert(0, new ListItem("--Select--", ""));
             SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
             adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-
             DataSet ds = new DataSet();
             adpt.Fill(ds);
             if (ds.Tables.Count > 1)
@@ -217,7 +218,6 @@ public partial class _Default : System.Web.UI.Page
                     ddl.DataTextField = "Name";
                     ddl.DataValueField = "Id";
                     ddl.DataBind();
-
                 }
                 else
                 {
@@ -230,7 +230,6 @@ public partial class _Default : System.Web.UI.Page
                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                 {
                     obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
-
                 }
             }
             else
@@ -244,9 +243,6 @@ public partial class _Default : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
-
-
     protected void FillDetailGrid(string Category)
     {
         using (SqlConnection sqlConnection = new SqlConnection(Connstr))
@@ -276,9 +272,9 @@ public partial class _Default : System.Web.UI.Page
                 }
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                obj.alertmsg(ex.Message, divAlert, "bg-danger");
             }
             finally
             {

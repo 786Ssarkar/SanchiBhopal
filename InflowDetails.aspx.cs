@@ -28,7 +28,7 @@ public partial class Default2 : System.Web.UI.Page
     {
         try
         {
-            if (Page.IsValid)
+            
             {
 
                 DataSet ds = new DataSet();
@@ -56,6 +56,9 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", WholeMilkPowderStock.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", txtGheeQty.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", txtGheeStock.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", TargetDate.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", txtTargetmilk.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", txtMilkCumulative.Text);
                     sqlDataAdapter.Fill(ds);
                 }
                 if (ds.Tables.Count > 0)

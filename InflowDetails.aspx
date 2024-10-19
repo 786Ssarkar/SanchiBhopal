@@ -69,7 +69,7 @@
                                                 <label class="custom-label">
                                                     LYSD Qty (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"   required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()" required="required"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -77,7 +77,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"  TextMode="number" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" TextMode="number" required="required"></asp:TextBox>
 
                                             </div>
 
@@ -87,7 +87,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"  TextMode="number" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()" TextMode="number" required="required"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -147,7 +147,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" TextMode="number" required="required" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" TextMode="number" required="required"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -187,7 +187,7 @@
                                         <label class="custom-label">
                                             Received in KG
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity" ></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -283,6 +283,46 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class=" catchy-title">Target Details</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Target Date 
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="TargetDate" CssClass="form-control" placeholder="Enter Target Date"></asp:TextBox>
+                                        <script>
+        document.getElementById('<%=TargetDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Target Milk
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtTargetmilk" placeholder="Enter Target Milk" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Milk Cumulative
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtMilkCumulative" placeholder="Enter Milk Cumulative" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <div class="col-12">
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center">
