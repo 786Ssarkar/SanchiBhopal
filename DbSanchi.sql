@@ -1204,98 +1204,6 @@ GO
 		 SELECT @status AS [status], @msg AS [msg];
   end
 GO
-/****** Object:  StoredProcedure [dbo].[usp_AddInFlow]    Script Date: 18-Oct-24 3:59:33 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE proc  [dbo].[usp_AddInFlow]
-     @Date				date
-	,@UnitID     		int
-	,@Milkqty			int
-	,@lysdqty			decimal(18,2)
-	,@Milkfat			decimal(18,2)
-	,@MilkSNF			decimal(18,2)
-	,@Milkfatperc		decimal(18,2)
-	,@MilkSNFperc		decimal(18,2)
-	,@Butterqty  		int
-	,@Butterstock  		int
-	,@MilkPowderqty  	int
-	,@MilkPowderstock  	int
-	,@WholeMilkPowderqty	int
-	,@WholeMilkPowderstock	int
-	,@Gheeqty				int
-	,@Gheestock				int
-	,@LYSDDate		 date null
-	,@LYSDFatPercent decimal(18,2) null
-	,@LYSDSNFPercent decimal(18,2) null
-	,@LYSDFatKG		decimal(18,2) null
-	,@LYSDSNFKG		decimal(18,2) null
-		
-  as
-  begin
-	declare @status bit=0 ,@msg varchar(100)=null  ,@DemandId int=null
-	BEGIN TRY
-		BEGIN TRANSACTION
-			INSERT INTO [dbo].[Trn_InflowDetails]
-				([Date]
-				,[UnitID]
-				,[Milkqty]
-				,[lysdqty]
-				,[Milkfat]
-				,[MilkSNF]
-				,[Milkfatperc]
-				,[MilkSNFperc]
-				,[Butterqty]
-				,[Butterstock]
-				,[MilkPowderqty]
-				,[MilkPowderstock]
-				,WholeMilkPowderqty
-				,WholeMilkPowderstock	
-				,Gheeqty				
-				,Gheestock				
-				,[IsVerifed]
-				,[IsApproved]
-				,LYSDDate
-				,LYSDFatPercent
-				,LYSDSNFPercent
-				,LYSDFatKG		
-				,LYSDSNFKG	)
-			VALUES
-				( @Date		
-				,@UnitID
-				,@Milkqty
-				,@lysdqty
-				,@Milkfat		
-				,@MilkSNF		
-				,@Milkfatperc	
-				,@MilkSNFperc	
-				,@Butterqty  	
-				,@Butterstock  	
-				,@MilkPowderqty
-				,@MilkPowderstock
-				,@WholeMilkPowderqty
-				,@WholeMilkPowderstock	
-				,@Gheeqty				
-				,@Gheestock				
-				,0
-				,0
-				,@LYSDDate		
-				,@LYSDFatPercent
-				,@LYSDSNFPercent
-				,@LYSDFatKG		
-				,@LYSDSNFKG)
-	
-			SELECT	@status =1 ,@msg='In Flow Details Added Successfully'	 	
-		COMMIT TRANSACTION;
-	END TRY
-	BEGIN CATCH
-		ROLLBACK TRANSACTION;
-		SELECT	@status =0 ,@msg=ERROR_MESSAGE()	
-	END CATCH;
-	SELECT @status AS [status], @msg AS [msg];
-  end
-GO
 /****** Object:  StoredProcedure [dbo].[usp_AddManufItem]    Script Date: 18-Oct-24 3:59:33 PM ******/
 SET ANSI_NULLS ON
 GO
@@ -1680,7 +1588,188 @@ BEGIN
     SELECT @Status AS sts, @msg AS msg
 END
 GO
+-----------------------
 USE [master]
 GO
 ALTER DATABASE [DbSanchi] SET  READ_WRITE 
+GO
+
+-----------------------------------------------
+USE [DbSanchi]
+GO
+
+  CREATE TYPE [dbo].[typ_SoldItems] AS TABLE(
+	[ItemID] [int] NULL,
+	[ItemName] [varchar](50) NULL,
+	[TargetData] [decimal](18, 2) NULL,
+	[SaleCumulative] [decimal](18, 2) NULL,
+	[SaleAbsolute] [decimal](18, 2) NULL,
+	[AvgGrowthPer] [decimal](18, 2) NULL
+)
+GO
+
+
+alter table [Trn_InflowDetails]
+add TargetDate		date null
+	,TargetMilk		decimal(18,2) null
+	,MilkCumulative		decimal(18,2) null
+
+
+------------------------------
+go
+--------------------------------
+ALTER proc  [dbo].[usp_AddInFlow]
+   @Date				date
+	,@UnitID     		int
+	,@Milkqty			int
+	,@lysdqty			decimal(18,2)
+	,@Milkfat			decimal(18,2)
+	,@MilkSNF			decimal(18,2)
+	,@Milkfatperc		decimal(18,2)
+	,@MilkSNFperc		decimal(18,2)
+	,@Butterqty  		int
+	,@Butterstock  		int
+	,@MilkPowderqty  	int
+	,@MilkPowderstock  	int
+	,@WholeMilkPowderqty	int
+	,@WholeMilkPowderstock	int
+	,@Gheeqty				int
+	,@Gheestock				int
+	,@LYSDDate		 date null
+	,@LYSDFatPercent decimal(18,2) null
+	,@LYSDSNFPercent decimal(18,2) null
+	,@LYSDFatKG		decimal(18,2) null
+	,@LYSDSNFKG		decimal(18,2) null
+
+	,@TargetDate		date null
+	,@TargetMilk		decimal(18,2) null
+	,@MilkCumulative		decimal(18,2) null
+		
+  as
+  begin
+	declare @status bit=0 ,@msg varchar(100)=null  ,@DemandId int=null
+	BEGIN TRY
+		BEGIN TRANSACTION
+			INSERT INTO [dbo].[Trn_InflowDetails]
+				([Date]
+				,[UnitID]
+				,[Milkqty]
+				,[lysdqty]
+				,[Milkfat]
+				,[MilkSNF]
+				,[Milkfatperc]
+				,[MilkSNFperc]
+				,[Butterqty]
+				,[Butterstock]
+				,[MilkPowderqty]
+				,[MilkPowderstock]
+				,WholeMilkPowderqty
+				,WholeMilkPowderstock	
+				,Gheeqty				
+				,Gheestock				
+				,[IsVerifed]
+				,[IsApproved]
+				,LYSDDate
+				,LYSDFatPercent
+				,LYSDSNFPercent
+				,LYSDFatKG		
+				,LYSDSNFKG
+				,TargetDate
+				,TargetMilk
+				,MilkCumulative
+				)
+			VALUES
+				( @Date		
+				,@UnitID
+				,@Milkqty
+				,@lysdqty
+				,@Milkfat		
+				,@MilkSNF		
+				,@Milkfatperc	
+				,@MilkSNFperc	
+				,@Butterqty  	
+				,@Butterstock  	
+				,@MilkPowderqty
+				,@MilkPowderstock
+				,@WholeMilkPowderqty
+				,@WholeMilkPowderstock	
+				,@Gheeqty				
+				,@Gheestock				
+				,0
+				,0
+				,@LYSDDate		
+				,@LYSDFatPercent
+				,@LYSDSNFPercent
+				,@LYSDFatKG		
+				,@LYSDSNFKG
+				,@TargetDate
+				,@TargetMilk
+				,@MilkCumulative)
+	
+			SELECT	@status =1 ,@msg='In Flow Details Added Successfully'	 	
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		ROLLBACK TRANSACTION;
+		SELECT	@status =0 ,@msg=ERROR_MESSAGE()	
+	END CATCH;
+	SELECT @status AS [status], @msg AS [msg];
+  end
+
+
+CREATE TABLE [dbo].[TrnTarget](
+	[TargetId] [int] IDENTITY(1,1) NOT NULL,
+	[Targetmonth] [date] NULL,
+	[ItemCategory] [varchar](50) NULL
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[trnTargetChild](
+	[TargetChildID] [int] IDENTITY(1,1) NOT NULL,
+	[TargetId] [int] NULL,
+	[ItemID] [int] NULL,
+	[ItemName] [varchar](50) NULL,
+	[TargetData] [decimal](18, 2) NULL,
+	[Cumulative] [decimal](18, 2) NULL,
+	[TargetAbsolute] [decimal](18, 2) NULL,
+	[AvggrowthPerc] [decimal](18, 2) NULL
+) ON [PRIMARY]
+GO
+
+CREATE  proc  [dbo].[usp_AddTarget]
+	@Targetmonth date
+	,@ItemCategory varchar(50)
+	,@TargetItems [typ_SoldItems]   readonly
+  as
+  begin
+	  declare @status bit=0 ,@msg varchar(100)=null  ,@TargetId int=null
+	  BEGIN TRY
+		  BEGIN transaction
+			INSERT INTO TrnTarget
+					   (Targetmonth
+					   ,ItemCategory)
+					 
+				 VALUES
+					   (@Targetmonth
+					   ,@ItemCategory
+					   )
+			select @TargetId =SCOPE_IDENTITY();
+			INSERT INTO trnTargetChild
+					   (TargetId
+					   ,ItemID
+					   ,ItemName,TargetData
+					   ,Cumulative
+					   ,TargetAbsolute,AvggrowthPerc)
+				 select @TargetId,ItemID, ItemName,TargetData,[SaleCumulative],[SaleAbsolute],[AvgGrowthPer] from @TargetItems
+			SELECT	@status =1 ,@msg='Target added Successfully'	
+	
+			COMMIT TRANSACTION;
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION;
+			SELECT	@status =0 ,@msg=ERROR_MESSAGE()	
+		
+		END CATCH;
+		 SELECT @status AS [status], @msg AS [msg];
+  end
 GO
