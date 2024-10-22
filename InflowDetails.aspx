@@ -33,7 +33,7 @@
                 <div class="col-lg-4 col-md-6 mt-2">
 
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DddlUnit" runat="server" >
+                    <asp:DropDownList CssClass="form-select" ID="DddlUnit" runat="server">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
@@ -69,7 +69,7 @@
                                                 <label class="custom-label">
                                                     LYSD Qty (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -77,7 +77,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -118,7 +118,7 @@
                                         <div class="col-lg-4 col-md-6 mt-2">
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
-                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" ></asp:TextBox>
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control"></asp:TextBox>
                                                 <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                     document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
                                             </div>
@@ -128,7 +128,7 @@
                                                 <label class="custom-label">
                                                     Received Quantity (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -137,7 +137,7 @@
                                                 <label class="custom-label catchy-title">
                                                     Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control"  ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -147,7 +147,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -185,6 +185,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
+                                            Opening Balance
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" placeholder="Enter Opening Balance"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufacturer
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
                                             Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity"></asp:TextBox>
@@ -193,7 +211,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            In Stock (in KG)
+                                            Total
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" placeholder="Enter Stock" />
                                     </div>
@@ -212,6 +230,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
+                                            Opening Balance
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" placeholder="Enter Opening Balance"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufacturer
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
                                             Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" placeholder="Enter Received Quantity" />
@@ -220,7 +256,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            In Stock (in KG)
+                                            Total
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" placeholder="Enter Stock" />
                                     </div>
@@ -239,6 +275,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
+                                            Opening Balance
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" placeholder="Enter Opening Balance"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufacturer
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
                                             Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" placeholder="Enter Received Quantity" />
@@ -247,7 +301,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            In Stock (in KG)
+                                            Total
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" placeholder="Enter Stock" />
                                     </div>
@@ -266,6 +320,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
+                                            Opening Balance
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" placeholder="Enter Opening Balance"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufacturer
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
                                             Received in KG
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" placeholder="Enter Received Quantity" />
@@ -274,7 +346,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            In Stock (in KG)
+                                            Total
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeStock" placeholder="Enter Stock" />
                                     </div>
@@ -297,7 +369,7 @@
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="TargetDate" CssClass="form-control" placeholder="Enter Target Date"></asp:TextBox>
                                         <script>
-        document.getElementById('<%=TargetDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
+                                            document.getElementById('<%=TargetDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
