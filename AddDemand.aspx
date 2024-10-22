@@ -20,8 +20,8 @@
                     <div class="form-group">
                         <label for="date-picker" class="text-dark text-lg">Date</label>
                         <div class="col-md-10">
-                            <input type="date" id="Txtdate" runat="server" class="form-control" required="required">
-                            <script> document.getElementById('<%= Txtdate.ClientID%>').value = currentDate;</script>
+                            <asp:TextBox TextMode="Date"   id="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>    
+                           
                         </div>
                     </div>
                 </div>

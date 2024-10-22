@@ -66,7 +66,7 @@
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
                     <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
-                    <script> document.getElementById('<%= TxtDate.ClientID%>').value = currentDate;</script>
+                 
 
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">

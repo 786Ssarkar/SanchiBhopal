@@ -60,8 +60,8 @@
                                                     Choose LYSD 
                                                 </label>
                                                 <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
-                                                <script>
-                                                    document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
+                                                <%--<script>
+                                                    document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -119,8 +119,8 @@
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
                                                 <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control"></asp:TextBox>
-                                                <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
-                                                    document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
+                                                <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
+                                                    document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -187,7 +187,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -195,7 +195,7 @@
                                         <label class="custom-label">
                                             Manufacturer
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@
                                         <label class="custom-label">
                                             Received in KG
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" placeholder="Enter Received Quantity"></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -213,7 +213,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" placeholder="Enter Stock" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -240,7 +240,7 @@
                                         <label class="custom-label">
                                             Manufacturer
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@
                                         <label class="custom-label">
                                             Received in KG
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -258,7 +258,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" placeholder="Enter Stock" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -277,7 +277,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -285,7 +285,7 @@
                                         <label class="custom-label">
                                             Manufacturer
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +295,7 @@
                                         <label class="custom-label">
                                             Received in KG
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -303,7 +303,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" placeholder="Enter Stock" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +322,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -330,7 +330,7 @@
                                         <label class="custom-label">
                                             Manufacturer
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -340,7 +340,7 @@
                                         <label class="custom-label">
                                             Received in KG
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -348,9 +348,10 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeStock" placeholder="Enter Stock" />
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -368,8 +369,7 @@
                                             Target Date 
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="TargetDate" CssClass="form-control" placeholder="Enter Target Date"></asp:TextBox>
-                                        <script>
-                                            document.getElementById('<%=TargetDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
+
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -435,6 +435,36 @@
             // Calculate SNF Kg
             const snfKg = (txtLYSDSNF / 100) * txtLYSDQty;
             document.getElementById("txtLYSDSNFKG").value = snfKg.toFixed(2);
+        }
+
+        function GheeTotal() {
+            var Balance = document.getElementById("Gheebalnc").value;
+            var Manufacturer = document.getElementById("GheeManuf").value;
+            var Received = document.getElementById("txtGheeQty").value;
+            document.getElementById("txtGheeStock").value = GetTotal(Balance, Manufacturer, Received)
+        }
+        function WPTotal() {
+            var Balance = document.getElementById("WMPblnc").value;
+            var Manufacturer = document.getElementById("WMPManuf").value;
+            var Received = document.getElementById("WholeMilkPowderQty").value;
+            document.getElementById("WholeMilkPowderStock").value = GetTotal(Balance, Manufacturer, Received)
+        }
+        function SmpTotal() {
+            var Balance = document.getElementById("MilkPowderBal").value;
+            var Manufacturer = document.getElementById("MilkPowderManuf").value;
+            var Received = document.getElementById("MilkPowderQty").value;
+            document.getElementById("MilkPowderStock").value = GetTotal(Balance, Manufacturer, Received)
+        }
+        function WbTotal() {
+            var Balance = document.getElementById("WBOpeningBln").value;
+            var Manufacturer = document.getElementById("WbManufacturer").value;
+            var Received = document.getElementById("WbQty").value;
+            document.getElementById("Wbstock").value = GetTotal(Balance, Manufacturer, Received)
+        }
+
+
+        function GetTotal(bal, manf, Qty) {
+            return (Number(bal) || 0) + (Number(manf) || 0) + (Number(Qty) || 0);
         }
     </script>
 

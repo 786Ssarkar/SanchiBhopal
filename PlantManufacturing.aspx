@@ -24,6 +24,13 @@
         </div>
         <div class="card-body pt-4 p-3">
             <div class="row">
+                <div class="col-md-12 mb-2">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 ">
+                           <asp:TextBox TextMode="Date"   id="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>    
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6 mt-4 px-5">
                     <div class="table-responsive">
                         <asp:GridView ID="gvMilkItems" runat="server" AutoGenerateColumns="false" CssClass="table table-borderless" BorderWidth="0" EmptyDataText="No Data Found " HeaderStyle-CssClass="text-dark text-lg text-bolder" HeaderStyle-Font-Bold="true">
@@ -36,7 +43,7 @@
                                 <asp:TemplateField HeaderText="Milk Products">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="GVItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
-                                         <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
+                                        <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Quantity">
@@ -59,7 +66,7 @@
                                 <asp:TemplateField HeaderText="Indigenous Products" ControlStyle-CssClass="">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="GVItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
-                                         <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
+                                        <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Quantity">

@@ -67,7 +67,14 @@ public partial class _Default : System.Web.UI.Page
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddManufItem", _connectionString))
                 {
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", (DateTime.Now).ToString("yyyy-MM-dd"));
+                    if (!string.IsNullOrEmpty(Txtdate.Text))
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", Txtdate.Text);
+                    }
+                    else
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
+                    }
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ManufItems", dtItems);
 
                     sqlDataAdapter.Fill(ds);
