@@ -77,7 +77,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" TextMode="number" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" ></asp:TextBox>
 
                                             </div>
 
@@ -87,7 +87,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()" TextMode="number" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -137,7 +137,7 @@
                                                 <label class="custom-label catchy-title">
                                                     Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" TextMode="number" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control"  ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -147,7 +147,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" TextMode="number" ></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" ></asp:TextBox>
                                             </div>
 
                                         </div>
