@@ -1231,49 +1231,52 @@ BEGIN
 END
 GO
 /****** Object:  StoredProcedure [dbo].[usp_AddSales]    Script Date: 18-Oct-24 3:59:33 PM ******/
+Alter table trn_Sale
+add 
+LYSDQty int
+Go 
+
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE proc  [dbo].[usp_AddSales]
 		@Date date
-		,@NameOfUnit		VARCHAR(100)		
+		,@NameOfUnit		VARCHAR(100)
+		,@LYSDQty		int
 		,@ItemCategory varchar(50)
 		,@Items [DemandedItemsList]   readonly
   as
   begin
 	  declare @status bit=0 ,@msg varchar(100)=null  ,@SalesID int=null
 	  BEGIN TRY
-		  BEGIN transaction 
-      
+		  BEGIN transaction
 			INSERT INTO [dbo].trn_Sale
-					   ([Date]					 
+					   ([Date]					
 					   ,[NameOfUnit]
+					   ,LYSDQty
 					   ,[ItemCategory]
 					  )
 				 VALUES
 					   (@date
 					   ,@NameOfUnit
+					   ,@LYSDQty
 					   ,@ItemCategory)
-
 			select @SalesID =SCOPE_IDENTITY();
-
 			INSERT INTO [dbo].trn_SaleChild
 					   ([SalesID]
 					   ,  ItemID,
 					   [ItemName]
 					   ,[Quantity]
-					   )     
+					   )
 				 select @SalesID,ItemID, ItemName,Quantity from @Items
-
-
-			SELECT	@status =1 ,@msg='Sales Details  Added Successfully'	 
+			SELECT	@status =1 ,@msg='Sales Details  Added Successfully'	
 	
 			COMMIT TRANSACTION;
 		END TRY
-		BEGIN CATCH   
+		BEGIN CATCH
 			ROLLBACK TRANSACTION;
-			SELECT	@status =0 ,@msg=ERROR_MESSAGE()	 
+			SELECT	@status =0 ,@msg=ERROR_MESSAGE()	
 		
 		END CATCH;
 		 SELECT @status AS [status], @msg AS [msg];
@@ -1773,3 +1776,4 @@ CREATE  proc  [dbo].[usp_AddTarget]
 		 SELECT @status AS [status], @msg AS [msg];
   end
 GO
+
