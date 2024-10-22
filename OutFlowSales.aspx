@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OutFlowSales.aspx.cs" Inherits="_Default" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="OutFlowSales.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
@@ -7,13 +7,11 @@
     <style>
         .col-md-3, .col-md-9 {
             transition: width .9s ease-in-out;
-            
         }
-        .table th{
-             background-color:lightsteelblue !important;
-            
+
+        .table th {
+            background-color: lightsteelblue !important;
         }
-     
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -24,7 +22,7 @@
         </div>
         <div class="card-body pt-4 p-3">
             <div class="row align-items-end">
-                <div class="col-lg-4 col-md-6 mt-2">
+                <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Select Name of Unit</label>
                     <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" required="required">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
@@ -65,13 +63,19 @@
                         }
                     </script>--%>
                 </div>
-                <div class="col-lg-4 col-md-6 mt-2">
+                <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
                     <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
                     <script> document.getElementById('<%= TxtDate.ClientID%>').value = currentDate;</script>
 
                 </div>
-                <div class="col-lg-4 col-md-6 mt-2 text-center">
+                <div class="col-lg-3 col-md-6 mt-2">
+                    <label class="custom-label">
+                        LYSD Qty (in KG)
+                    </label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                </div>
+                <div class="col-lg-3 col-md-6 mt-2 text-center">
                     <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
                     <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
                     <%-- <button type="button" class=" mb-0 btn bg-gradient-primary" onclick='LoadInput(Milk, "UlMilk");'>Milk</button> <button type="button" class="mb-0  btn  bg-gradient-primary" onclick='LoadInput(Products, "UlProduct");'>Product</button>--%>
@@ -101,20 +105,20 @@
                                     CssClass="table table-bordered"
                                     BorderWidth="0"
                                     HeaderStyle-CssClass=" text-dark text-lg">
-                                    <Columns>
+                                    <columns>
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
                                                 <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:TextBox runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
 
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
-                                    </Columns>
+                                    </columns>
                                 </asp:GridView>
                             </div>
                         </div>
@@ -142,24 +146,24 @@
                                     CssClass="table table-borderless"
                                     BorderWidth="0"
                                     HeaderStyle-CssClass=" text-dark text-lg">
-                                    <Columns>
+                                    <columns>
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
                                                 <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
+                                            </itemtemplate>
+                                            <footertemplate>
                                                 <asp:Label runat="server" Text='Total'></asp:Label>
-                                            </FooterTemplate>
+                                            </footertemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
 
-                                            </ItemTemplate>
+                                            </itemtemplate>
 
                                         </asp:TemplateField>
-                                    </Columns>
+                                    </columns>
                                 </asp:GridView>
                             </div>
                         </div>
@@ -179,7 +183,7 @@
             <div>
                 <div class="card-body p-5">
                     <div class="card-header pb-0 px-3 d-flex">
-                        
+
                         <div class="col text-end">
                             <button id="ExcelBtn" class="btn bg-gradient-info" onclick="exportToExcel()" type="button">Export Excel</button>
                         </div>
@@ -188,34 +192,34 @@
                         <div class="col-12">
                             <div class="table-responsive">
                                 <asp:GridView runat="server" ID="grdItems" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg">
-                                    <Columns>
+                                    <columns>
                                         <asp:TemplateField HeaderText="Sr. No">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Name of Unit">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("NameOfUnit") %>'></asp:Label>
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Item Category">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblDemand" Text='<%# Eval("ItemCategory") %>'></asp:Label>
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Item Name">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblSales" Text='<%# Eval("ItemName") %>'></asp:Label>
 
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
-                                            <ItemTemplate>
+                                            <itemtemplate>
                                                 <asp:Label runat="server" ID="lblManufacturing" Text='<%# Eval("Quantity") %>'></asp:Label>
-                                            </ItemTemplate>
+                                            </itemtemplate>
                                         </asp:TemplateField>
-                                    </Columns>
+                                    </columns>
 
                                 </asp:GridView>
                                 <%--<table class="table table-bordered text-center">
@@ -339,33 +343,33 @@
         //    calculateGroupTotal(ID);
         //}
 
-    
-            function exportToExcel() {
 
-         // Get the GridView element
-         var gridView = document.getElementById('<%= grdItems.ClientID%>');
+        function exportToExcel() {
 
-             // Initialize CSV string with header
-             var csv = 'data:text/csv;charset=utf-8,';
-         csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
+            // Get the GridView element
+            var gridView = document.getElementById('<%= grdItems.ClientID%>');
 
-         // Iterate through rows
-         gridView.querySelectorAll('tr').forEach(row => {
-                 // Iterate through cells
-                 csv += Array.from(row.querySelectorAll('td')).map(td => td.innerText).join(',') + '\n';
-         });
+            // Initialize CSV string with header
+            var csv = 'data:text/csv;charset=utf-8,';
+            csv += Array.from(gridView.querySelectorAll('th')).map(th => th.innerText).join(',') + '\n';
 
-             // Create a download link and trigger download
-             var encodedUri = encodeURI(csv);
-             var link = document.createElement('a');
-             link.setAttribute('href', encodedUri);
-             link.setAttribute('download', 'grdItems.csv');
-             document.body.appendChild(link);
-             link.click();
+            // Iterate through rows
+            gridView.querySelectorAll('tr').forEach(row => {
+                // Iterate through cells
+                csv += Array.from(row.querySelectorAll('td')).map(td => td.innerText).join(',') + '\n';
+            });
+
+            // Create a download link and trigger download
+            var encodedUri = encodeURI(csv);
+            var link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'grdItems.csv');
+            document.body.appendChild(link);
+            link.click();
 
 
-     }
-   
+        }
+
 
     </script>
 

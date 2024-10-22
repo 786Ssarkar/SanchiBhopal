@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InflowDetails.aspx.cs" Inherits="Default2" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InflowDetails.aspx.cs" Inherits="Default2" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
@@ -33,7 +33,7 @@
                 <div class="col-lg-4 col-md-6 mt-2">
 
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DddlUnit" runat="server" required="required">
+                    <asp:DropDownList CssClass="form-select" ID="DddlUnit" runat="server" >
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
@@ -69,7 +69,7 @@
                                                 <label class="custom-label">
                                                     LYSD Qty (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()" ></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -77,7 +77,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" TextMode="number" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()" TextMode="number" ></asp:TextBox>
 
                                             </div>
 
@@ -87,7 +87,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()" TextMode="number" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()" TextMode="number" ></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -118,7 +118,7 @@
                                         <div class="col-lg-4 col-md-6 mt-2">
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
-                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" ></asp:TextBox>
                                                 <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                     document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>
                                             </div>
@@ -128,7 +128,7 @@
                                                 <label class="custom-label">
                                                     Received Quantity (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()" ></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -137,7 +137,7 @@
                                                 <label class="custom-label catchy-title">
                                                     Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" TextMode="number" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" TextMode="number" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -147,7 +147,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" TextMode="number" required="required"></asp:TextBox>
+                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()" TextMode="number" ></asp:TextBox>
                                             </div>
 
                                         </div>

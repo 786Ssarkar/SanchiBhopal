@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
@@ -26,6 +26,22 @@ public partial class _Default : System.Web.UI.Page
 
         }
     }
+
+    private string ParseValue(TextBox textBox)
+    {
+        if (textBox != null && !string.IsNullOrEmpty(textBox.Text.Trim()))
+        {
+            // Try to parse the value, return 0 if parsing fails
+            int result;
+            if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
+            {
+                return result.ToString();
+            }
+        }
+        return "0"; // Return 0 if the TextBox is null or empty
+    }
+
+
     protected void btnMilk_Click(object sender, EventArgs e)
     {
         try
@@ -169,6 +185,7 @@ public partial class _Default : System.Web.UI.Page
 
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", TxtDate.Text);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", Category);
+                sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDQty", txtLYSDQty.Text);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@NameOfUnit", DdlUnit.SelectedValue);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Items", td);
 
