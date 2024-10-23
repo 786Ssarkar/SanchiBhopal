@@ -15,10 +15,7 @@ public partial class Report : System.Web.UI.Page
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
-        {
-            FillGrid(grdItems, "uspTransReport");
-        }
+       
     }
 
     protected void alertmsg(string msg, string bgcolor)
@@ -40,56 +37,67 @@ public partial class Report : System.Web.UI.Page
     {
         try
         {
-            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-            adpt.SelectCommand.Parameters.Clear();
-            if (prm != null && values != null)
+            using (SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr))
             {
-                for (int i = 0; i < prm.Length; i++)
-                {
-                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-                }
-            }
+                adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+                adpt.SelectCommand.Parameters.Clear();
 
-            DataSet ds = new DataSet();
-            adpt.Fill(ds);
-            if (ds.Tables.Count > 1)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
+                if (prm != null && values != null)
                 {
-                    grdItems.DataSource = ds.Tables[0];
-                    grdItems.DataBind();
+                    for (int i = 0; i < prm.Length; i++)
+                    {
+                        adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+                    }
+                }
+
+                DataSet ds = new DataSet();
+                adpt.Fill(ds);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    grd.DataSource = ds.Tables[0];
+                    grd.DataBind();
                 }
                 else
                 {
                     alertmsg("Table is Empty", "bg-warning");
                 }
             }
-            else if (ds.Tables.Count > 0)
-            {
-                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-                {
-                    alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-warning");
-
-                }
-            }
-            else
-            {
-                alertmsg("Somthing went wrong", "bg-warning");
-            }
-
         }
         catch (Exception ex)
         {
-
             alertmsg(ex.Message, "bg-danger");
         }
-
-
-
-
     }
 
+
+
+
+
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        FillGrid(grdItems, "uspTransReport", new[] { "FromDate", "ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
+
+
+        //DateTime fromDateValue;
+        //DateTime toDateValue;
+        //if (DateTime.TryParse(FromTxtdate.Text, out fromDateValue) &&
+        //    DateTime.TryParse(ToTxtdate.Text, out toDateValue))
+        //{
+            
+        //    string[] prm = { "@FromDate", "@ToDate" };
+        //    string[] values = { fromDateValue.ToString("yyyy-MM-dd"), toDateValue.ToString("yyyy-MM-dd") };
+
+            
+        //    FillGrid(grdItems, "uspTransReport", prm, values);
+        //}
+        //else
+        //{
+        //    alertmsg("Invalid date format. Please enter valid dates.", "bg-warning");
+        //}
+    }
 }
 
 

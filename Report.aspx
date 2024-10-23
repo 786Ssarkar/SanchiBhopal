@@ -14,6 +14,31 @@
         </div>
         <div class="card-body p-5">
             <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">From Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox TextMode="Date" ID="FromTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">To Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox TextMode="Date" ID="ToTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                           <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" />
+                        </div>
+            </div>
+
+            <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
                         <asp:GridView runat="server" ID="grdItems" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg">
