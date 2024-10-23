@@ -41,6 +41,19 @@ public partial class Default2 : System.Web.UI.Page
     }
 
 
+    public decimal getPercent(string Percent="0.00", string Qty="0.00")
+    {
+        decimal CalPercent, CalQty;
+
+        if (decimal.TryParse(Percent, out CalPercent) && decimal.TryParse(Qty, out CalQty))
+        {
+            return ((CalPercent / 100) * CalQty);
+        }
+        else
+        {
+            return Convert.ToDecimal(0.00);
+        }
+    }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
@@ -81,14 +94,14 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", ParseValue(qtyDispatched));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@", ParseValue(txtLYSDDate)); //
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@lysdqty", ParseValue(txtLYSDQty));      //
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatPercent", ParseValue(txtLYSDFatPercent));      //
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFPercent", ParseValue(txtLYSDSNFPercent));      //
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatKG", ((Convert.ToDecimal(ParseValue(txtLYSDFatPercent)) / 100) * Convert.ToDecimal(ParseValue(txtLYSDQty))).ToString("F2"));      //
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFKG", ((Convert.ToDecimal(ParseValue(txtLYSDSNFPercent)) / 100) * Convert.ToDecimal(ParseValue(txtLYSDQty))).ToString("F2"));      //
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfat", ((Convert.ToDecimal(ParseValue(fatPercent)) / 100) * Convert.ToDecimal(ParseValue(qtyDispatched))).ToString("F2"));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNF", ((Convert.ToDecimal(ParseValue(snfPercent)) / 100) * Convert.ToDecimal(ParseValue(qtyDispatched))).ToString("F2"));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc", ParseValue(fatPercent));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNFperc", ParseValue(snfPercent));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatPercent", string.IsNullOrEmpty(txtLYSDFatPercent.Text)?"0": txtLYSDFatPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFPercent",string.IsNullOrEmpty(txtLYSDSNFPercent.Text) ? "0" : txtLYSDSNFPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatKG", getPercent(txtLYSDFatPercent.Text,txtLYSDQty.Text).ToString("F2"));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFKG", getPercent(txtLYSDSNFPercent.Text,txtLYSDQty.Text).ToString("F2"));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfat", getPercent(fatPercent.Text,qtyDispatched.Text).ToString("F2"));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNF", getPercent(snfPercent.Text, qtyDispatched.Text).ToString("F2"));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc",string.IsNullOrEmpty(fatPercent.Text) ? "0" : fatPercent.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNFperc", string.IsNullOrEmpty(snfPercent.Text) ? "0" : snfPercent.Text);
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBOBal", ParseValue(WBOpeningBln));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBManuf", ParseValue(WbManufacturer));
@@ -138,9 +151,7 @@ public partial class Default2 : System.Web.UI.Page
     }
     public static int GetTotal(string bal, string manf, string Qty)
     {
-        return (int.Parse(bal ?? "0")) +
-               (int.Parse(manf ?? "0")) +
-               (int.Parse(Qty ?? "0"));
+        return (int.Parse(bal ?? "0")) + (int.Parse(manf ?? "0")) +                (int.Parse(Qty ?? "0"));
     }
     public void Fillddl(DropDownList ddl, string proc)
     {

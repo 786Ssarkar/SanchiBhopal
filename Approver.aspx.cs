@@ -37,6 +37,19 @@ public partial class Approver : System.Web.UI.Page
         }
         return "0"; // Return 0 if the TextBox is null or empty
     }
+    public decimal getPercent(string Percent = "0.00", string Qty = "0.00")
+    {
+        decimal CalPercent, CalQty;
+
+        if (decimal.TryParse(Percent, out CalPercent) && decimal.TryParse(Qty, out CalQty))
+        {
+            return ((CalPercent / 100) * CalQty);
+        }
+        else
+        {
+            return Convert.ToDecimal(0.00);
+        }
+    }
     protected void grdApprove_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -51,8 +64,8 @@ public partial class Approver : System.Web.UI.Page
                 TextBox Row_TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
                 TextBox Row_TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
 
-                string Row_TxtMilkFat = ((Convert.ToDecimal(ParseValue(Row_TxtMilkFatPerc)) / 100) * Convert.ToDecimal(ParseValue(Row_TxtMilkQty))).ToString("F2");
-                string Row_TxtMilkSNF = ((Convert.ToDecimal(ParseValue(Row_TxtMilkSNFPerc)) / 100) * Convert.ToDecimal(ParseValue(Row_TxtMilkQty))).ToString("F2");
+                string Row_TxtMilkFat = getPercent(Row_TxtMilkFatPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
+                string Row_TxtMilkSNF = getPercent(Row_TxtMilkSNFPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
 
                 TextBox Row_TxtButterQty = (TextBox)row.FindControl("TxtButterQty");
                 TextBox Row_TxtButterStck = (TextBox)row.FindControl("TxtButterStck");
@@ -68,8 +81,8 @@ public partial class Approver : System.Web.UI.Page
                 TextBox Row_TxtLYSDSNFPercent = (TextBox)row.FindControl("TxtLYSDSNFPercent");
                 //TextBox Row_TxtLYSDFatKG = (TextBox)row.FindControl("TxtLYSDFatKG");
                 //TextBox Row_TxtLYSDSNFKG = (TextBox)row.FindControl("TxtLYSDSNFKG");
-               string Row_TxtLYSDFatKG = ( (Convert.ToDecimal(ParseValue(Row_TxtLYSDFatPercent)) / 100) * Convert.ToDecimal(ParseValue(Row_Txtlysdqty)) ).ToString("F2");
-               string Row_TxtLYSDSNFKG = ( (Convert.ToDecimal(ParseValue(Row_TxtLYSDSNFPercent)) / 100) * Convert.ToDecimal(ParseValue(Row_Txtlysdqty)) ).ToString("F2");
+               string Row_TxtLYSDFatKG = getPercent(Row_TxtLYSDFatPercent.Text, Row_Txtlysdqty.Text).ToString("F2");
+               string Row_TxtLYSDSNFKG = getPercent(Row_TxtLYSDSNFPercent.Text,Row_Txtlysdqty.Text).ToString("F2");
 
 
 
@@ -100,10 +113,11 @@ public partial class Approver : System.Web.UI.Page
                      new[] {
                          e.CommandArgument.ToString(),
                          ParseValue(Row_TxtMilkQty),
+
                          Row_TxtMilkFat,
                          Row_TxtMilkSNF,
-                         ParseValue(Row_TxtMilkFatPerc),
-                         ParseValue(Row_TxtMilkSNFPerc), 
+                         (string.IsNullOrEmpty(Row_TxtMilkFatPerc.Text)?"0": Row_TxtMilkFatPerc.Text),
+                         (string.IsNullOrEmpty(Row_TxtMilkSNFPerc.Text) ? "0" : Row_TxtMilkSNFPerc.Text), 
                          ParseValue(Row_TxtButterQty),
                          ParseValue(Row_TxtButterStck),
                          ParseValue(Row_TxtMilkPwderQty) ,
@@ -114,8 +128,8 @@ public partial class Approver : System.Web.UI.Page
                          ParseValue(Row_TxtGheeStk),
 
                          ParseValue(Row_Txtlysdqty),
-                         ParseValue(Row_TxtLYSDFatPercent),
-                         ParseValue(Row_TxtLYSDSNFPercent),
+                         (string.IsNullOrEmpty(Row_TxtLYSDFatPercent.Text) ? "0" : Row_TxtLYSDFatPercent.Text),
+                         (string.IsNullOrEmpty(Row_TxtLYSDSNFPercent.Text) ? "0" : Row_TxtLYSDSNFPercent.Text),
                         Row_TxtLYSDFatKG,
                         Row_TxtLYSDSNFKG
                      }, Connstr);
