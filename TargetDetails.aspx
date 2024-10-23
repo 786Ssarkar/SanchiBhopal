@@ -7,7 +7,7 @@
     <div class="card">
 
         <div class="card-header catchy-title">
-            ADD Target
+            Sale Target
         </div>
         <div class="card-body">
             <div class="row">

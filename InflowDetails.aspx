@@ -179,7 +179,7 @@
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class=" catchy-title">White Butter</h5>
+                                <h5 class=" catchy-title">White Butter (in KG)</h5>
                             </div>
                             <div class="row align-items-end">
                                 <div class="col-md-6">
@@ -193,7 +193,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Manufacturer
+                                            Manufactured
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
                                     </div>
@@ -203,7 +203,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Received in KG
+                                            Received
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
@@ -224,7 +224,7 @@
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class="catchy-title">Skimmed Milk Powder</h5>
+                                <h5 class="catchy-title">Skimmed Milk Powder (in KG)</h5>
                             </div>
                             <div class="row align-items-end">
                                 <div class="col-md-6">
@@ -238,7 +238,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Manufacturer
+                                            Manufactured
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
                                     </div>
@@ -248,7 +248,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Received in KG
+                                            Received
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
                                     </div>
@@ -269,7 +269,7 @@
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class="catchy-title">Whole Milk Powder</h5>
+                                <h5 class="catchy-title">Whole Milk Powder (in KG)</h5>
                             </div>
                             <div class="row align-items-end">
                                 <div class="col-md-6">
@@ -283,7 +283,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Manufacturer
+                                            Manufactured
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
                                     </div>
@@ -293,7 +293,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Received in KG
+                                            Received
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
                                     </div>
@@ -314,7 +314,7 @@
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
-                                <h5 class="catchy-title">Ghee</h5>
+                                <h5 class="catchy-title">Ghee (in KG)</h5>
                             </div>
                             <div class="row align-items-end">
                                 <div class="col-md-6">
@@ -328,7 +328,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Manufacturer
+                                            Manufactured
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
                                     </div>
@@ -338,7 +338,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Received in KG
+                                            Received 
                                         </label>
                                         <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
                                     </div>
