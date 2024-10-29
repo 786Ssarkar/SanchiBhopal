@@ -1739,41 +1739,58 @@ CREATE TABLE [dbo].[trnTargetChild](
 ) ON [PRIMARY]
 GO
 
-CREATE  proc  [dbo].[usp_AddTarget]
-	@Targetmonth date
-	,@ItemCategory varchar(50)
-	,@TargetItems [typ_SoldItems]   readonly
-  as
-  begin
-	  declare @status bit=0 ,@msg varchar(100)=null  ,@TargetId int=null
-	  BEGIN TRY
-		  BEGIN transaction
-			INSERT INTO TrnTarget
-					   (Targetmonth
-					   ,ItemCategory)
-					 
-				 VALUES
-					   (@Targetmonth
-					   ,@ItemCategory
-					   )
-			select @TargetId =SCOPE_IDENTITY();
-			INSERT INTO trnTargetChild
-					   (TargetId
-					   ,ItemID
-					   ,ItemName,TargetData
-					   ,Cumulative
-					   ,TargetAbsolute,AvggrowthPerc)
-				 select @TargetId,ItemID, ItemName,TargetData,[SaleCumulative],[SaleAbsolute],[AvgGrowthPer] from @TargetItems
-			SELECT	@status =1 ,@msg='Target added Successfully'	
-	
-			COMMIT TRANSACTION;
-		END TRY
-		BEGIN CATCH
-			ROLLBACK TRANSACTION;
-			SELECT	@status =0 ,@msg=ERROR_MESSAGE()	
-		
-		END CATCH;
-		 SELECT @status AS [status], @msg AS [msg];
-  end
-GO
+CREATE TABLE TrnTargetTotals (
+    TargetId INT PRIMARY KEY IDENTITY(1,1),
+    TotalTarget DECIMAL(18, 2),
+    TotalCumulative DECIMAL(18, 2),
+    TotalAbsolute DECIMAL(18, 2),
+    TotalAvgGrowth DECIMAL(18, 2)
+);
+go
+
+CREATE PROCEDURE [dbo].[usp_AddTarget]
+    @Targetmonth DATE,
+    @ItemCategory VARCHAR(50),
+    @TargetItems [typ_SoldItems] READONLY,
+     @TotalTarget			DECIMAL(18, 2) = 0,          -- New parameter for total TargetData
+     @TotalCumulative		DECIMAL(18, 2) = 0,      -- New parameter for total Cumulative
+     @TotalAbsolute			DECIMAL(18, 2) = 0,        -- New parameter for total TargetAbsolute
+     @TotalAvgGrowth		 DECIMAL(18, 2) = 0        -- New parameter for total AvgGrowthPerc
+AS
+BEGIN
+    DECLARE @status BIT = 0, @msg VARCHAR(100) = NULL, @TargetId INT = NULL;
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+
+        -- Insert into TrnTarget
+        INSERT INTO TrnTarget (Targetmonth, ItemCategory)
+        VALUES (@Targetmonth, @ItemCategory);
+
+        SELECT @TargetId = SCOPE_IDENTITY();
+
+        -- Insert into trnTargetChild
+        INSERT INTO trnTargetChild (TargetId, ItemID, ItemName, TargetData, Cumulative, TargetAbsolute, AvggrowthPerc)
+        SELECT @TargetId, ItemID, ItemName, TargetData, [SaleCumulative], [SaleAbsolute], [AvgGrowthPer]
+        FROM @TargetItems;
+
+
+		SET IDENTITY_INSERT [dbo].TrnTargetTotals ON 
+       
+        INSERT INTO TrnTargetTotals (TargetId, TotalTarget, TotalCumulative, TotalAbsolute, TotalAvgGrowth)
+        VALUES (@TargetId, @TotalTarget, @TotalCumulative, @TotalAbsolute, @TotalAvgGrowth);
+		SET IDENTITY_INSERT [dbo].TrnTargetTotals OFF
+      
+
+        SELECT @status = 1, @msg = 'Demand added Successfully';
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH   
+        ROLLBACK TRANSACTION;
+        SELECT @status = 0, @msg = ERROR_MESSAGE();	
+    END CATCH;
+
+    SELECT @status AS [status], @msg AS [msg];
+END
 

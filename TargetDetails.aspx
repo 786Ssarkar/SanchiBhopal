@@ -7,7 +7,7 @@
     <div class="card">
 
         <div class="card-header catchy-title">
-            Sale Target
+            ADD Target
         </div>
         <div class="card-body">
             <div class="row">
@@ -28,7 +28,7 @@
                         <label for="date-picker" class="text-dark text-lg">Target Date</label>
                         <div class="col-md-10">
                             <input type="date" id="Txtdate" runat="server" class="form-control" required="required">
-                            <script> document.getElementById('<%= Txtdate.ClientID%>').value = currentDate;</script>
+                           
                         </div>
                     </div>
                 </div>
@@ -62,28 +62,34 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Target">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtTarget" Text="0"></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" TextMode="Number" ID="txtTarget" oninput="updateTotalQuantity(this)" Text="0" ></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Cumulative ">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtCumulative" Text="0"></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" TextMode="Number" ID="txtCumulative" oninput="updateTotalQuantity(this)" Text="0" ></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Absolute">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtAbsolute" Text="0"></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" TextMode="Number" ID="txtAbsolute" oninput="updateTotalQuantity(this)" Text="0" ></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Average Growth Percentage">
                                         <ItemTemplate>
-                                            <asp:TextBox runat="server" CssClass="form-control" ID="txtPerc" Text="0"></asp:TextBox>
+                                            <asp:TextBox runat="server" CssClass="form-control" TextMode="Number" ID="txtPerc" Text="0" oninput="updateTotalQuantity(this)" ></asp:TextBox>
                                         </ItemTemplate>
+                                       <%-- <FooterTemplate>
+                                            <asp:Label runat="server" ID="txttotal" Text='Total'  ></asp:Label>
+                                        </FooterTemplate>--%>
                                     </asp:TemplateField>
+
                                 </Columns>
 
                             </asp:GridView>
-                            <%--<table class="table table-bordered text-center">
+                          
+                            
+                                <%--<table class="table table-bordered text-center">
                             <thead>
                                 <tr class="nowrap">
                                     <th>Sr. No</th>
@@ -111,10 +117,10 @@
                     <div class="col-12 mt-4">
                         <div class="row justify-content-center">
                             <div class="col-md-5 text-center">
-                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click"/>
+                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
                                 <%-- <button type="button" class="Alert-Save  mb-0 btn bg-gradient-success">Submit</button>--%>
 
-                                <a href="TargetDetails.aspx" class=" mb-0 btn bg-gradient-warning">Clear</a>
+                                <a href="TargetDetails.aspx" class=" mb-0 btn bg-gradient-warning" >Clear</a>
                             </div>
                         </div>
                     </div>
@@ -122,7 +128,56 @@
             </fieldset>
         </div>
     </div>
+    <script>
+        function updateTotalQuantity(textBox) {
+            var gridView = textBox.parentNode.parentNode.parentNode; // get the GridView
+            var totalTarget = 0;
+            var totalCumulative = 0;
+            var totalAbsolute = 0;
+            var totalGrowth = 0;
+            var rows = gridView.rows;
 
+            var footerRow = gridView.rows[gridView.rows.length - 1];
+            if (footerRow.cells[0].innerHTML.indexOf("Total:") == -1) {
+                // Add footer row if it doesn't exist
+                footerRow = gridView.insertRow(gridView.rows.length);
+                footerRow.innerHTML = `<td class="text-bolder" colspan="2" >Total:</td> 
+                                       <td ><span id="totalTarget"> </span></td>
+                                       <td ><span id="totalCumulative"> </span></td>
+                                       <td ><span id="totalAbsolute"> </span></td>
+                                       <td ><span id="totalGrowth"> </span></td>`;
+            }
+            // Update total quantity in existing footer row
+            let totalTargetSpan = footerRow.cells[1].children[0];
+            let totalCumulativeSpan = footerRow.cells[2].children[0];
+            let totalAbsoluteSpan = footerRow.cells[3].children[0];
+            let totalGrowthSpan = footerRow.cells[4].children[0];
+
+            for (var i = 1; i < rows.length - 1; i++) { // skip header row
+                var TargetTextBox = rows[i].cells[2].children[0]; // get the TextBox in the Quantity column
+                totalTarget += parseInt(TargetTextBox.value, 0) || 0;
+
+                var CumulativeTextBox = rows[i].cells[3].children[0]; // get the TextBox in the Quantity column
+                totalCumulative += parseInt(CumulativeTextBox.value, 0) || 0;
+                
+                var AbsoluteTextBox = rows[i].cells[4].children[0]; // get the TextBox in the Quantity column
+                totalAbsolute += parseInt(AbsoluteTextBox.value, 0) || 0;
+                
+                var GrowthTextBox = rows[i].cells[5].children[0]; // get the TextBox in the Quantity column
+                totalGrowth += parseInt(GrowthTextBox.value)||0;
+
+            }
+            totalTargetSpan.textContent = totalTarget;
+            totalCumulativeSpan.textContent = totalCumulative;
+            totalAbsoluteSpan.textContent = totalAbsolute;
+            totalGrowthSpan.textContent = totalGrowth;
+
+            // Check if footer row exists
+
+        }
+
+
+    </script>
 
 </asp:Content>
 

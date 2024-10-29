@@ -20,7 +20,7 @@ public partial class TargetDetails : System.Web.UI.Page
             divAlert.InnerHtml = "";
             FS_Details.Visible = false;
 
-            FillGrid(grdItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
+            //FillGrid(grdItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
         }
 
     }
@@ -45,6 +45,8 @@ public partial class TargetDetails : System.Web.UI.Page
     {
         try
         {
+            grd.DataSource = null;
+            grd.DataBind();
             SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
             adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
             adpt.SelectCommand.Parameters.Clear();
@@ -127,19 +129,40 @@ public partial class TargetDetails : System.Web.UI.Page
                 dtItems.Columns.Add("SaleAbsolute", typeof(decimal));
                 dtItems.Columns.Add("AvgGrowthPer", typeof(decimal));
 
+                decimal totalTarget = 0;
+                decimal totalCumulative = 0;
+                decimal totalAbsolute = 0;
+                decimal totalAvgGrowth = 0;
+
                 foreach (GridViewRow row in grdItems.Rows)
                 {
                     DataRow dr = dtItems.NewRow();
                     dr["ItemId"] = ((HiddenField)row.FindControl("lblItemId")).Value;
                     dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
-                    dr["TargetData"] = int.Parse(((TextBox)row.FindControl("txtTarget")).Text);
-                    dr["SaleCumulative"] = int.Parse(((TextBox)row.FindControl("txtCumulative")).Text);
-                    dr["SaleAbsolute"] = int.Parse(((TextBox)row.FindControl("txtAbsolute")).Text);
-                    dr["AvgGrowthPer"] = int.Parse(((TextBox)row.FindControl("txtPerc")).Text);
+                    dr["TargetData"] = decimal.Parse(((TextBox)row.FindControl("txtTarget")).Text);
+                    dr["SaleCumulative"] = decimal.Parse(((TextBox)row.FindControl("txtCumulative")).Text);
+                    dr["SaleAbsolute"] = decimal.Parse(((TextBox)row.FindControl("txtAbsolute")).Text);
+                    dr["AvgGrowthPer"] = decimal.Parse(((TextBox)row.FindControl("txtPerc")).Text);
+
+                    totalTarget += (decimal)dr["TargetData"];
+                    totalCumulative += (decimal)dr["SaleCumulative"];
+                    totalAbsolute += (decimal)dr["SaleAbsolute"];
+                    totalAvgGrowth += (decimal)dr["AvgGrowthPer"];
+
                     dtItems.Rows.Add(dr);
                 }
 
+                // Add a total row
+                //DataRow totalRow = dtItems.NewRow();
+                //totalRow["ItemName"] = "Total";
+                //totalRow["TargetData"] = totalTarget;
+                //totalRow["SaleCumulative"] = totalCumulative;
+                //totalRow["SaleAbsolute"] = totalAbsolute;
+                //totalRow["AvgGrowthPer"] = totalAvgGrowth;
 
+                //dtItems.Rows.Add(totalRow);
+
+                // Proceed with the DataSet and SQL command as before
                 DataSet ds = new DataSet();
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddTarget", Connstr))
                 {
@@ -147,28 +170,30 @@ public partial class TargetDetails : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Targetmonth", Txtdate.Value);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", DdlItemCat.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetItems", dtItems);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TotalTarget", totalTarget);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TotalCumulative", totalCumulative);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TotalAbsolute", totalAbsolute);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TotalAvgGrowth", totalAvgGrowth);
 
                     sqlDataAdapter.Fill(ds);
                 }
+
                 if (ds.Tables.Count > 0)
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-success");
                         Page_Load(sender, e);
-
                     }
                     else
                     {
                         alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), "bg-danger");
                     }
-
                 }
             }
         }
         catch (Exception ex)
         {
-
             alertmsg(ex.Message, "bg-danger");
         }
     }

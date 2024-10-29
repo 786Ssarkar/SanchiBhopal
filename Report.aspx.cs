@@ -37,6 +37,8 @@ public partial class Report : System.Web.UI.Page
     {
         try
         {
+            grd.DataSource = null;
+            grd.DataBind();
             using (SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr))
             {
                 adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
