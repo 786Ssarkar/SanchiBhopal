@@ -105,7 +105,7 @@ public class Code
                 }
                 else
                 {
-                    alertmsg("Table is Empty", alertdiv, "bg-warning");
+                    //alertmsg("Table is Empty", alertdiv, "bg-warning");
                 }
             }
             else if (ds.Tables.Count > 0)

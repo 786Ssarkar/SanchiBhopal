@@ -29,14 +29,47 @@
             color: #06048a;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
-        .form-control[type="text"], [type="number"],.form-select{
+
+        .form-control[type="text"], [type="number"], .form-select {
             min-width: 9rem;
         }
+
+        .table-responsive {
+            overflow-x: auto;
+            max-height: 550px;
+        }
+
+        *::-webkit-scrollbar {
+            width: .5rem
+        }
+
+            *::-webkit-scrollbar:horizontal {
+                height: .5rem
+            }
+
+        *::-webkit-scrollbar-thumb {
+            background: linear-gradient(#00000061, #00b7f9a8);
+            border-radius: 4px
+        }
+
+            *::-webkit-scrollbar-thumb:horizontal {
+                background: linear-gradient(90deg, #00000061, #00b7f9a8);
+                border-radius: 4px
+            }
+
+        .navbar-vertical.navbar-expand-xs .navbar-collapse {
+            display: block;
+            overflow: auto;
+            /* height: calc(100vh - 360px); */
+        }
+        /* position: sticky;
+    top: 0;
+    background: #ffffff;*/
     </style>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body class="g-sidenav-show  bg-info-100 ps ">
+<body class="g-sidenav-show  bg-info-100  ">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 ps ps--active-y bg-white" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -105,7 +138,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">In Flow Details</span>
+                        <span class="nav-link-text ms-1">Inflow Details</span>
                     </a>
                 </li>
 
@@ -189,7 +222,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Sale Target</span>
                     </a>
-                </li>    
+                </li>
                 <li class="nav-item">
                     <a class="nav-link " href="/Report.aspx">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -311,7 +344,7 @@
             <hr class="horizontal dark my-1">
             <div class="card-body pt-sm-3 pt-0">
                 <!-- Sidebar Backgrounds -->
-               <%-- <div>
+                <%-- <div>
                     <h6 class="mb-0">Sidebar Colors</h6>
                 </div>
                 <a href="javascript:void(0)" class="switch-trigger background-color">
@@ -350,8 +383,8 @@
     <!--   Core JS Files   -->
     <script src="/assets/js/core/popper.min.js"></script>
     <script src="/assets/js/core/bootstrap.min.js"></script>
-    <script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <%--<script src="/assets/js/plugins/perfect-scrollbar.min.js"></script>--%>
+    <%--<script src="/assets/js/plugins/smooth-scrollbar.min.js"></script>--%>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

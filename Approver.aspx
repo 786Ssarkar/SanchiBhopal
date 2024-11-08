@@ -22,19 +22,56 @@
                     <h3 class="catchy-title">Approve Inflows   </h3>
                 </div>
                 <div class="card-body">
+                    <div class="row align-items-end">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">From Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox TextMode="Date" ID="txtFromDate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">To Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox TextMode="Date" ID="txtToDate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between px-3">
+
+                                <asp:Button ID="BtnSearch2" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="BtnSearch_Click2" />
+                                <asp:Button Text="Approve All" runat="server" OnClick="ApproveAll_Click" CssClass="btn bg-gradient-info" />
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive">
                                 <asp:GridView runat="server" ID="grdApprove" AutoGenerateColumns="false" CssClass="table" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark">
                                     <Columns>
+                                        <asp:TemplateField HeaderText="Sr. No">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Name of Unit">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Date of Inflow">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>'  oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkQty" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk Fat %">
@@ -44,7 +81,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk SNF %">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>'  oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
+                                                <asp:TextBox runat="server" ID="TxtMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFPerc").ToString() %>' oninput="calculateCurrentValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk  Fat ">
@@ -142,7 +179,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card ">
+            <div class="card">
                 <div class="card-header pb-0 px-3 d-flex">
                     <h3 class="catchy-title col">Approved InFlow Details</h3>
                     <div class="col text-end">
@@ -151,22 +188,51 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="row align-items-end">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">From Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox TextMode="Date" ID="FromTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">To Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox TextMode="Date" ID="ToTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-flex justify-content-between px-3">
+                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" />
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12">
-
                             <div class="table-responsive ">
                                 <asp:GridView runat="server" ID="grdApproved" AutoGenerateColumns="false" CssClass="table" HeaderStyle-Wrap="true" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark text-lg">
                                     <Columns>
+                                        <asp:TemplateField HeaderText="Sr. No">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Name of Unit">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <%--  <asp:TemplateField HeaderText="Date of Inflow">
+                                        <asp:TemplateField HeaderText="Date of Inflow">
                                             <ItemTemplate>
-                                                <asp:Label runat="server" ID="TxtUnitName" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
+                                                <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtMilkQty" Text='<%# Eval("Milkqty").ToString() %>' OnTextChanged="CalculateSnfAndFat" AutoPostBack="true"></asp:Label>
@@ -194,7 +260,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="LYSD Milk KG">
                                             <ItemTemplate>
-                                                <asp:Label runat="server"  Text='<%# (!string.IsNullOrEmpty(Eval("lysdqty").ToString())) ? Eval("lysdqty").ToString() : "0"  %>'></asp:Label>
+                                                <asp:Label runat="server" Text='<%# (!string.IsNullOrEmpty(Eval("lysdqty").ToString())) ? Eval("lysdqty").ToString() : "0"  %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
@@ -301,8 +367,8 @@
             const row = input.closest('tr');
 
             // Access the relevant input fields in the same row
-            const TxtMilkQty = row.querySelector('input[id*="TxtMilkQty"]')                                                                    
-            
+            const TxtMilkQty = row.querySelector('input[id*="TxtMilkQty"]')
+
             const TxtTxtMilkSNF = row.querySelector('input[id*="TxtMilkSNFKg"]')
             const TxtMilkFat = row.querySelector('input[id*="TxtMilkFatKg"]')
             const TxtMilkFatPerc = row.querySelector('input[id*="TxtMilkFatPerc"]')

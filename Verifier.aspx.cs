@@ -31,6 +31,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
             using (SqlDataAdapter sda = new SqlDataAdapter("uspVerifierDetails", _connectionString))
             {
                 sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+                sda.SelectCommand.Parameters.AddWithValue("FromDate", FromTxtdate.Text);
+                sda.SelectCommand.Parameters.AddWithValue("ToDate", ToTxtdate.Text);
                 sda.Fill(ds);
             }
             if (ds != null)
@@ -80,7 +82,12 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         return 0; // Return 0 if the TextBox is null or empty
     }
     protected void GVDetails_RowCommand(object sender, GridViewCommandEventArgs e)
-    {   
+    {
+        if (e.CommandName == "btnUpdate")
+        {
+
+        }
+
 
         GridViewRow gridViewRow = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
         Label GVIUnitName = ((Label)gridViewRow.FindControl("GVIUnitName"));
@@ -98,14 +105,14 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         TextBox GVIGheeqty = ((TextBox)gridViewRow.FindControl("GVIGheeqty"));
         TextBox GVIGheeStk = ((TextBox)gridViewRow.FindControl("GVIGheeStk"));
 
-        TextBox GVIlysdqty = ((TextBox)gridViewRow.FindControl("GVIlysdqty"));    
+        TextBox GVIlysdqty = ((TextBox)gridViewRow.FindControl("GVIlysdqty"));
         TextBox GVILYSDFatPercent = ((TextBox)gridViewRow.FindControl("GVILYSDFatPercent"));
         TextBox GVILYSDSNFPercent = ((TextBox)gridViewRow.FindControl("GVILYSDSNFPercent"));
         //TextBox GVILYSDFatKG = ((TextBox)gridViewRow.FindControl("GVILYSDFatKG"));
         //TextBox GVILYSDSNFKG = ((TextBox)gridViewRow.FindControl("GVILYSDSNFKG"));
 
 
-      
+
 
         ViewState["id"] = e.CommandArgument.ToString();
 
@@ -121,8 +128,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@InflowId", ViewState["id"]);
                     cmd.Parameters.AddWithValue("@Milkqty", ParseValue(GVIMilkQty));
-                    cmd.Parameters.AddWithValue("@Milkfat", getPercent(GVIMilkFatPerc.Text,GVIMilkQty.Text).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@MilkSNF", getPercent(GVIMilkSNFPerc.Text,GVIMilkQty.Text).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@Milkfat", getPercent(GVIMilkFatPerc.Text, GVIMilkQty.Text).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@MilkSNF", getPercent(GVIMilkSNFPerc.Text, GVIMilkQty.Text).ToString("F2"));
                     cmd.Parameters.AddWithValue("@Milkfatperc", string.IsNullOrEmpty(GVIMilkFatPerc.Text) ? "0" : GVIMilkFatPerc.Text);
                     cmd.Parameters.AddWithValue("@MilkSNFperc", string.IsNullOrEmpty(GVIMilkSNFPerc.Text) ? "0" : GVIMilkSNFPerc.Text);
                     cmd.Parameters.AddWithValue("@Butterqty", ParseValue(GVIButterQty));
@@ -136,8 +143,8 @@ public partial class VerifierAndApprover : System.Web.UI.Page
                     cmd.Parameters.AddWithValue("@lysdqty", ParseValue(GVIlysdqty));
                     cmd.Parameters.AddWithValue("@LYSDFatPercent", string.IsNullOrEmpty(GVILYSDFatPercent.Text) ? "0" : GVILYSDFatPercent.Text);
                     cmd.Parameters.AddWithValue("@LYSDSNFPercent", string.IsNullOrEmpty(GVILYSDSNFPercent.Text) ? "0" : GVILYSDSNFPercent.Text);
-                    cmd.Parameters.AddWithValue("@LYSDFatKG", getPercent(GVILYSDFatPercent.Text,GVIlysdqty.Text).ToString("F2"));
-                    cmd.Parameters.AddWithValue("@LYSDSNFKG", getPercent(GVILYSDSNFPercent.Text ,GVIlysdqty.Text).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDFatKG", getPercent(GVILYSDFatPercent.Text, GVIlysdqty.Text).ToString("F2"));
+                    cmd.Parameters.AddWithValue("@LYSDSNFKG", getPercent(GVILYSDSNFPercent.Text, GVIlysdqty.Text).ToString("F2"));
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -307,16 +314,20 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         }
         finally
         {
-            FillGrid(); 
+            FillGrid();
         }
 
     }
 
 
 
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        FillGrid();
+    }
+
+
 }
-
-
-
 
 
