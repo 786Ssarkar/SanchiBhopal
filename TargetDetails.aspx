@@ -46,7 +46,7 @@
             <fieldset id="FS_Details" runat="server">
                 <div class="row">
                     <div class="col-12">
-                        <div class="table-responsive ps">
+                        <div class="table-responsive">
                             <asp:GridView runat="server" ID="grdItems" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg">
                                 <Columns>
                                     <asp:TemplateField HeaderText="Sr. No">
