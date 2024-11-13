@@ -17,10 +17,18 @@ public partial class TargetDetails : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+           
             divAlert.InnerHtml = "";
             FS_Details.Visible = false;
+            DateTime SelectedDate = DateTime.Now;
 
-            //FillGrid(grdItems, "GetItemsByCategory", new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
+            if (SelectedDate.Day >= 1 && SelectedDate.Day <= 13)
+            {
+                Txtdate.ReadOnly = false;
+                Txtdate.ForeColor = System.Drawing.Color.Gray;
+            }
+
+          
         }
 
     }
@@ -141,7 +149,7 @@ public partial class TargetDetails : System.Web.UI.Page
                     dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
                     dr["TargetData"] = decimal.Parse(((TextBox)row.FindControl("txtTarget")).Text);
                     dr["SaleCumulative"] = decimal.Parse(((TextBox)row.FindControl("txtCumulative")).Text);
-                    dr["SaleAbsolute"] = decimal.Parse(((TextBox)row.FindControl("txtAbsolute")).Text);
+                    dr["SaleAbsolute"] = decimal.Parse(((TextBox)row.FindControl("txtAchieved")).Text);
                     dr["AvgGrowthPer"] = decimal.Parse(((TextBox)row.FindControl("txtPerc")).Text);
 
                     totalTarget += (decimal)dr["TargetData"];
@@ -167,7 +175,7 @@ public partial class TargetDetails : System.Web.UI.Page
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddTarget", Connstr))
                 {
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Targetmonth", Txtdate.Value);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Targetmonth", Txtdate.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", DdlItemCat.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetItems", dtItems);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TotalTarget", totalTarget);
@@ -196,5 +204,11 @@ public partial class TargetDetails : System.Web.UI.Page
         {
             alertmsg(ex.Message, "bg-danger");
         }
+    }
+
+    protected void Txtdate_TextChanged(object sender, EventArgs e)
+    {
+        txtLYSDDate.Text = ((DateTime.Parse(Txtdate.Text)).AddYears(-1)).ToString("yyyy-MM-dd");
+        
     }
 }

@@ -21,7 +21,7 @@ public partial class _Default : System.Web.UI.Page
 
             //FillGrid(gvPlantItems, "GetItemsByCategory");
             obj.FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
-            obj.FillGrid(gvMilkItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
+            //obj.FillGrid(gvMilkItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
             divAlert.InnerHtml = "";
         }
     }
@@ -38,17 +38,17 @@ public partial class _Default : System.Web.UI.Page
                 dtItems.Columns.Add("Quantity", typeof(int));
                 dtItems.Columns.Add("advance", typeof(int));
 
-                foreach (GridViewRow row in gvMilkItems.Rows)
-                {
-                    DataRow dr = dtItems.NewRow();
-                    dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
-                    dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;
-                    dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("GVIQuantity")).Text)
-                                     ? 0
-                                     : int.Parse(((TextBox)row.FindControl("GVIQuantity")).Text);
+                //foreach (GridViewRow row in gvMilkItems.Rows)
+                //{
+                //    DataRow dr = dtItems.NewRow();
+                //    dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
+                //    dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;
+                //    dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("GVIQuantity")).Text)
+                //                     ? 0
+                //                     : int.Parse(((TextBox)row.FindControl("GVIQuantity")).Text);
 
-                    dtItems.Rows.Add(dr);
-                }
+                //    dtItems.Rows.Add(dr);
+                //}
 
                 foreach (GridViewRow row in gvProductItems.Rows)
                 {

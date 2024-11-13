@@ -14,10 +14,10 @@
                     <h6 class="mb-0 catchy-title">Plant Manufacturing</h6>
                 </div>
                 <div class="col-md-6 d-flex justify-content-end align-items-center catchy-title fs-5">
-                    <small>
+                   <%-- <small>
                         <i class="far fa-calendar-alt me-2"></i>
                         <script>document.write(new Date().toISOString().substring(0, 10));</script>
-                    </small>
+                    </small>--%>
                 </div>
             </div>
 
@@ -27,19 +27,19 @@
                 <div class="col-md-12 mb-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-6 ">
-                           <asp:TextBox TextMode="Date"   id="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>    
+                           <asp:TextBox TextMode="Date"  autocomplete="off"    id="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>    
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 mt-4 px-5">
+               <%-- <div class="col-md-6 mt-4 px-5">
                     <div class="table-responsive">
                         <asp:GridView ID="gvMilkItems" runat="server" AutoGenerateColumns="false" CssClass="table table-borderless" BorderWidth="0" EmptyDataText="No Data Found " HeaderStyle-CssClass="text-dark text-lg text-bolder" HeaderStyle-Font-Bold="true">
                             <Columns>
-                                <%-- <asp:TemplateField HeaderText="Sr.no" >
+                                 <asp:TemplateField HeaderText="Sr.no" >
                                     <ItemTemplate>
                                         <%#Container.DataItemIndex+1 %>
                                     </ItemTemplate>
-                                </asp:TemplateField>--%>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk Products">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="GVItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
@@ -56,8 +56,8 @@
                             </Columns>
                         </asp:GridView>
                     </div>
-                </div>
-                <div class="col-md-6 mt-4 px-5">
+                </div>--%>
+                <div class="col-md-12 mt-4 px-5">
 
                     <div class="table-responsive">
 
@@ -71,7 +71,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Quantity">
                                     <ItemTemplate>
-                                        <asp:TextBox runat="server" ID="GVIQuantity" class="form-control" Text="0"></asp:TextBox>
+                                        <asp:TextBox  autocomplete="off"  runat="server" ID="GVIQuantity" class="form-control" Text="0"></asp:TextBox>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>

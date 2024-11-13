@@ -19,64 +19,62 @@ public partial class AddDemand : System.Web.UI.Page
         {
             divAlert.InnerHtml = "";
             FS_Details.Visible = false;
+            Fillddl(DdlVehicleName, "Usp_GetUnit");
+            obj.FillGrid(grdApproved, "Usp_GetDemand", Connstr, divAlert);
+
         }
 
     }
-    //public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
-    //{
-    //    try
-    //    {
-    //        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-    //        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-    //        adpt.SelectCommand.Parameters.Clear();
-    //        if (prm.Length != 0 && values.Length != 0)
-    //        {
-    //            for (int i = 0; i < prm.Length; i++)
-    //            {
-    //                adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-    //            }
-    //        }
 
-    //        DataSet ds = new DataSet();
-    //        adpt.Fill(ds);
-    //        if (ds.Tables.Count > 1)
-    //        {
-    //            if (ds.Tables[0].Rows.Count > 0)
-    //            {
-    //                grd.DataSource = ds.Tables[0];
-    //                grd.DataBind();
-    //            }
-    //            else
-    //            {
-    //                obj.alertmsg("Table is Empty", divAlert, "bg-warning");
-    //            }
-    //        }
-    //        else if (ds.Tables.Count > 0)
-    //        {
-    //            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-    //            {
-    //                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
-
-    //            }
-    //        }
-    //        else
-    //        {
-    //            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
-    //        }
-
-    //    }
-    //    catch (Exception ex)
-    //    {
-
-    //        obj.alertmsg(ex.Message, divAlert, "bg-danger");
-    //    }
+    public void Fillddl(DropDownList ddl, string proc)
+    {
+        try
+        {
 
 
+            ddl.DataSource = null;
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
 
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ddl.DataSource = ds.Tables[0];
+                    ddl.DataTextField = "Name";
+                    ddl.DataValueField = "Id";
+                    ddl.DataBind();
 
-    //}
+                }
+                //else
+                //{
+                //    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+                //}
+                ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
 
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+            }
+        }
+        catch (Exception ex)
+        {
 
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
+    }
 
     protected void BtnAdd_Click(object sender, EventArgs e)
     {
@@ -139,7 +137,7 @@ public partial class AddDemand : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", DdlItemCat.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Shift", DdlShift.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Retailer", DdlRetailer.SelectedValue);
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@VehicleNo", DdlVehicleNo.SelectedValue);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@VehicleName", DdlVehicleName.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@DemandType", DdlDemandType.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@DemandItems", dtItems);
 
@@ -167,4 +165,32 @@ public partial class AddDemand : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
+
+    protected void grdApproved_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditData" || e.CommandName == "DeleteData")
+            {   GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                Label lblDate = (Label)row.FindControl("lblDate");
+                //Label hfDemandId = (Label)row.FindControl("hfDemandId");
+                Label lblItemCategory = (Label)row.FindControl("lblItemCategory");
+                Label lblShift = (Label)row.FindControl("lblShift");
+                Label lblRetailer = (Label)row.FindControl("lblRetailer");
+                Label lblVehicleName = (Label)row.FindControl("lblVehicleName");
+                Label hfUnitID = (Label)row.FindControl("lblDate");
+                Label lblDemandType = (Label)row.FindControl("lblDemandType");
+                ViewState["DemandId"] = e.CommandArgument;
+                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
+    }
 }
+

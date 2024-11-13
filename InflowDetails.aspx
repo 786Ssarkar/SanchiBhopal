@@ -60,8 +60,6 @@
                                                     Choose LYSD 
                                                 </label>
                                                 <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
-                                                <%--<script>
-                                                    document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -175,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+             <%--   <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -391,7 +389,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
 
 

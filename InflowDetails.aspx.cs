@@ -21,7 +21,7 @@ public partial class Default2 : System.Web.UI.Page
         {
             Fillddl(DddlUnit, "[Usp_GetinflowUnit]");
             txtLYSDDate.Text = ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd");
-            TargetDate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
+            //TargetDate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
         }
     }
@@ -81,15 +81,15 @@ public partial class Default2 : System.Web.UI.Page
                     {
                         sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDDate", ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd"));
                     }
-                    if (!string.IsNullOrEmpty(TargetDate.Text))
-                    {
-                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", TargetDate.Text);
+                    //if (!string.IsNullOrEmpty(TargetDate.Text))
+                    //{
+                    //    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", TargetDate.Text);
 
-                    }
-                    else
-                    {
-                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                    }
+                    //}
+                    //else
+                    //{
+                    //    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", DateTime.Now.ToString("yyyy-MM-dd"));
+                    //}
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UnitID", DddlUnit.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", ParseValue(qtyDispatched));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@", ParseValue(txtLYSDDate)); //
@@ -103,29 +103,29 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc",string.IsNullOrEmpty(fatPercent.Text) ? "0" : fatPercent.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNFperc", string.IsNullOrEmpty(snfPercent.Text) ? "0" : snfPercent.Text);
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBOBal", ParseValue(WBOpeningBln));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBManuf", ParseValue(WbManufacturer));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterqty", ParseValue(WbQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", GetTotal(ParseValue(WBOpeningBln), ParseValue(WbManufacturer), ParseValue(WbQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBOBal", ParseValue(WBOpeningBln));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBManuf", ParseValue(WbManufacturer));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterqty", ParseValue(WbQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", GetTotal(ParseValue(WBOpeningBln), ParseValue(WbManufacturer), ParseValue(WbQty)));
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPBal", ParseValue(MilkPowderBal));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPManuf", ParseValue(MilkPowderManuf));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPBal", ParseValue(MilkPowderBal));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPManuf", ParseValue(MilkPowderManuf));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(WholeMilkPowderQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(WholeMilkPowderQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeBal", ParseValue(Gheebalnc));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeManuf", ParseValue(GheeManuf));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", ParseValue(txtGheeQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock",GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeBal", ParseValue(Gheebalnc));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeManuf", ParseValue(GheeManuf));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", ParseValue(txtGheeQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock",GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
 
-                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", ParseValue(TargetDate));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", ParseValue(txtMilkCumulative));
+                    ////sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", ParseValue(TargetDate));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", ParseValue(txtMilkCumulative));
                     sqlDataAdapter.Fill(ds);
                 }
                 if (ds.Tables.Count > 0)
