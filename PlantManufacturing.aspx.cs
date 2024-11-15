@@ -20,8 +20,8 @@ public partial class _Default : System.Web.UI.Page
         {
 
             //FillGrid(gvPlantItems, "GetItemsByCategory");
-            obj.FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
-            //obj.FillGrid(gvMilkItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
+            FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
+            obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
             divAlert.InnerHtml = "";
         }
     }
@@ -67,6 +67,13 @@ public partial class _Default : System.Web.UI.Page
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddManufItem", _connectionString))
                 {
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    if (BtnSubmit.Text == "Update")
+                    {
+                        sqlDataAdapter.SelectCommand.CommandText = "usp_UpdateManufItem";
+                        sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MnfId", ViewState["MnfID"].ToString());
+                    }
+
                     if (!string.IsNullOrEmpty(Txtdate.Text))
                     {
                         sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", Txtdate.Text);
@@ -75,7 +82,9 @@ public partial class _Default : System.Web.UI.Page
                     {
                         sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
                     }
+
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ManufItems", dtItems);
+
 
                     sqlDataAdapter.Fill(ds);
                 }
@@ -83,9 +92,10 @@ public partial class _Default : System.Web.UI.Page
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
-                        obj.clearFields((HtmlForm)Master.FindControl("form1"));
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-
+                        FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
+                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
+                        BtnSubmit.Text = "Submit";
                     }
                     else
                     {
@@ -100,5 +110,119 @@ public partial class _Default : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
 
+    }
+
+    protected void FillGrid(GridView grd, string proc, string ConnStr, HtmlGenericControl alertdiv, string[] prm = null, string[] values = null)
+    {
+        try
+        {
+            grd.DataSource = null;
+            grd.DataBind();
+
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, ConnStr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+            adpt.SelectCommand.Parameters.Clear();
+            if (prm != null && values != null)
+            {
+                for (int i = 0; i < prm.Length; i++)
+                {
+                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+                }
+            }
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].Columns.Add("Quantity", typeof(int));
+                    grd.DataSource = ds.Tables[0];
+                    grd.DataBind();
+                }
+                else
+                {
+                    //alertmsg("Table is Empty", alertdiv, "bg-warning");
+                }
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), alertdiv, "bg-warning");
+
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", alertdiv, "bg-warning");
+            }
+        }
+        catch (Exception ex)
+        {
+
+            obj.alertmsg(ex.Message, alertdiv, "bg-danger");
+        }
+
+
+    }
+
+
+    protected void grdManufacturing_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditData")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                Label lblDate = (Label)row.FindControl("lblDate");
+
+                ViewState["MnfID"] = e.CommandArgument;
+                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                DataSet ds = obj.ByProcedure("Usp_GetPlantManfItems", new[] { "MnfId" }, new[] { e.CommandArgument.ToString() }, _connectionString);
+
+                if (ds.Tables.Count > 1)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        gvProductItems.DataSource = ds.Tables[0];
+                        gvProductItems.DataBind();
+                        BtnSubmit.Text = "Update";
+                    }
+                }
+                else if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+                    }
+                }
+                else
+                {
+                    obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+                }
+
+            }
+            else if (e.CommandName == "DeleteData")
+            {
+                DataSet ds = obj.ByProcedure("usp_DeleteManufItem", new[] { "MnfId" }, new[] { e.CommandArgument.ToString() }, _connectionString);
+                if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
+                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
     }
 }

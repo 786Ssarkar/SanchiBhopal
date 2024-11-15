@@ -7,8 +7,6 @@ using System.Configuration;
 using System.Text;
 using System.Web.UI.HtmlControls;
 
-
-
 public partial class AddDemand : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
@@ -20,18 +18,14 @@ public partial class AddDemand : System.Web.UI.Page
             divAlert.InnerHtml = "";
             FS_Details.Visible = false;
             Fillddl(DdlVehicleName, "Usp_GetUnit");
-            obj.FillGrid(grdApproved, "Usp_GetDemand", Connstr, divAlert);
-
+            obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
         }
-
     }
 
     public void Fillddl(DropDownList ddl, string proc)
     {
         try
         {
-
-
             ddl.DataSource = null;
             ddl.DataBind();
             ddl.Items.Insert(0, new ListItem("--Select--", ""));
@@ -50,10 +44,6 @@ public partial class AddDemand : System.Web.UI.Page
                     ddl.DataBind();
 
                 }
-                //else
-                //{
-                //    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
-                //}
                 ddl.Items.Insert(0, new ListItem("--Select--", ""));
             }
             else if (ds.Tables.Count > 0)
@@ -61,7 +51,6 @@ public partial class AddDemand : System.Web.UI.Page
                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                 {
                     obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
-
                 }
             }
             else
@@ -71,7 +60,6 @@ public partial class AddDemand : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
@@ -80,20 +68,41 @@ public partial class AddDemand : System.Web.UI.Page
     {
         try
         {
-
             if (DdlItemCat.SelectedValue != "")
             {
-                obj.FillGrid(grdItems, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { DdlItemCat.SelectedValue });
-                FS_Details.Visible = true;
+                DataSet ds = obj.ByProcedure("GetItemsByCategory", new[] { "ItemCategory" }, new[] { DdlItemCat.SelectedValue }, Connstr);
+
+                if (ds.Tables.Count > 1)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ds.Tables[0].Columns.Add("Quantity", typeof(int));
+                        ds.Tables[0].Columns.Add("AdvancedCard", typeof(int));
+
+                        grdItems.DataSource = ds.Tables[0];
+                        grdItems.DataBind();
+                        FS_Details.Visible = true;
+                    }
+                }
+                else if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+                    }
+                }
+                else
+                {
+                    obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+                }
+
             }
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
         try
@@ -110,9 +119,6 @@ public partial class AddDemand : System.Web.UI.Page
                 foreach (GridViewRow row in grdItems.Rows)
                 {
                     DataRow dr = dtItems.NewRow();
-
-
-
                     dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
                     dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
                     dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtQuantity")).Text)
@@ -121,10 +127,6 @@ public partial class AddDemand : System.Web.UI.Page
                     dr["AdvancedCard"] = string.IsNullOrEmpty(((TextBox)row.FindControl("txtAdvancedCard")).Text)
                                          ? 0
                                          : int.Parse(((TextBox)row.FindControl("txtAdvancedCard")).Text);
-
-
-
-
                     dtItems.Rows.Add(dr);
                 }
 
@@ -133,6 +135,12 @@ public partial class AddDemand : System.Web.UI.Page
                 using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddDemand", Connstr))
                 {
                     sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    if (BtnSubmit.Text == "Update")
+                    {
+                        sqlDataAdapter.SelectCommand.CommandText = "usp_UpdateDemand";
+                        sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@DemandId", ViewState["DemandId"].ToString());
+                    }
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", Txtdate.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", DdlItemCat.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Shift", DdlShift.SelectedValue);
@@ -149,48 +157,110 @@ public partial class AddDemand : System.Web.UI.Page
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
                         obj.clearFields((HtmlForm)Master.FindControl("form1"));
+
+                        DdlShift.ClearSelection();
+                        DdlShift.Items.FindByValue("Morning").Selected = true;
+
+                        DdlDemandType.ClearSelection();
+                        DdlDemandType.Items.FindByValue("Regular").Selected = true;
+
                         FS_Details.Visible = false;
+                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+                        BtnSubmit.Text = "Submit";
                     }
                     else
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                     }
-
                 }
             }
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
-    protected void grdApproved_RowCommand(object sender, GridViewCommandEventArgs e)
+    protected void grdDemands_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
         {
-            if (e.CommandName == "EditData" || e.CommandName == "DeleteData")
-            {   GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+            if (e.CommandName == "EditData")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
                 Label lblDate = (Label)row.FindControl("lblDate");
                 //Label hfDemandId = (Label)row.FindControl("hfDemandId");
                 Label lblItemCategory = (Label)row.FindControl("lblItemCategory");
                 Label lblShift = (Label)row.FindControl("lblShift");
                 Label lblRetailer = (Label)row.FindControl("lblRetailer");
                 Label lblVehicleName = (Label)row.FindControl("lblVehicleName");
-                Label hfUnitID = (Label)row.FindControl("lblDate");
+                HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
                 Label lblDemandType = (Label)row.FindControl("lblDemandType");
                 ViewState["DemandId"] = e.CommandArgument;
                 Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
 
+                DdlDemandType.ClearSelection();
+                DdlDemandType.Items.FindByValue(lblDemandType.Text).Selected = true;
 
+                DdlItemCat.ClearSelection();
+                DdlItemCat.Items.FindByValue(lblItemCategory.Text).Selected = true;
+
+                DdlRetailer.ClearSelection();
+                DdlRetailer.Items.FindByValue(lblRetailer.Text).Selected = true;
+
+                DdlShift.ClearSelection();
+                DdlShift.Items.FindByValue(lblShift.Text).Selected = true;
+
+                DdlVehicleName.ClearSelection();
+                DdlVehicleName.Items.FindByValue(hfUnitID.Value).Selected = true;
+
+                DataSet ds = obj.ByProcedure("Usp_GetDemandItems", new[] { "DemandId" }, new[] { e.CommandArgument.ToString() }, Connstr);
+
+                if (ds.Tables.Count > 1)
+                {
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        ViewState["DemandItems"] = ds.Tables[0];
+                        grdItems.DataSource = ds.Tables[0];
+                        grdItems.DataBind();
+                        FS_Details.Visible = true;
+                        BtnSubmit.Text = "Update";
+                    }
+                }
+                else if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+                    }
+                }
+                else
+                {
+                    obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+                }
+              
+            }
+            else if (e.CommandName == "DeleteData")
+            {
+                DataSet ds = obj.ByProcedure("usp_DeleteDemand", new[] { "DemandId" }, new[] { e.CommandArgument.ToString() }, Connstr);
+                if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
+                    }
+                }
             }
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
+
     }
 }
 

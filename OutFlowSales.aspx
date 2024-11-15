@@ -29,44 +29,11 @@
 
 
                     </asp:DropDownList>
-                    <%--<script>
-                        var Routes = [,
-                              "BHOPAL Route"
-                            , "TIMARNI Route"
-                            , "HOSHANGABAD Route"
-                            , "ITARSI Route"
-                            , "PIPRIYA Route"
-                            , "VIDISHA Route"
-                            , "GANJBASODA Route"
-                            , "RAISEN Route"
-                            , "BADI Route"
-                            , "NARSINGHGARH Route"
-                            , "GUNA Route"
-                            , "NASRULLAGANJ Route"
-                            , "SEHORE Route"
-                            , "SIRONJ Route"
-                            , "HARDA Route"
-                            , "BARELI Route"
-                            , "BIAORA Route"
-                            , "BETUL"
-                            , "SMP at BSDS"
-                            , "SMP at Ware House"
-                            , "SMP at Gwalior"
-                            , "SMP at Powan Shri Food"
-                            , "SMP at Jai Shri Gayatri"
-                            , "SMP at Health Food LLP"
-                            , "SMP at Indore"
-                            , "SMP at USDS Ujjain"
-                        ]
-                        for (var i in Routes) {
-                            document.getElementById('<%= ddlRoutes.ClientID%>').innerHTML += '<option value="' + Routes[i] + '">' + Routes[i] + '</option>'
-                        }
-                    </script>--%>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
                     <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
-                 
+
 
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
@@ -78,7 +45,6 @@
                 <div class="col-lg-3 col-md-6 mt-2 text-center">
                     <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
                     <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
-                    <%-- <button type="button" class=" mb-0 btn bg-gradient-primary" onclick='LoadInput(Milk, "UlMilk");'>Milk</button> <button type="button" class="mb-0  btn  bg-gradient-primary" onclick='LoadInput(Products, "UlProduct");'>Product</button>--%>
                 </div>
             </div>
             <div class="row">
@@ -105,20 +71,20 @@
                                     CssClass="table table-bordered"
                                     BorderWidth="0"
                                     HeaderStyle-CssClass=" text-dark text-lg">
-                                    <columns>
+                                    <Columns>
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
-                                            <itemtemplate>
+                                            <ItemTemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
                                                 <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
-                                            </itemtemplate>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
-                                            <itemtemplate>
-                                                <asp:TextBox runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
+                                            <ItemTemplate>
+                                                <asp:TextBox runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
 
-                                            </itemtemplate>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
-                                    </columns>
+                                    </Columns>
                                 </asp:GridView>
                             </div>
                         </div>
@@ -146,24 +112,24 @@
                                     CssClass="table table-borderless"
                                     BorderWidth="0"
                                     HeaderStyle-CssClass=" text-dark text-lg">
-                                    <columns>
+                                    <Columns>
                                         <asp:TemplateField HeaderText="Item" ControlStyle-CssClass="text-bolder">
-                                            <itemtemplate>
+                                            <ItemTemplate>
                                                 <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("ItemName").ToString() %>'></asp:Label>
                                                 <asp:HiddenField runat="server" ID="hfItemID" Value='<%# Eval("ItemID") %>'></asp:HiddenField>
-                                            </itemtemplate>
-                                            <footertemplate>
+                                            </ItemTemplate>
+                                            <FooterTemplate>
                                                 <asp:Label runat="server" Text='Total'></asp:Label>
-                                            </footertemplate>
+                                            </FooterTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
-                                            <itemtemplate>
-                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text="0" oninput="updateTotalQuantity(this)"></asp:TextBox>
+                                            <ItemTemplate>
+                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
 
-                                            </itemtemplate>
+                                            </ItemTemplate>
 
                                         </asp:TemplateField>
-                                    </columns>
+                                    </Columns>
                                 </asp:GridView>
                             </div>
                         </div>
@@ -191,35 +157,57 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <asp:GridView runat="server" ID="grdItems" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg">
-                                    <columns>
+                                <asp:GridView runat="server" ID="grdOutFlow" CssClass="table " AutoGenerateColumns="false" HeaderStyle-CssClass="text-dark text-lg" OnRowCommand="grdOutFlow_RowCommand">
+                                    <Columns>
                                         <asp:TemplateField HeaderText="Sr. No">
-                                            <itemtemplate>
+                                            <ItemTemplate>
                                                 <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
-                                            </itemtemplate>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Name of Unit">
-                                            <itemtemplate>
-                                                <asp:Label runat="server" ID="lblItemName" Text='<%# Eval("NameOfUnit") %>'></asp:Label>
-                                            </itemtemplate>
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblUnitName" Text='<%# Eval("UnitName") %>'></asp:Label>
+                                                <asp:HiddenField runat="server" ID="hfUnitID" Value='<%# Eval("UnitID") %>'></asp:HiddenField>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Date">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblDate" Text='<%# DateTime.Parse( Eval("Date").ToString()).ToString("yyyy-MM-dd")%>'></asp:Label>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Item Category">
-                                            <itemtemplate>
-                                                <asp:Label runat="server" ID="lblDemand" Text='<%# Eval("ItemCategory") %>'></asp:Label>
-                                            </itemtemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Item Name">
-                                            <itemtemplate>
-                                                <asp:Label runat="server" ID="lblSales" Text='<%# Eval("ItemName") %>'></asp:Label>
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblItemCategory" Text='<%# Eval("ItemCategory") %>'></asp:Label>
 
-                                            </itemtemplate>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Quantity">
-                                            <itemtemplate>
-                                                <asp:Label runat="server" ID="lblManufacturing" Text='<%# Eval("Quantity") %>'></asp:Label>
-                                            </itemtemplate>
+                                        <asp:TemplateField HeaderText="LYSD Quantity">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblLYSDQty" Text='<%# Eval("LYSDQty") %>'></asp:Label>
+                                            </ItemTemplate>
                                         </asp:TemplateField>
-                                    </columns>
+                                        <asp:TemplateField HeaderText="Total Sales">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="lblTotal" Text='<%# Eval("Total") %>'></asp:Label>
+
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                      
+                                        <asp:TemplateField HeaderText="Action">
+                                            <ItemTemplate>
+                                                <asp:LinkButton CssClass="btn btn-info btn-sm" runat="server" CommandArgument='<%# Eval("SalesID") %>' CommandName="EditData">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                                                       <path d="M 18.414062 2 C 18.158062 2 17.902031 2.0979687 17.707031 2.2929688 L 15.707031 4.2929688 L 14.292969 5.7070312 L 3 17 L 3 21 L 7 21 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.926094 2.0979687 18.670063 2 18.414062 2 z M 18.414062 4.4140625 L 19.585938 5.5859375 L 18.292969 6.8789062 L 17.121094 5.7070312 L 18.414062 4.4140625 z M 15.707031 7.1210938 L 16.878906 8.2929688 L 6.171875 19 L 5 19 L 5 17.828125 L 15.707031 7.1210938 z"></path>
+                                                    </svg>
+                                                </asp:LinkButton>
+                                                <asp:LinkButton CssClass="btn btn-danger btn-sm" runat="server" CommandArgument='<%# Eval("SalesID") %>' CommandName="DeleteData">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                                                       <path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"></path>
+                                                   </svg>
+                                                </asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
 
                                 </asp:GridView>
                                 <%--<table class="table table-bordered text-center">
@@ -301,7 +289,7 @@
             if (<%= (ViewState["Category"]!= null)?1:0 %>) {
 
                 ResizeCol('<%= ViewState["Category"]%>');
-            }
+            } 
         }
         );
         //ButtonClick and load input fields
@@ -347,7 +335,7 @@
         function exportToExcel() {
 
             // Get the GridView element
-            var gridView = document.getElementById('<%= grdItems.ClientID%>');
+            var gridView = document.getElementById('<%= grdOutFlow.ClientID%>');
 
             // Initialize CSV string with header
             var csv = 'data:text/csv;charset=utf-8,';

@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label for="date-picker" class="text-dark text-lg">From Date</label>
                                 <div class="col-md-10">
-                                    <asp:TextBox  autocomplete="off"  TextMode="Date" ID="FromTxtdate" runat="server" class="form-control"></asp:TextBox>
+                                    <asp:TextBox autocomplete="off" TextMode="Date" ID="FromTxtdate" runat="server" class="form-control"></asp:TextBox>
 
                                 </div>
                             </div>
@@ -36,23 +36,23 @@
                             <div class="form-group">
                                 <label for="date-picker" class="text-dark text-lg">To Date</label>
                                 <div class="col-md-10">
-                                    <asp:TextBox  autocomplete="off"  TextMode="Date" ID="ToTxtdate" runat="server" class="form-control"></asp:TextBox>
+                                    <asp:TextBox autocomplete="off" TextMode="Date" ID="ToTxtdate" runat="server" class="form-control"></asp:TextBox>
 
                                 </div>
                             </div>
                         </div>
                         <div class="col">
-                        <div class="d-flex justify-content-between px-3">
-                            <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" />
-                          
-                              <asp:Button Text="Verify All" runat="server" OnClick="VerifyAll_Click" CssClass="btn bg-gradient-info" />
+                            <div class="d-flex justify-content-between px-3">
+                                <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" />
+
+                                <asp:Button Text="Verify All" runat="server" OnClick="VerifyAll_Click" CssClass="btn bg-gradient-info" />
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive ">
-                                <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false"  CssClass="table ps" OnRowCommand="GVDetails_RowCommand" HeaderStyle-CssClass="text-dark">
+                                <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false" CssClass="table ps" OnRowCommand="GVDetails_RowCommand" HeaderStyle-CssClass="text-dark">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Sr. No">
                                             <ItemTemplate>
@@ -71,38 +71,33 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" ID="GVIMilkQty" oninput="calculateCurrentValues(this)" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkQty" oninput="calculateCurrentValues(this)" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
                                         <asp:TemplateField HeaderText="Milk Fat %">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkFatPerc" class="form-control" Text='<%# Eval("Milkfatperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkFatPerc" class="form-control" Text='<%# Eval("Milkfatperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk SNF %">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk Fat ">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" ID="GVIMilkFatKg" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkFatKg" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk SNF ">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" ID="GVIMilkSNFKg" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkSNFKg" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
-
-
-
-
                                         <asp:TemplateField HeaderText="LYSD Milk KG">
                                             <ItemTemplate>
-                                                <asp:TextBox  autocomplete="off"  runat="server" ID="GVIlysdqty" class="form-control" Text='<%# Eval("lysdqty").ToString() %>' oninput="calculateValues(this)"
+                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIlysdqty" class="form-control" Text='<%# Eval("lysdqty").ToString() %>' oninput="calculateValues(this)"
                                                     ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -127,51 +122,10 @@
                                                 <asp:TextBox runat="server" ID="GVILYSDSNFKG" class="form-control" Text='<%# Eval("LYSDSNFKG").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                      <%--  <asp:TemplateField HeaderText="White Butter KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIButterQty" class="form-control" Text='<%# Eval("Butterqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="White Butter Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIButterStck" class="form-control" Text='<%# Eval("Butterstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="SMP KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIMilkPwderQty" class="form-control" Text='<%# Eval("MilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="SMP Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIMilkPwderStk" class="form-control" Text='<%# Eval("MilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIWholeMilkPwderqty" class="form-control" Text='<%# Eval("WholeMilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIWholeMilkPwderStk" class="form-control" Text='<%# Eval("WholeMilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIGheeqty" class="form-control" Text='<%# Eval("Gheeqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIGheeStk" class="form-control " Text='<%# Eval("Gheestock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>--%>
+
+
                                         <asp:TemplateField HeaderText="Action">
                                             <ItemTemplate>
-                                                <%--<asp:LinkButton runat="server" CommandName="btnUpdate" CommandArgument='<%# Eval("InflowId") %>' CssClass="btn btn-outline-warning">Update</asp:LinkButton>--%>
-                                                <%--<asp:Button runat="server" ID="GVAction" class="form-control" Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verified":"Verify" %>' ReadOnly='<%# (Eval("IsVerifed").ToString()=="True")?true:false %>' />--%>
-
                                                 <asp:LinkButton runat="server" ID="BtnAction"
                                                     CssClass='<%# (Eval("IsVerifed").ToString()=="True")?"btn bg-gradient-success disabled":"btn bg-gradient-info" %>'
                                                     Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verifed":"Verify" %>'

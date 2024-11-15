@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Text;
 using System.Configuration;
 using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
 public partial class _Default : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
@@ -20,28 +21,12 @@ public partial class _Default : System.Web.UI.Page
             divAlert.InnerHtml = "";
             ViewState["Category"] = null;
             Fillddl(DdlUnit, "Usp_GetUnit");
-            FillDetailGrid("Milk");
-            FillDetailGrid("Product");
-
+            obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+            TxtDate.Text = DateTime.Now.ToString();
+            txtLYSDQty.Text = "";
 
         }
     }
-
-    private string ParseValue(TextBox textBox)
-    {
-        if (textBox != null && !string.IsNullOrEmpty(textBox.Text.Trim()))
-        {
-            // Try to parse the value, return 0 if parsing fails
-            int result;
-            if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
-            {
-                return result.ToString();
-            }
-        }
-        return "0"; // Return 0 if the TextBox is null or empty
-    }
-
-
     protected void btnMilk_Click(object sender, EventArgs e)
     {
         try
@@ -50,14 +35,14 @@ public partial class _Default : System.Web.UI.Page
 
             if (((Button)sender).Text == "Milk")
             {
-                obj.FillGrid(grdMilk, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
+                FillGrid(grdMilk, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Milk" });
                 ViewState["Category"] = "Milk";
                 grdProduct.DataSource = null;
                 grdProduct.DataBind();
             }
             else if (((Button)sender).Text == "Product")
             {
-                obj.FillGrid(grdProduct, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
+                FillGrid(grdProduct, "GetItemsByCategory", Connstr, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
                 ViewState["Category"] = "Product";
                 grdMilk.DataSource = null;
                 grdMilk.DataBind();
@@ -67,62 +52,11 @@ public partial class _Default : System.Web.UI.Page
         {
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
-
     }
-    //public void FillGrid(GridView grd, string proc, string[] prm = null, string[] values = null)
-    //{
-    //    try
-    //    {
-    //        SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
-    //        adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
-    //        adpt.SelectCommand.Parameters.Clear();
-    //        if (prm != null && values != null)
-    //        {
-    //            for (int i = 0; i < prm.Length; i++)
-    //            {
-    //                adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
-    //            }
-    //        }
-    //        DataSet ds = new DataSet();
-    //        adpt.Fill(ds);
-    //        if (ds.Tables.Count > 1)
-    //        {
-    //            if (ds.Tables[0].Rows.Count > 0)
-    //            {
-    //                grd.DataSource = ds.Tables[0];
-    //                grd.DataBind();
-    //                //value = ds.Tables[0].AsEnumerable().Select(row => row["ItemName"].ToString()).ToList();
-    //                //ViewState[values[0]] = value;
-    //            }
-    //            else
-    //            {
-    //                obj.alertmsg("Table is Empty", divAlert, "bg-warning");
-    //            }
-    //        }
-    //        else if (ds.Tables.Count > 0)
-    //        {
-    //            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-    //            {
-    //                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
-    //            }
-    //        }
-    //        else
-    //        {
-    //            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-
-    //        obj.alertmsg(ex.Message, divAlert, "bg-danger");
-    //    }
-    //}
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
-
-
             if (ViewState["Category"] != null)
             {
                 DataTable td;
@@ -130,13 +64,12 @@ public partial class _Default : System.Web.UI.Page
                 {
                     td = GetGridData(grdMilk);
                     SubmitItems(td, "Milk");
-                    FillDetailGrid(ViewState["Category"].ToString());
+                    obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
                 }
                 else if (ViewState["Category"].ToString() == "Product")
                 {
                     td = GetGridData(grdProduct);
                     SubmitItems(td, "Product");
-
                 }
             }
         }
@@ -146,7 +79,6 @@ public partial class _Default : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
     public DataTable GetGridData(GridView grd)
 
     {
@@ -163,25 +95,27 @@ public partial class _Default : System.Web.UI.Page
             dr["ItemName"] = ((Label)row.FindControl("lblItemName")).Text;
 
             dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("TxtQty")).Text)
-                             ? 0
-                             : int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
+            ? 0
+            : int.Parse(((TextBox)row.FindControl("TxtQty")).Text);
 
             dtItems.Rows.Add(dr);
         }
         return dtItems;
-
     }
-
     public void SubmitItems(DataTable td, string Category)
     {
         try
         {
-
-
             DataSet ds = new DataSet();
             using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_AddSales", Connstr))
             {
                 sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                if (BtnSubmit.Text == "Update")
+                {
+                    sqlDataAdapter.SelectCommand.CommandText = "usp_UpdateSales";
+                    sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SalesID", ViewState["SalesID"].ToString());
+                }
 
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@date", TxtDate.Text);
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", Category);
@@ -190,20 +124,30 @@ public partial class _Default : System.Web.UI.Page
                 sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Items", td);
 
                 sqlDataAdapter.Fill(ds);
-                FillDetailGrid(ViewState["Category"].ToString());
+
             }
             if (ds.Tables.Count > 0)
             {
                 if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                 {
                     obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-
+                    grdProduct.DataSource = null;
+                    grdProduct.DataBind();
+                    grdMilk.DataSource = null;
+                    grdMilk.DataBind();
+                    ViewState["Category"] = null;
+                    colMilk.Attributes.CssStyle.Value = "col-md-6 mt-4";
+                    colProducts.Attributes.CssStyle.Value = "col-md-6 mt-4";
+                    TxtDate.Text = DateTime.Now.ToString();
+                    DdlUnit.ClearSelection();
+                    txtLYSDQty.Text = "";
+                    obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+                    BtnSubmit.Text = "Submit";
                 }
                 else
                 {
                     obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                 }
-
             }
         }
         catch (Exception ex)
@@ -261,47 +205,110 @@ public partial class _Default : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
-
-
-    protected void FillDetailGrid(string Category)
+    protected void FillGrid(GridView grd, string proc, string ConnStr, HtmlGenericControl alertdiv, string[] prm = null, string[] values = null)
     {
-        using (SqlConnection sqlConnection = new SqlConnection(Connstr))
+        try
         {
-            DataSet ds = new DataSet();
-            try
-            {
-                sqlConnection.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetItemDetails", sqlConnection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ItemCategory", Category);
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                {
-                    sda.Fill(ds);
-                }
+            grd.DataSource = null;
+            grd.DataBind();
 
-                if (ds != null)
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, ConnStr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+            adpt.SelectCommand.Parameters.Clear();
+            if (prm != null && values != null)
+            {
+                for (int i = 0; i < prm.Length; i++)
                 {
-                    if (ds.Tables.Count > 0)
+                    adpt.SelectCommand.Parameters.AddWithValue(prm[i], values[i]);
+                }
+            }
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].Columns.Add("Quantity", typeof(int));
+                    grd.DataSource = ds.Tables[0];
+                    grd.DataBind();
+                }
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), alertdiv, "bg-warning");
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", alertdiv, "bg-warning");
+            }
+        }
+        catch (Exception ex)
+        {
+            obj.alertmsg(ex.Message, alertdiv, "bg-danger");
+        }
+    }
+    protected void grdOutFlow_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditData")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+
+                HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
+                Label lblDate = (Label)row.FindControl("lblDate");
+                Label lblLYSDQty = (Label)row.FindControl("lblLYSDQty");
+                Label lblItemCategory = (Label)row.FindControl("lblItemCategory");
+
+                ViewState["SalesID"] = e.CommandArgument;
+                TxtDate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+
+                txtLYSDQty.Text = lblLYSDQty.Text;
+                DdlUnit.ClearSelection();
+                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
+
+                if (lblItemCategory.Text == "Milk")
+                {
+                    obj.FillGrid(grdMilk, "Usp_GetsalesItems", Connstr, divAlert, new[] { "@SalesID" }, new[] { e.CommandArgument.ToString() });
+                    ViewState["Category"] = "Milk";
+                    grdProduct.DataSource = null;
+                    grdProduct.DataBind();
+                    BtnSubmit.Text = "Update";
+                }
+                else if (lblItemCategory.Text == "Product")
+                {
+                    obj.FillGrid(grdProduct, "Usp_GetsalesItems", Connstr, divAlert, new[] { "@SalesID" }, new[] { e.CommandArgument.ToString() });
+                    ViewState["Category"] = "Product";
+                    grdMilk.DataSource = null;
+                    grdMilk.DataBind();
+                    BtnSubmit.Text = "Update";
+
+                }
+            }
+            else if (e.CommandName == "DeleteData")
+            {
+                DataSet ds = obj.ByProcedure("usp_DeleteSales", new[] { "SalesID" }, new[] { e.CommandArgument.ToString() }, Connstr);
+                if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
-                        if (ds.Tables[0].Rows.Count > 0)
-                        {
-                            grdItems.DataSource = ds.Tables[0];
-                            grdItems.DataBind();
-                        }
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                     }
                 }
             }
-
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
         }
-
+        catch (Exception ex)
+        {
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
     }
+
 }
