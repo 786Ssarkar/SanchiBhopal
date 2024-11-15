@@ -22,7 +22,7 @@ public partial class TargetDetails : System.Web.UI.Page
             FS_Details.Visible = false;
             DateTime SelectedDate = DateTime.Now;
 
-            if (SelectedDate.Day >= 1 && SelectedDate.Day <= 13)
+            if (SelectedDate.Day >= 1 && SelectedDate.Day <= 3)
             {
                 Txtdate.ReadOnly = false;
                 Txtdate.ForeColor = System.Drawing.Color.Gray;
