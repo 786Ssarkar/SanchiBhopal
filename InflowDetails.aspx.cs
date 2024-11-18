@@ -21,9 +21,8 @@ public partial class Default2 : System.Web.UI.Page
         {
             Fillddl(DdlUnit, "Usp_GetinflowUnit");
             txtLYSDDate.Text = ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd");
-            TargetDate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
-            //obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+            obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
         }
     }
 
@@ -33,10 +32,16 @@ public partial class Default2 : System.Web.UI.Page
         {
             // Try to parse the value, return 0 if parsing fails
             int result;
+            decimal resultDecimal;
             if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
             {
                 return result.ToString();
             }
+            else if (decimal.TryParse(textBox.Text, out resultDecimal))
+            {
+                return resultDecimal.ToString();
+            }
+         
         }
         return "0"; // Return 0 if the TextBox is null or empty
     }
@@ -89,15 +94,8 @@ public partial class Default2 : System.Web.UI.Page
                     {
                         sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDDate", ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd"));
                     }
-                    if (!string.IsNullOrEmpty(TargetDate.Text))
-                    {
-                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", TargetDate.Text);
 
-                    }
-                    else
-                    {
-                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", DateTime.Now.ToString("yyyy-MM-dd"));
-                    }
+
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UnitID", DdlUnit.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", ParseValue(qtyDispatched));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@", ParseValue(txtLYSDDate)); //
@@ -132,8 +130,8 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
 
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", ParseValue(TargetDate));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", ParseValue(txtMilkCumulative));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", ParseValue(txtMilkCumulative));
                     sqlDataAdapter.Fill(ds);
                 }
                 if (ds.Tables.Count > 0)
@@ -142,7 +140,7 @@ public partial class Default2 : System.Web.UI.Page
                     {
                         obj.clearFields((HtmlForm)Master.FindControl("form1"));
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        //obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+                        obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
                         btnSubmit.Text = "Submit";
                     }
                     else
@@ -159,9 +157,9 @@ public partial class Default2 : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-    public static int GetTotal(string bal, string manf, string Qty)
+    public static decimal GetTotal(string bal, string manf, string Qty)
     {
-        return (int.Parse(bal ?? "0")) + (int.Parse(manf ?? "0")) + (int.Parse(Qty ?? "0"));
+        return (decimal.Parse(bal ?? "0")) + (decimal.Parse(manf ?? "0")) + (decimal.Parse(Qty ?? "0"));
     }
     public void Fillddl(DropDownList ddl, string proc)
     {
@@ -210,74 +208,161 @@ public partial class Default2 : System.Web.UI.Page
         }
     }
 
-    //protected void GVInflow_RowCommand(object sender, GridViewCommandEventArgs e)
-    //{
-    //    try
-    //    {
-    //        if (e.CommandName == "EditData")
-    //        {
-    //            GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
-    //            HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
-    //            Label lblDate = (Label)row.FindControl("lblDate");
-    //            Label lblMilkQty = (Label)row.FindControl("lblMilkQty");
-    //            Label lblMilkFatPerc = (Label)row.FindControl("lblMilkFatPerc");
-    //            Label lblMilkSNFPerc = (Label)row.FindControl("lblMilkSNFPerc");
-    //            Label lblMilkFatKg = (Label)row.FindControl("lblMilkFatKg");
-    //            Label lblMilkSNFKg = (Label)row.FindControl("lblMilkSNFKg");
+    protected void GVInflow_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditData")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
+                Label lblDate = (Label)row.FindControl("lblDate");
+                Label lblMilkQty = (Label)row.FindControl("lblMilkQty");
+                Label lblMilkFatPerc = (Label)row.FindControl("lblMilkFatPerc");
+                Label lblMilkSNFPerc = (Label)row.FindControl("lblMilkSNFPerc");
+                Label lblMilkFatKg = (Label)row.FindControl("lblMilkFatKg");
+                Label lblMilkSNFKg = (Label)row.FindControl("lblMilkSNFKg");
 
-    //            Label lblLYSDDate = (Label)row.FindControl("lblLYSDDate");
-    //            Label lbllysdqty = (Label)row.FindControl("lbllysdqty");
-    //            Label lblLYSDFatPercent = (Label)row.FindControl("lblLYSDFatPercent");
-    //            Label lblLYSDSNFPercent = (Label)row.FindControl("lblLYSDSNFPercent");
-    //            Label lblLYSDFatKG = (Label)row.FindControl("lblLYSDFatKG");
-    //            Label lblLYSDSNFKG = (Label)row.FindControl("lblLYSDSNFKG");
-    //            ViewState["InflowId"] = e.CommandArgument;
+                Label lblLYSDDate = (Label)row.FindControl("lblLYSDDate");
+                Label lbllysdqty = (Label)row.FindControl("lbllysdqty");
+                Label lblLYSDFatPercent = (Label)row.FindControl("lblLYSDFatPercent");
+                Label lblLYSDSNFPercent = (Label)row.FindControl("lblLYSDSNFPercent");
+                Label lblLYSDFatKG = (Label)row.FindControl("lblLYSDFatKG");
+                Label lblLYSDSNFKG = (Label)row.FindControl("lblLYSDSNFKG");
+
+                Label lblWBOpeningBln = (Label)row.FindControl("lblWBOBal");
+                Label lblWbManufacturer = (Label)row.FindControl("lblWBManuf");
+                Label lblWbQty = (Label)row.FindControl("lblButterqty");
+                Label lblWBTotal = (Label)row.FindControl("lblButterstock");
+
+                Label lblSMPBal = (Label)row.FindControl("lblSMPBal");
+                Label lblSMPManuf = (Label)row.FindControl("lblSMPManuf");
+                Label lblMilkPowderqty = (Label)row.FindControl("lblMilkPowderqty");
+                Label lblMilkPowderstock = (Label)row.FindControl("lblMilkPowderstock");
+
+                Label lblWMPBal = (Label)row.FindControl("lblWMPBal");
+                Label lblWMPManuf = (Label)row.FindControl("lblWMPManuf");
+                Label lblWholeMilkPowderqty = (Label)row.FindControl("lblWholeMilkPowderqty");
+                Label lblWholeMilkPowderstock = (Label)row.FindControl("lblWholeMilkPowderstock");
+
+                Label lblGheeBal = (Label)row.FindControl("lblGheeBal");
+                Label lblGheeManuf = (Label)row.FindControl("lblGheeManuf");
+                Label lblGheeqty = (Label)row.FindControl("lblGheeqty");
+                Label lblGheestock = (Label)row.FindControl("lblGheestock");
+
+                DdlUnit.ClearSelection();
+                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
+                //SMP
+                MilkPowderBal.Text = lblSMPBal.Text;
+                MilkPowderManuf.Text = lblSMPManuf.Text;
+                MilkPowderQty.Text = lblMilkPowderqty.Text;
+                MilkPowderStock.Text = lblMilkPowderstock.Text;
+                //WMP
+                WMPblnc.Text = lblWMPBal.Text;
+                WMPManuf.Text = lblWMPManuf.Text;
+                WholeMilkPowderQty.Text = lblWholeMilkPowderqty.Text;
+                WholeMilkPowderStock.Text = lblWholeMilkPowderstock.Text;
+                //Ghee
+                Gheebalnc.Text = lblGheeBal.Text;
+                GheeManuf.Text = lblGheeManuf.Text;
+                txtGheeQty.Text = lblGheeqty.Text;
+                txtGheeStock.Text = lblGheestock.Text;
+                //WB
+                WBOpeningBln.Text = lblWBOpeningBln.Text;
+                WbManufacturer.Text = lblWbManufacturer.Text;
+                WbQty.Text = lblWbQty.Text;
+                Wbstock.Text = lblWBTotal.Text;                
+
+                //lysd
+                txtLYSDDate.Text = DateTime.Parse(lblLYSDDate.Text).ToString("yyyy-MM-dd");
+                txtLYSDQty.Text = lbllysdqty.Text;
+                txtLYSDFatPercent.Text = lblLYSDFatPercent.Text;
+                txtLYSDFatKG.Text = lblLYSDFatKG.Text;
+                txtLYSDSNFPercent.Text = lblLYSDSNFPercent.Text;
+                txtLYSDSNFKG.Text = lblLYSDSNFKG.Text;
+                //cysd
+                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                qtyDispatched.Text = lblMilkQty.Text;
+                fatPercent.Text = lblMilkFatPerc.Text;
+                fatKg.Text = lblMilkFatKg.Text;
+                snfPercent.Text = lblMilkSNFPerc.Text;
+                snfKg.Text = lblMilkSNFKg.Text;
+
+                ViewState["InflowId"] = e.CommandArgument;
+                btnSubmit.Text = "Update";
+            }
+            else if (e.CommandName == "DeleteData")
+            {
+
+                DataSet ds = obj.ByProcedure("usp_DeleteInFlow", new[] { "InflowId" }, new[] { e.CommandArgument.ToString() }, Connstr);
+                if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
+    }
 
 
-    //            DdlUnit.ClearSelection();
-    //            DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
+    protected void Txtdate_TextChanged(object sender, EventArgs e)
+    {
+        txtLYSDDate.Text = (DateTime.Parse(Txtdate.Text).AddYears(-1)).ToString("yyyy-MM-dd");
 
-    //            //lysd
-    //            txtLYSDDate.Text = DateTime.Parse(lblLYSDDate.Text).ToString("yyyy-MM-dd");
-    //            txtLYSDQty.Text = lbllysdqty.Text;
-    //            txtLYSDFatPercent.Text = lblLYSDFatPercent.Text;
-    //            txtLYSDFatKG.Text = lblLYSDFatKG.Text;
-    //            txtLYSDSNFPercent.Text = lblLYSDSNFPercent.Text;
-    //            txtLYSDSNFKG.Text = lblLYSDSNFKG.Text;
-    //            //cysd
-    //            Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
-    //            qtyDispatched.Text = lblMilkQty.Text;
-    //            fatPercent.Text = lblMilkFatPerc.Text;
-    //            fatKg.Text = lblMilkFatKg.Text;
+    }
 
-    //            snfPercent.Text = lblMilkSNFPerc.Text;
-    //            snfKg.Text = lblMilkSNFKg.Text;
 
-    //            btnSubmit.Text = "Update";
-    //        }
-    //        else if (e.CommandName == "DeleteData")
-    //        {
+    protected void DdlUnit_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       
+            getOpningBal(WBOpeningBln, "12", "WB");
+            getOpningBal(MilkPowderBal, "10", "SMP");
+       
+    }
+    public void getOpningBal(TextBox input,String ID, String Condition)
+    {
+        if (!string.IsNullOrEmpty(Txtdate.Text))
+        {
 
-    //            DataSet ds = obj.ByProcedure("usp_DeleteInFlow", new[] { "InflowId" }, new[] { e.CommandArgument.ToString() }, Connstr);
-    //            if (ds.Tables.Count > 0)
-    //            {
-    //                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
-    //                {
-    //                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-    //                    obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
-    //                }
-    //                else
-    //                {
-    //                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
-    //                }
-    //            }
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        obj.alertmsg(ex.Message, divAlert, "bg-danger");
-    //    }
-    //}
+            DataSet ds = obj.ByProcedure("Usp_GetOpeningBal", new[] { "ItemID", "date", "Condition" }, new[] { ID, Txtdate.Text, Condition }, Connstr);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    input.Text = ds.Tables[0].Rows[0]["OpeningBal"].ToString();
+                }
+                else
+                {
+                    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+                }
+               
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+            }
+        }
+
+    }
 }
 
 

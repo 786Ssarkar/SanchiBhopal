@@ -33,7 +33,7 @@
                 <div class="col-lg-4 col-md-6 mt-2">
 
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server">
+                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
@@ -118,7 +118,7 @@
                                         <div class="col-lg-4 col-md-6 mt-2">
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
-                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control"></asp:TextBox>
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
                                                 <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                     document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
@@ -175,7 +175,64 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Ghee (in KG)</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Choose Verient
+                                        </label>
+                                        <asp:DropDownList runat="server" ClientIDMode="Static" CssClass="form-control" ID="DdlGheeVerient">
+                                            <asp:ListItem>Select</asp:ListItem>
+                                        </asp:DropDownList>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Opening Balance
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufactured
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received 
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-3 ">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Total
+                                        </label>
+                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -220,7 +277,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -265,7 +322,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -310,53 +367,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card bg-white mt-3">
-                        <div class="card-body">
-                            <div class="row text-center mb-2">
-                                <h5 class="catchy-title">Ghee (in KG)</h5>
-                            </div>
-                            <div class="row align-items-end">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Opening Balance
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Manufactured
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row align-items-end">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Received 
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Total
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
+                <%--<div class="col-md-12">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -391,7 +402,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
 
 
@@ -409,7 +420,7 @@
             </div>
         </div>
     </div>
-   <%-- <div class="card mt-4">
+    <div class="card mt-4">
 
         <div class="card-header catchy-title">
             Inflow Details
@@ -438,54 +449,54 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk KG">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server" ID="lblMilkQty"   Text='<%# Eval("Milkqty").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblMilkQty" Text='<%# Eval("Milkqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Milk Fat %">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server"  ID="lblMilkFatPerc"  Text='<%# Eval("Milkfatperc").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblMilkFatPerc" Text='<%# Eval("Milkfatperc").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk SNF %">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server"  ID="lblMilkSNFPerc"  Text='<%# Eval("MilkSNFperc").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblMilkSNFPerc" Text='<%# Eval("MilkSNFperc").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk Fat ">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server" ID="lblMilkFatKg"  Text='<%# Eval("Milkfat").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblMilkFatKg" Text='<%# Eval("Milkfat").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk SNF ">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server" ID="lblMilkSNFKg"  Text='<%# Eval("MilkSNF").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblMilkSNFKg" Text='<%# Eval("MilkSNF").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Date">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server" ID="lblLYSDDate"  Text='<%#  DateTime.Parse(Eval("LYSDDate").ToString()).ToString("yyyy-MM-dd")  %>' ></asp:Label>
+                                        <asp:Label runat="server" ID="lblLYSDDate" Text='<%#  DateTime.Parse(Eval("LYSDDate").ToString()).ToString("yyyy-MM-dd")  %>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>   
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Milk KG">
                                     <ItemTemplate>
-                                        <asp:Label  runat="server" ID="lbllysdqty"  Text='<%# Eval("lysdqty").ToString() %>' ></asp:Label>
+                                        <asp:Label runat="server" ID="lbllysdqty" Text='<%# Eval("lysdqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="LYSD Milk Fat %">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblLYSDFatPercent" TextMode="Number"  Text='<%# Eval("LYSDFatPercent").ToString() %>' ></asp:Label>
+                                        <asp:Label runat="server" ID="lblLYSDFatPercent" TextMode="Number" Text='<%# Eval("LYSDFatPercent").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Milk SNF %">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblLYSDSNFPercent"  Text='<%# Eval("LYSDSNFPercent").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblLYSDSNFPercent" Text='<%# Eval("LYSDSNFPercent").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Milk Fat ">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblLYSDFatKG"  Text='<%# Eval("LYSDFatKG").ToString() %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblLYSDFatKG" Text='<%# Eval("LYSDFatKG").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Milk SNF ">
@@ -493,6 +504,94 @@
                                         <asp:Label runat="server" ID="lblLYSDSNFKG" Text='<%# Eval("LYSDSNFKG").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <%--1. WB--%>
+                                <asp:TemplateField HeaderText="WB Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWBOBal" Text='<%# Eval("WBOBal").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WB Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWBManuf" Text='<%# Eval("WBManuf").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WB Received ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblButterqty" Text='<%# Eval("Butterqty").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WB Total ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblButterstock" Text='<%# Eval("Butterstock").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <%--2. SMP--%>
+                                <asp:TemplateField HeaderText="SMP Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblSMPBal" Text='<%# Eval("SMPBal").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="SMP Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblSMPManuf" Text='<%# Eval("SMPManuf").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="SMP Received ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblMilkPowderqty" Text='<%# Eval("MilkPowderqty").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="SMP Total ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblMilkPowderstock" Text='<%# Eval("MilkPowderstock").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <%--3. WMP--%>
+                                <asp:TemplateField HeaderText="WMP Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWMPBal" Text='<%# Eval("WMPBal").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WMP Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWMPManuf" Text='<%# Eval("WMPManuf").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WMP Received ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWholeMilkPowderqty" Text='<%# Eval("WholeMilkPowderqty").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="WMP Total ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblWholeMilkPowderstock" Text='<%# Eval("WholeMilkPowderstock").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <%--4. Ghee--%>
+                                <asp:TemplateField HeaderText="Ghee Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblGheeBal" Text='<%# Eval("GheeBal").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Ghee Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblGheeManuf" Text='<%# Eval("GheeManuf").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Ghee Received ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblGheeqty" Text='<%# Eval("Gheeqty").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Ghee Total ">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblGheestock" Text='<%# Eval("Gheestock").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+
+
                                 <asp:TemplateField HeaderText="Is Verifed">
                                     <ItemTemplate>
                                         <asp:Label runat="server"
@@ -541,7 +640,7 @@
             </div>
         </div>
 
-    </div>--%>
+    </div>
     <script>
         function calculatePercentages() {
             const qtyDispatched = document.getElementById("qtyDispatched").value;
@@ -601,6 +700,6 @@
         }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <%--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>--%>
 </asp:Content>
 

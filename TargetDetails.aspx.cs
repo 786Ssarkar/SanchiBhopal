@@ -24,8 +24,8 @@ public partial class TargetDetails : System.Web.UI.Page
 
             if (SelectedDate.Day >= 1 && SelectedDate.Day <= 31)
             {
-                BtnAdd.Enabled = false;
-                BtnSubmit.Enabled = false;
+                BtnAdd.Enabled = true;
+                BtnSubmit.Enabled = true;
                
             }
 

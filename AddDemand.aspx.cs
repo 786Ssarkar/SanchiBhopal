@@ -82,8 +82,9 @@ public partial class AddDemand : System.Web.UI.Page
                         grdItems.DataSource = ds.Tables[0];
                         grdItems.DataBind();
                         FS_Details.Visible = true;
+                        BtnSubmit.Text = "Submit";
                     }
-                }
+                }                                                       
                 else if (ds.Tables.Count > 0)
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
