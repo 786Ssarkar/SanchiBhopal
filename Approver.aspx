@@ -121,7 +121,7 @@
                                                 <asp:TextBox  autocomplete="off"  runat="server" ID="TxtLYSDSNFKG" class="form-control" Text='<%# Eval("LYSDSNFKG").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                     <%--   <asp:TemplateField HeaderText="White Butter KG">
+                                        <asp:TemplateField HeaderText="White Butter KG">
                                             <ItemTemplate>
                                                 <asp:TextBox  autocomplete="off"  runat="server" ID="TxtButterQty" class="form-control" Text='<%# Eval("Butterqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsApproved"))) %>'></asp:TextBox>
                                             </ItemTemplate>
@@ -160,7 +160,7 @@
                                             <ItemTemplate>
                                                 <asp:TextBox  autocomplete="off"  runat="server" ID="txtGheeStk" class="form-control " Text='<%# Eval("Gheestock").ToString() %>' ReadOnly="true"></asp:TextBox>
                                             </ItemTemplate>
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Action">
                                             <ItemTemplate>
                                                 <asp:LinkButton runat="server" ID="BtnAction"
@@ -216,7 +216,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="table-responsive ">
-                                <asp:GridView runat="server" ID="grdApproved" AutoGenerateColumns="false" CssClass="table" HeaderStyle-Wrap="true" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark text-lg">
+                                <asp:GridView runat="server" ID="grdApproved" ClientIDMode="Static" AutoGenerateColumns="false" CssClass="table" HeaderStyle-Wrap="true" OnRowCommand="grdApprove_RowCommand" HeaderStyle-CssClass="text-dark text-lg">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Sr. No">
                                             <ItemTemplate>
@@ -284,7 +284,7 @@
                                                 <asp:Label runat="server" ID="TxtLYSDSNFKG" Text='<%# (!string.IsNullOrEmpty(Eval("LYSDSNFKG").ToString())) ? Eval("LYSDSNFKG").ToString() : "0" %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                    <%--    <asp:TemplateField HeaderText="WB KG">
+                                        <asp:TemplateField HeaderText="WB KG">
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="TxtButterQty" Text='<%# Eval("Butterqty").ToString() %>'></asp:Label>
                                             </ItemTemplate>
@@ -323,7 +323,7 @@
                                             <ItemTemplate>
                                                 <asp:Label runat="server" ID="txtGheeStk" Text='<%# Eval("Gheestock").ToString() %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>--%>
+                                        </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
                             </div>

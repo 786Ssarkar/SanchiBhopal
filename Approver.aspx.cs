@@ -140,8 +140,8 @@ public partial class Approver : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved", "FromDate", "ToDate" }, new[] { "0" });
-                        obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved", "FromDate", "ToDate" }, new[] { "1" });
+                        obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
+                        obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
                     }
                     else
                     {

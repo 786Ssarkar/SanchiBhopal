@@ -60,6 +60,8 @@
                                                     Choose LYSD 
                                                 </label>
                                                 <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
+                                                <%--<script>
+                                                    document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -117,6 +119,8 @@
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
                                                 <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control"></asp:TextBox>
+                                                <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
+                                                    document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -171,8 +175,7 @@
                         </div>
                     </div>
                 </div>
-
-                <%--   <div class="col-md-6">
+                <div class="col-md-6">
                     <div class="card bg-white mt-3">
                         <div class="card-body">
                             <div class="row text-center mb-2">
@@ -388,7 +391,7 @@
                             </div>
                         </div>
                     </div>
-                </div>--%>
+                </div>
 
 
 
@@ -406,7 +409,7 @@
             </div>
         </div>
     </div>
-    <div class="card mt-4">
+   <%-- <div class="card mt-4">
 
         <div class="card-header catchy-title">
             Inflow Details
@@ -538,7 +541,7 @@
             </div>
         </div>
 
-    </div>
+    </div>--%>
     <script>
         function calculatePercentages() {
             const qtyDispatched = document.getElementById("qtyDispatched").value;

@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="date-picker" class="text-dark text-lg">Target Date</label>
                         <div class="col-md-10">
-                            <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" autocomplete="off" class="form-control" AutoPostBack="true" ReadOnly="true" required="required" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
+                            <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" autocomplete="off" class="form-control" AutoPostBack="true" required="required" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
 
                         </div>
                     </div>
