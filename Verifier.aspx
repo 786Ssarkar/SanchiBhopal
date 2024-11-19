@@ -49,144 +49,149 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="table-responsive ">
-                                <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false"  CssClass="table ps" OnRowCommand="GVDetails_RowCommand" HeaderStyle-CssClass="text-dark">
-                                    <Columns>
-                                        <asp:TemplateField HeaderText="Sr. No">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Name of Unit">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="GVIUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Date of Inflow">
-                                            <ItemTemplate>
-                                                <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkQty" oninput="calculateCurrentValues(this)" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive ">
+                            <asp:GridView runat="server" ID="GVDetails" AutoGenerateColumns="false" CssClass="table ps" OnRowCommand="GVDetails_RowCommand" HeaderStyle-CssClass="text-dark">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Sr. No">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" Text='<%# Container.DisplayIndex+1 %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Name of Unit">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="GVIUnitName" Text='<%# Eval("UnitName").ToString() %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Date of Inflow">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Milk KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkQty" oninput="calculateCurrentValues(this)" class="form-control" Text='<%# Eval("Milkqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Milk Fat %">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkFatPerc" class="form-control" Text='<%# Eval("Milkfatperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk SNF %">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk Fat ">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkFatKg" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Milk SNF ">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkSNFKg" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="LYSD Milk KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox autocomplete="off" runat="server" ID="GVIlysdqty" class="form-control" Text='<%# Eval("lysdqty").ToString() %>' oninput="calculateValues(this)"
-                                                    ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Milk Fat %">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkFatPerc" class="form-control" Text='<%# Eval("Milkfatperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Milk SNF %">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" oninput="calculateCurrentValues(this)" ID="GVIMilkSNFPerc" class="form-control" Text='<%# Eval("MilkSNFperc").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Milk Fat ">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkFatKg" class="form-control" Text='<%# Eval("Milkfat").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Milk SNF ">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" ID="GVIMilkSNFKg" class="form-control" Text='<%# Eval("MilkSNF").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="LYSD Milk KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox autocomplete="off" runat="server" ID="GVIlysdqty" class="form-control" Text='<%# Eval("lysdqty").ToString() %>' oninput="calculateValues(this)"
+                                                ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="LYSD Milk Fat %">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVILYSDFatPercent" TextMode="Number" class="form-control" Text='<%# Eval("LYSDFatPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="LYSD Milk SNF %">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVILYSDSNFPercent" class="form-control" Text='<%# Eval("LYSDSNFPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="LYSD Milk Fat ">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVILYSDFatKG" class="form-control" Text='<%# Eval("LYSDFatKG").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="LYSD Milk SNF ">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVILYSDSNFKG" class="form-control" Text='<%# Eval("LYSDSNFKG").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="LYSD Milk Fat %">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVILYSDFatPercent" TextMode="Number" class="form-control" Text='<%# Eval("LYSDFatPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="LYSD Milk SNF %">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVILYSDSNFPercent" class="form-control" Text='<%# Eval("LYSDSNFPercent").ToString() %>' oninput="calculateValues(this)" ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="LYSD Milk Fat ">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVILYSDFatKG" class="form-control" Text='<%# Eval("LYSDFatKG").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="LYSD Milk SNF ">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVILYSDSNFKG" class="form-control" Text='<%# Eval("LYSDSNFKG").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
 
-                                        <asp:TemplateField HeaderText="White Butter KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIButterQty" class="form-control" Text='<%# Eval("Butterqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="White Butter Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIButterStck" class="form-control" Text='<%# Eval("Butterstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="SMP KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIMilkPwderQty" class="form-control" Text='<%# Eval("MilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="SMP Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIMilkPwderStk" class="form-control" Text='<%# Eval("MilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIWholeMilkPwderqty" class="form-control" Text='<%# Eval("WholeMilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="WMP Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIWholeMilkPwderStk" class="form-control" Text='<%# Eval("WholeMilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee KG">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIGheeqty" class="form-control" Text='<%# Eval("Gheeqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ghee Stock">
-                                            <ItemTemplate>
-                                                <asp:TextBox runat="server" ID="GVIGheeStk" class="form-control " Text='<%# Eval("Gheestock").ToString() %>' ReadOnly="true"></asp:TextBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Action">
-                                            <ItemTemplate>
-                                                <asp:LinkButton runat="server" ID="BtnAction"
-                                                    CssClass='<%# (Eval("IsVerifed").ToString()=="True")?"btn bg-gradient-success disabled":"btn bg-gradient-info" %>'
-                                                    Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verifed":"Verify" %>'
-                                                    Enabled='<%# (Eval("IsVerifed").ToString()=="True")?false:true %>'
-                                                    CommandArgument='<%# Eval("InflowId") %>'
-                                                    CommandName="btnUpdate">
-                                                </asp:LinkButton>
+                                    <asp:TemplateField HeaderText="White Butter KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIButterQty" class="form-control" Text='<%# Eval("Butterqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="White Butter Stock">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIButterStck" class="form-control" Text='<%# Eval("Butterstock").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="SMP KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIMilkPwderQty" class="form-control" Text='<%# Eval("MilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="SMP Stock">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIMilkPwderStk" class="form-control" Text='<%# Eval("MilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="WMP KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIWholeMilkPwderqty" class="form-control" Text='<%# Eval("WholeMilkPowderqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="WMP Stock">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIWholeMilkPwderStk" class="form-control" Text='<%# Eval("WholeMilkPowderstock").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Ghee Verient ">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="lblGheeVerient" Text='<%# Eval("GheeVerient").ToString() %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Ghee KG">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIGheeqty" class="form-control" Text='<%# Eval("Gheeqty").ToString() %>' ReadOnly='<%# (Convert.ToBoolean(Eval("IsVerifed"))) %>'></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Ghee Stock">
+                                        <ItemTemplate>
+                                            <asp:TextBox runat="server" ID="GVIGheeStk" class="form-control " Text='<%# Eval("Gheestock").ToString() %>' ReadOnly="true"></asp:TextBox>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Action">
+                                        <ItemTemplate>
+                                            <asp:LinkButton runat="server" ID="BtnAction"
+                                                CssClass='<%# (Eval("IsVerifed").ToString()=="True")?"btn bg-gradient-success disabled":"btn bg-gradient-info" %>'
+                                                Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verifed":"Verify" %>'
+                                                Enabled='<%# (Eval("IsVerifed").ToString()=="True")?false:true %>'
+                                                CommandArgument='<%# Eval("InflowId") %>'
+                                                CommandName="btnUpdate">
+                                            </asp:LinkButton>
 
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
 
-                                    </Columns>
-                                </asp:GridView>
+                                </Columns>
+                            </asp:GridView>
 
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 

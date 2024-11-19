@@ -20,9 +20,9 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             Fillddl(DdlUnit, "Usp_GetinflowUnit");
-            txtLYSDDate.Text = ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd");
-            Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+            Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
+            Txtdate_TextChanged(sender, e);
         }
     }
 
@@ -41,7 +41,7 @@ public partial class Default2 : System.Web.UI.Page
             {
                 return resultDecimal.ToString();
             }
-         
+
         }
         return "0"; // Return 0 if the TextBox is null or empty
     }
@@ -124,6 +124,7 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(WholeMilkPowderQty));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
 
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeVerient", DdlGheeVerient.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeBal", ParseValue(Gheebalnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeManuf", ParseValue(GheeManuf));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", ParseValue(txtGheeQty));
@@ -245,13 +246,14 @@ public partial class Default2 : System.Web.UI.Page
                 Label lblWholeMilkPowderqty = (Label)row.FindControl("lblWholeMilkPowderqty");
                 Label lblWholeMilkPowderstock = (Label)row.FindControl("lblWholeMilkPowderstock");
 
+                HiddenField hfGheeID = (HiddenField)row.FindControl("hfGheeID");
                 Label lblGheeBal = (Label)row.FindControl("lblGheeBal");
                 Label lblGheeManuf = (Label)row.FindControl("lblGheeManuf");
                 Label lblGheeqty = (Label)row.FindControl("lblGheeqty");
                 Label lblGheestock = (Label)row.FindControl("lblGheestock");
 
                 DdlUnit.ClearSelection();
-                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
+                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;  
                 //SMP
                 MilkPowderBal.Text = lblSMPBal.Text;
                 MilkPowderManuf.Text = lblSMPManuf.Text;
@@ -263,6 +265,8 @@ public partial class Default2 : System.Web.UI.Page
                 WholeMilkPowderQty.Text = lblWholeMilkPowderqty.Text;
                 WholeMilkPowderStock.Text = lblWholeMilkPowderstock.Text;
                 //Ghee
+                DdlGheeVerient.ClearSelection();
+                DdlGheeVerient.Items.FindByValue(hfGheeID.Value).Selected = true;
                 Gheebalnc.Text = lblGheeBal.Text;
                 GheeManuf.Text = lblGheeManuf.Text;
                 txtGheeQty.Text = lblGheeqty.Text;
@@ -271,7 +275,7 @@ public partial class Default2 : System.Web.UI.Page
                 WBOpeningBln.Text = lblWBOpeningBln.Text;
                 WbManufacturer.Text = lblWbManufacturer.Text;
                 WbQty.Text = lblWbQty.Text;
-                Wbstock.Text = lblWBTotal.Text;                
+                Wbstock.Text = lblWBTotal.Text;
 
                 //lysd
                 txtLYSDDate.Text = DateTime.Parse(lblLYSDDate.Text).ToString("yyyy-MM-dd");
@@ -320,22 +324,56 @@ public partial class Default2 : System.Web.UI.Page
     {
         txtLYSDDate.Text = (DateTime.Parse(Txtdate.Text).AddYears(-1)).ToString("yyyy-MM-dd");
 
+        getOpningBal(WBOpeningBln, "12", "WB");
+        getOpningBal(MilkPowderBal, "10", "SMP");
+        getOpningBal(WMPblnc, "47", "WMP");
+        DdlUnit_SelectedIndexChanged(sender, e);
+
     }
 
 
     protected void DdlUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-       
-            getOpningBal(WBOpeningBln, "12", "WB");
-            getOpningBal(MilkPowderBal, "10", "SMP");
-       
+        txtLYSDQty.Text = "0.00";
+        txtLYSDFatPercent.Text = "0.00";
+        txtLYSDFatKG.Text = "0.00";
+        txtLYSDSNFPercent.Text = "0.00";
+        txtLYSDSNFKG.Text = "0.00";
+
+        DataSet ds = obj.ByProcedure("Usp_GetLYSDQty", new[] { "date", "UnitID" }, new[] { Txtdate.Text, DdlUnit.SelectedValue }, Connstr);
+        if (ds.Tables.Count > 1)
+        {
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                txtLYSDQty.Text = ds.Tables[0].Rows[0]["Milkqty"].ToString();
+                txtLYSDFatPercent.Text = ds.Tables[0].Rows[0]["Milkfatperc"].ToString();
+                txtLYSDFatKG.Text = ds.Tables[0].Rows[0]["Milkfat"].ToString();
+                txtLYSDSNFPercent.Text = ds.Tables[0].Rows[0]["MilkSNFperc"].ToString();
+                txtLYSDSNFKG.Text = ds.Tables[0].Rows[0]["MilkSNF"].ToString();
+            }
+        }
+        else if (ds.Tables.Count > 0)
+        {
+            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+            {
+                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+
+            }
+        }
+        else
+        {
+            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+        }
+
     }
-    public void getOpningBal(TextBox input,String ID, String Condition)
+    public void getOpningBal(TextBox input, String ID, String Condition)
     {
         if (!string.IsNullOrEmpty(Txtdate.Text))
         {
 
-            DataSet ds = obj.ByProcedure("Usp_GetOpeningBal", new[] { "ItemID", "date", "Condition" }, new[] { ID, Txtdate.Text, Condition }, Connstr);
+            DataSet ds = obj.ByProcedure("Usp_GetOpeningBal",
+                new[] { "ItemID", "date", "Condition" },
+                new[] { ID, Txtdate.Text, Condition }, Connstr);
             if (ds.Tables.Count > 1)
             {
                 if (ds.Tables[0].Rows.Count > 0)
@@ -346,7 +384,7 @@ public partial class Default2 : System.Web.UI.Page
                 {
                     obj.alertmsg("Table is Empty", divAlert, "bg-warning");
                 }
-               
+
             }
             else if (ds.Tables.Count > 0)
             {
@@ -362,6 +400,14 @@ public partial class Default2 : System.Web.UI.Page
             }
         }
 
+    }
+
+    protected void DdlGheeVerient_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DdlGheeVerient.SelectedValue != "")
+        {
+            getOpningBal(Gheebalnc, DdlGheeVerient.SelectedValue, "Ghee");
+        }
     }
 }
 

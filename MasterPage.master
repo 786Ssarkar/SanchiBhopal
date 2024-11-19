@@ -200,7 +200,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Milk/ Products Sales Detail</span>
+                        <span class="nav-link-text ms-1">Milk/ Products Sales <br /> And Consumption</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -220,7 +220,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Sale Target</span>
+                        <span class="nav-link-text ms-1">Target</span>
                     </a>
                 </li>
                 <li class="nav-item">

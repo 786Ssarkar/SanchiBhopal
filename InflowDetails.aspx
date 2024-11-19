@@ -187,12 +187,17 @@
                                         <label class="custom-label">
                                             Choose Verient
                                         </label>
-                                        <asp:DropDownList runat="server" ClientIDMode="Static" CssClass="form-control" ID="DdlGheeVerient">
+                                        <asp:DropDownList runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
                                             <asp:ListItem>Select</asp:ListItem>
+                                            <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
+                                            <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
+                                            <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
+                                            <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
+                                            <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>
                                         </asp:DropDownList>
 
                                     </div>
-                                </div>
+                                </div>                                                                              
                                 <div class="col-md-4 col-lg-3">
                                     <div class="form-group">
                                         <label class="custom-label">
@@ -569,6 +574,12 @@
                                 </asp:TemplateField>
 
                                 <%--4. Ghee--%>
+                                <asp:TemplateField HeaderText="Ghee Opening Balance ">
+                                    <ItemTemplate>
+                                        <asp:HiddenField runat="server" ID="hfGheeID" Value='<%# Eval("GheeID").ToString() %>'></asp:HiddenField>
+                                        <asp:Label runat="server" ID="lblGheeVerient" Text='<%# Eval("GheeVerient").ToString() %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>   
                                 <asp:TemplateField HeaderText="Ghee Opening Balance ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblGheeBal" Text='<%# Eval("GheeBal").ToString() %>'></asp:Label>
