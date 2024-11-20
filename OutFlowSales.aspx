@@ -24,7 +24,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" required="required">
+                    <asp:DropDownList autocomplete="off" CssClass="form-select" ID="DdlUnit" runat="server" required="required">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
-                    <asp:TextBox TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
+                    <asp:TextBox autocomplete="off" TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
 
 
                 </div>
@@ -40,7 +40,7 @@
                     <label class="custom-label">
                         LYSD Qty (in KG)
                     </label>
-                    <asp:TextBox runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                    <asp:TextBox autocomplete="off"  runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2 text-center">
                     <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
@@ -80,7 +80,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" TextMode="Number" ID="TxtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -124,7 +124,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Quantity">
                                             <ItemTemplate>
-                                                <asp:TextBox TextMode="Number" runat="server" ID="txtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" TextMode="Number" runat="server" ID="txtQty" class="form-control" Text='<%#!(string.IsNullOrEmpty(Eval("Quantity").ToString()))?Eval("Quantity"):"0" %>' oninput="updateTotalQuantity(this)"></asp:TextBox>
 
                                             </ItemTemplate>
 

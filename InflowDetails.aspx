@@ -33,12 +33,13 @@
                 <div class="col-lg-4 col-md-6 mt-2">
 
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
+                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" autocomplete="off" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
                     </asp:DropDownList>
                 </div>
+        
 
             </div>
             <div class="row align-items-end">
@@ -59,7 +60,7 @@
                                                 <label class="custom-label">
                                                     Choose LYSD 
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
                                                 <%--<script>
                                                     document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
@@ -69,7 +70,7 @@
                                                 <label class="custom-label">
                                                     LYSD Qty (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -77,7 +78,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -87,7 +88,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off"  runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -96,7 +97,7 @@
                                                 <label class="custom-label">
                                                     LYSD  Fat (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDFatKG" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDFatKG" CssClass="form-control" placeholder="Fat "></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -104,7 +105,7 @@
                                                 <label class="custom-label">
                                                     LYSD   SNF (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDSNFKG" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDSNFKG" CssClass="form-control" placeholder="SNF"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +119,7 @@
                                         <div class="col-lg-4 col-md-6 mt-2">
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
-                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server"  autocomplete="off" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
                                                 <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                     document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
@@ -128,7 +129,7 @@
                                                 <label class="custom-label">
                                                     Received Quantity (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -137,7 +138,7 @@
                                                 <label class="custom-label catchy-title">
                                                     Fat %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -147,7 +148,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -158,7 +159,7 @@
                                                 <label class="custom-label">
                                                     Fat (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -166,7 +167,7 @@
                                                 <label class="custom-label">
                                                     SNF (in KG)
                                                 </label>
-                                                <asp:TextBox runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -187,13 +188,13 @@
                                         <label class="custom-label">
                                             Choose Verient
                                         </label>
-                                        <asp:DropDownList runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
-                                            <asp:ListItem>Select</asp:ListItem>
-                                            <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
-                                            <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
-                                            <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
-                                            <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
-                                            <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>
+                                        <asp:DropDownList  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <asp:ListItem Value="44">Ghee 200g</asp:ListItem>
+                                            <asp:ListItem Value="45">Ghee 500ml</asp:ListItem>
+                                            <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
+                                            <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
+                                            <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>
                                         </asp:DropDownList>
 
                                     </div>
@@ -203,7 +204,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control"  ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-3">
@@ -211,7 +212,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
 
@@ -221,7 +222,7 @@
                                         <label class="custom-label">
                                             Received 
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-3 ">
@@ -229,7 +230,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
 
@@ -249,7 +250,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -257,7 +258,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -267,7 +268,7 @@
                                         <label class="custom-label">
                                             Received
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -275,7 +276,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +295,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox   autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -302,7 +303,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +313,7 @@
                                         <label class="custom-label">
                                             Received
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox   autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -320,7 +321,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -339,7 +340,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -347,7 +348,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -357,7 +358,7 @@
                                         <label class="custom-label">
                                             Received
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -365,7 +366,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -515,7 +516,7 @@
                                         <asp:Label runat="server" ID="lblWBOBal" Text='<%# Eval("WBOBal").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="WB Opening Balance ">
+                                <asp:TemplateField HeaderText="WB Manufactured ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblWBManuf" Text='<%# Eval("WBManuf").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -536,7 +537,7 @@
                                         <asp:Label runat="server" ID="lblSMPBal" Text='<%# Eval("SMPBal").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="SMP Opening Balance ">
+                                <asp:TemplateField HeaderText="SMP Manufactured ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblSMPManuf" Text='<%# Eval("SMPManuf").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -557,7 +558,7 @@
                                         <asp:Label runat="server" ID="lblWMPBal" Text='<%# Eval("WMPBal").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="WMP Opening Balance ">
+                                <asp:TemplateField HeaderText="WMP Manufactured ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblWMPManuf" Text='<%# Eval("WMPManuf").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -574,7 +575,7 @@
                                 </asp:TemplateField>
 
                                 <%--4. Ghee--%>
-                                <asp:TemplateField HeaderText="Ghee Opening Balance ">
+                                <asp:TemplateField HeaderText="Ghee Verient ">
                                     <ItemTemplate>
                                         <asp:HiddenField runat="server" ID="hfGheeID" Value='<%# Eval("GheeID").ToString() %>'></asp:HiddenField>
                                         <asp:Label runat="server" ID="lblGheeVerient" Text='<%# Eval("GheeVerient").ToString() %>'></asp:Label>
@@ -585,7 +586,7 @@
                                         <asp:Label runat="server" ID="lblGheeBal" Text='<%# Eval("GheeBal").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Ghee Opening Balance ">
+                                <asp:TemplateField HeaderText="Ghee Manufactured ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblGheeManuf" Text='<%# Eval("GheeManuf").ToString() %>'></asp:Label>
                                     </ItemTemplate>

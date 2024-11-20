@@ -324,9 +324,9 @@ public partial class Default2 : System.Web.UI.Page
     {
         txtLYSDDate.Text = (DateTime.Parse(Txtdate.Text).AddYears(-1)).ToString("yyyy-MM-dd");
 
-        getOpningBal(WBOpeningBln, "12", "WB");
-        getOpningBal(MilkPowderBal, "10", "SMP");
-        getOpningBal(WMPblnc, "47", "WMP");
+        getOpningBal(WBOpeningBln,WbManufacturer, "12", "WB");
+        getOpningBal(MilkPowderBal,MilkPowderManuf, "10", "SMP");
+        getOpningBal(WMPblnc,WMPManuf, "43", "WMP");
         DdlUnit_SelectedIndexChanged(sender, e);
 
     }
@@ -366,7 +366,7 @@ public partial class Default2 : System.Web.UI.Page
         }
 
     }
-    public void getOpningBal(TextBox input, String ID, String Condition)
+    public void getOpningBal(TextBox balence, TextBox mnf, String ID, String Condition)
     {
         if (!string.IsNullOrEmpty(Txtdate.Text))
         {
@@ -378,7 +378,9 @@ public partial class Default2 : System.Web.UI.Page
             {
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    input.Text = ds.Tables[0].Rows[0]["OpeningBal"].ToString();
+                    balence.Text = ds.Tables[0].Rows[0]["OpeningBal"].ToString();
+                    mnf.Text = ds.Tables[0].Rows[0]["mnf"].ToString();
+
                 }
                 else
                 {
@@ -406,7 +408,7 @@ public partial class Default2 : System.Web.UI.Page
     {
         if (DdlGheeVerient.SelectedValue != "")
         {
-            getOpningBal(Gheebalnc, DdlGheeVerient.SelectedValue, "Ghee");
+            getOpningBal(Gheebalnc,GheeManuf, DdlGheeVerient.SelectedValue, "Ghee");
         }
     }
 }

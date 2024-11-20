@@ -37,7 +37,7 @@
                         <label class="text-dark text-lg">
                             Choose LYSD 
                         </label>
-                        <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control"  placeholder="Enter  LYSD Date"></asp:TextBox>
+                        <asp:TextBox autocomplete="off"  runat="server" ClientIDMode="Static" TextMode="Date" ID="txtLYSDDate" CssClass="form-control"  placeholder="Enter  LYSD Date"></asp:TextBox>
                         
                     </div>
                 </div>
@@ -46,7 +46,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
                     <hr />
-                    <asp:Button CssClass="Alert-Confirmation btn btn-outline-success btn-border  w-lg" ClientIDMode="Static" runat="server" ID="BtnAdd" Text="Add" OnClick="BtnAdd_Click" />
+                    <asp:Button CssClass="Alert-Confirmation btn btn-outline-success btn-border  w-lg" ClientIDMode="Static" Enabled="false" runat="server" ID="BtnAdd" Text="Add" OnClick="BtnAdd_Click" />
                     <a href="TargetDetails.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                     <div class="col-12 mt-4">
                         <div class="row justify-content-center">
                             <div class="col-md-5 text-center">
-                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
+                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" Enabled="false" OnClick="BtnSubmit_Click" />
 
                                 <a href="TargetDetails.aspx" class=" mb-0 btn bg-gradient-warning">Clear</a>
                             </div>

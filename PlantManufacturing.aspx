@@ -24,7 +24,7 @@
                 <div class="col-md-12 mb-2">
                     <div class="row">
                         <div class="col-lg-3 col-md-6 ">
-                            <asp:TextBox TextMode="Date" autocomplete="off" ID="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+                            <asp:TextBox  TextMode="Date" autocomplete="off" ID="Txtdate" runat="server" class="form-control" required="required"></asp:TextBox>
                         </div>
                     </div>
                 </div>

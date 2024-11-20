@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="date-picker" class="text-dark text-lg">From Date</label>
                         <div class="col-md-10">
-                            <asp:TextBox TextMode="Date" ID="FromTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="FromTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
 
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="date-picker" class="text-dark text-lg">To Date</label>
                         <div class="col-md-10">
-                            <asp:TextBox TextMode="Date" ID="ToTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="ToTxtdate" runat="server" class="form-control" required="required"></asp:TextBox>
 
                         </div>
                     </div>

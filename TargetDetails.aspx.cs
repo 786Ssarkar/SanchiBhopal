@@ -22,14 +22,20 @@ public partial class TargetDetails : System.Web.UI.Page
             FS_Details.Visible = false;
             DateTime SelectedDate = DateTime.Now;
 
-            if (SelectedDate.Day >= 1 && SelectedDate.Day <= 31)
+            if (SelectedDate.Day >= 1 && SelectedDate.Day <= 10)
             {
                 BtnAdd.Enabled = true;
                 BtnSubmit.Enabled = true;
-               
+
+            }
+            else
+            {
+                ///else block  for Data Entry  only 
+                BtnAdd.Enabled = true;
+                BtnSubmit.Enabled = true;
             }
 
-          
+
         }
 
     }
