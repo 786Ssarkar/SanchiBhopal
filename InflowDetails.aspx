@@ -33,13 +33,15 @@
                 <div class="col-lg-4 col-md-6 mt-2">
 
                     <label class="text-dark text-lg">Select Name of Unit</label>
+                    <asp:RequiredFieldValidator ErrorMessage="Unit is Required" ControlToValidate="DdlUnit" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
+
                     <asp:DropDownList CssClass="form-select" ID="DdlUnit" runat="server" autocomplete="off" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
                     </asp:DropDownList>
                 </div>
-        
+
 
             </div>
             <div class="row align-items-end">
@@ -88,7 +90,7 @@
                                                 <label class="custom-label catchy-title">
                                                     LYSD SNF %
                                                 </label>
-                                                <asp:TextBox autocomplete="off"  runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -119,7 +121,9 @@
                                         <div class="col-lg-4 col-md-6 mt-2">
                                             <div class="form-group">
                                                 <label class="custom-label">Date</label>
-                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server"  autocomplete="off" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
+
+                                                <asp:RequiredFieldValidator ErrorMessage="Date is Required" ControlToValidate="Txtdate" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" autocomplete="off" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
                                                 <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                     document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
                                             </div>
@@ -129,7 +133,7 @@
                                                 <label class="custom-label">
                                                     Received Quantity (in KG)
                                                 </label>
-                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -138,7 +142,7 @@
                                                 <label class="custom-label catchy-title">
                                                     Fat %
                                                 </label>
-                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
 
                                             </div>
 
@@ -148,7 +152,7 @@
                                                 <label class="custom-label catchy-title">
                                                     SNF %
                                                 </label>
-                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -159,7 +163,7 @@
                                                 <label class="custom-label">
                                                     Fat (in KG)
                                                 </label>
-                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6">
@@ -167,7 +171,7 @@
                                                 <label class="custom-label">
                                                     SNF (in KG)
                                                 </label>
-                                                <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -186,25 +190,30 @@
                                 <div class="col-md-4 col-lg-3">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Choose Verient
+                                            Choose Variant
                                         </label>
-                                        <asp:DropDownList  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
+                                        <asp:DropDownList autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
                                             <asp:ListItem Value="0">Select</asp:ListItem>
-                                            <asp:ListItem Value="44">Ghee 200g</asp:ListItem>
+                                             <asp:ListItem Value="44">Ghee 200g</asp:ListItem>
                                             <asp:ListItem Value="45">Ghee 500ml</asp:ListItem>
                                             <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
                                             <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
                                             <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>
+                                          <%--  <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
+                                            <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
+                                            <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
+                                            <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
+                                            <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>--%>
                                         </asp:DropDownList>
 
                                     </div>
-                                </div>                                                                              
+                                </div>
                                 <div class="col-md-4 col-lg-3">
                                     <div class="form-group">
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control"  ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-3">
@@ -212,7 +221,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
 
@@ -222,7 +231,7 @@
                                         <label class="custom-label">
                                             Received 
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-3 ">
@@ -230,7 +239,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
 
@@ -250,7 +259,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -258,7 +267,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +277,7 @@
                                         <label class="custom-label">
                                             Received
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -276,7 +285,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +304,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox   autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -303,7 +312,7 @@
                                         <label class="custom-label">
                                             Manufactured
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
                                     </div>
                                 </div>
                             </div>
@@ -313,7 +322,7 @@
                                         <label class="custom-label">
                                             Received
                                         </label>
-                                        <asp:TextBox   autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -321,7 +330,7 @@
                                         <label class="custom-label">
                                             Total
                                         </label>
-                                        <asp:TextBox  autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
                                     </div>
                                 </div>
                             </div>
@@ -373,50 +382,14 @@
                         </div>
                     </div>
                 </div>
-                <%--<div class="col-md-12">
-                    <div class="card bg-white mt-3">
-                        <div class="card-body">
-                            <div class="row text-center mb-2">
-                                <h5 class=" catchy-title">Target Details</h5>
-                            </div>
-                            <div class="row align-items-end">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Target Date 
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" TextMode="Date" ID="TargetDate" CssClass="form-control" placeholder="Enter Target Date"></asp:TextBox>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Target Milk
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtTargetmilk" placeholder="Enter Target Milk" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="custom-label">
-                                            Milk Cumulative
-                                        </label>
-                                        <asp:TextBox runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtMilkCumulative" placeholder="Enter Milk Cumulative" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>--%>
-
-
-
+               
                 <div class="col-12">
                     <div class="row justify-content-center">
                         <div class="col-md-12 text-center">
                             <hr />
-                            <asp:Button Text="Submit" runat="server" CssClass=" btn btn-outline-success btn-border  w-lg" ID="btnSubmit" OnClick="btnSubmit_Click" />
+                    <asp:ValidationSummary runat="server" ValidationGroup="Form"   ShowMessageBox="true" ShowSummary="false"/>
+
+                            <asp:Button Text="Submit" runat="server" CssClass=" btn btn-outline-success btn-border  w-lg" ID="btnSubmit" OnClick="btnSubmit_Click" ValidationGroup="Form" />
 
                             <a href="InflowDetails.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>
                         </div>
@@ -432,6 +405,31 @@
             Inflow Details
         </div>
         <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">From Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="FromTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">To Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="ToTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <br />
+
+                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" type="button" />
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive ">
@@ -580,7 +578,7 @@
                                         <asp:HiddenField runat="server" ID="hfGheeID" Value='<%# Eval("GheeID").ToString() %>'></asp:HiddenField>
                                         <asp:Label runat="server" ID="lblGheeVerient" Text='<%# Eval("GheeVerient").ToString() %>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>   
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Ghee Opening Balance ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblGheeBal" Text='<%# Eval("GheeBal").ToString() %>'></asp:Label>
@@ -608,8 +606,7 @@
                                     <ItemTemplate>
                                         <asp:Label runat="server"
                                             CssClass='<%# (Eval("IsVerifed").ToString()=="True")?" text-success text-gradient  ":" text-info text-gradient " %>'
-                                            Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verifed":"Pending" %>'>
-                                        </asp:Label>
+                                            Text='<%# (Eval("IsVerifed").ToString()=="True")?"Verifed":"Pending" %>'></asp:Label>
 
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -617,8 +614,7 @@
                                     <ItemTemplate>
                                         <asp:Label runat="server"
                                             CssClass='<%# (Eval("IsApproved").ToString()=="True")?" text-success text-gradient ":"text-info text-gradient " %>'
-                                            Text='<%# (Eval("IsApproved").ToString()=="True")?"Approved":"Pending" %>'>
-                                        </asp:Label>
+                                            Text='<%# (Eval("IsApproved").ToString()=="True")?"Approved":"Pending" %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Action">
@@ -628,9 +624,9 @@
                                             CommandArgument='<%# Eval("InflowId") %>'
                                             Enabled='<%# (Convert.ToBoolean(Eval("IsApproved"))||Convert.ToBoolean(Eval("IsVerifed")) )?false:true %>'
                                             CommandName="EditData">
-                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                            <path d="M 18.414062 2 C 18.158062 2 17.902031 2.0979687 17.707031 2.2929688 L 15.707031 4.2929688 L 14.292969 5.7070312 L 3 17 L 3 21 L 7 21 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.926094 2.0979687 18.670063 2 18.414062 2 z M 18.414062 4.4140625 L 19.585938 5.5859375 L 18.292969 6.8789062 L 17.121094 5.7070312 L 18.414062 4.4140625 z M 15.707031 7.1210938 L 16.878906 8.2929688 L 6.171875 19 L 5 19 L 5 17.828125 L 15.707031 7.1210938 z"></path>
-                                         </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
+                                                <path d="M 18.414062 2 C 18.158062 2 17.902031 2.0979687 17.707031 2.2929688 L 15.707031 4.2929688 L 14.292969 5.7070312 L 3 17 L 3 21 L 7 21 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.926094 2.0979687 18.670063 2 18.414062 2 z M 18.414062 4.4140625 L 19.585938 5.5859375 L 18.292969 6.8789062 L 17.121094 5.7070312 L 18.414062 4.4140625 z M 15.707031 7.1210938 L 16.878906 8.2929688 L 6.171875 19 L 5 19 L 5 17.828125 L 15.707031 7.1210938 z"></path>
+                                            </svg>
                                         </asp:LinkButton>
                                         <asp:LinkButton runat="server"
                                             CssClass='<%# (Convert.ToBoolean(Eval("IsApproved"))||Convert.ToBoolean(Eval("IsVerifed")) )?"btn btn-danger btn-sm disabled":"btn btn-danger btn-sm " %>'

@@ -12,17 +12,21 @@
             <div class="row justify-content-end">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="date-picker" class="text-dark text-lg">Date</label>
+                        <label for="date-picker" class="text-dark text-lg">Date<span style="color: red">*</span></label>
+                             <asp:RequiredFieldValidator ErrorMessage="Date is Required" ControlToValidate="Txtdate" ForeColor="Red" Display="None" runat="server" SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
                         <div class="col-md-10">
-                            <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" autocomplete="off" required="required"></asp:TextBox>
+
+                            <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" class="form-control" autocomplete="off"></asp:TextBox>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="text-dark text-lg">
-                            Select Item <span style="color: red">*</span></label>
-                        <asp:DropDownList runat="server" ID="DdlItemCat" CssClass="form-control" autocomplete="off" required="required">
+                            Select Item Category <span style="color: red">*</span></label>
+                             <asp:RequiredFieldValidator ErrorMessage=" Item Category is Required" ControlToValidate="DdlItemCat" ForeColor="Red" Display="None" runat="server" SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
+
+                        <asp:DropDownList runat="server" ID="DdlItemCat" CssClass="form-control" autocomplete="off">
                             <asp:ListItem Text="--Select--" Value="" />
                             <asp:ListItem Text="Milk" Value="Milk" />
                             <asp:ListItem Text="Product" Value="Product" />
@@ -33,7 +37,9 @@
                     <div class="form-group">
                         <label class="text-dark text-lg">
                             Select Shift <span style="color: red">*</span></label>
-                        <asp:DropDownList runat="server" ID="DdlShift" CssClass="form-control" autocomplete="off" required="required">
+                             <asp:RequiredFieldValidator ErrorMessage=" Shift is Required" ControlToValidate="DdlShift" ForeColor="Red" Display="None" runat="server" SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
+
+                        <asp:DropDownList runat="server" ID="DdlShift" CssClass="form-control" autocomplete="off">
                             <asp:ListItem Text="--Select--" Value="" />
                             <asp:ListItem Selected="True" Text="Morning" Value="Morning" />
                             <asp:ListItem Text="Evening" Value="Evening" />
@@ -44,7 +50,9 @@
                     <div class="form-group">
                         <label class="text-dark text-lg">
                             Select Retailer <span style="color: red">*</span></label>
-                        <asp:DropDownList runat="server" ID="DdlRetailer" CssClass="form-control" autocomplete="off" required="required">
+                             <asp:RequiredFieldValidator ErrorMessage=" Retailer is Required" ControlToValidate="DdlRetailer" ForeColor="Red" Display="None" runat="server"  SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
+
+                        <asp:DropDownList runat="server" ID="DdlRetailer" CssClass="form-control" autocomplete="off">
                             <asp:ListItem Text="--Select--" Value="" />
                             <asp:ListItem Text="Depot No. 94[D75]" />
                             <asp:ListItem Text="Depot No. 81[D05]" />
@@ -58,7 +66,9 @@
                     <div class="form-group">
                         <label class="text-dark text-lg">
                             Select Vehicle Name <span style="color: red">*</span></label>
-                        <asp:DropDownList runat="server" ID="DdlVehicleName" CssClass="form-control" autocomplete="off" required="required">
+                             <asp:RequiredFieldValidator ErrorMessage="  Vehicle Name is Required" ControlToValidate="DdlVehicleName" ForeColor="Red" Display="None" runat="server" SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
+
+                        <asp:DropDownList runat="server" ID="DdlVehicleName" CssClass="form-control" autocomplete="off">
                             <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </div>
@@ -67,7 +77,9 @@
                     <div class="form-group">
                         <label class="text-dark text-lg">
                             Select Demand Type<span style="color: red">*</span></label>
-                        <asp:DropDownList runat="server" ID="DdlDemandType" CssClass="form-control" autocomplete="off" required="required">
+                             <asp:RequiredFieldValidator ErrorMessage="  Demand Type is Required" ControlToValidate="DdlDemandType" ForeColor="Red" Display="None" runat="server" SetFocusOnError="true"  ValidationGroup="Add"  Font-Size="Small"/>
+
+                        <asp:DropDownList runat="server" ID="DdlDemandType" CssClass="form-control" autocomplete="off">
                             <asp:ListItem Text="--Select--" Value="" />
                             <asp:ListItem Selected="True" Text="Regular Demand" Value="Regular" />
                             <asp:ListItem Text="Irregular Demand" Value="Irregular" />
@@ -78,8 +90,9 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
                     <hr />
-                    <asp:Button CssClass="Alert-Confirmation btn btn-outline-success btn-border  w-lg" ClientIDMode="Static" runat="server" ID="BtnAdd" OnClick="BtnAdd_Click" Text="Add" />
-                    <a href="AddDemand.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>
+                    <asp:Button CssClass="Alert-Confirmation btn btn-outline-success btn-border  w-lg" ClientIDMode="Static" runat="server" ID="BtnAdd" OnClick="BtnAdd_Click" Text="Add" SetFocusOnError="true"  ValidationGroup="Add"/>
+                    <a href="AddDemand.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>   
+                    <asp:ValidationSummary runat="server" ValidationGroup="Add"   ShowMessageBox="true" ShowSummary="false"/>
                 </div>
             </div>
             <fieldset id="FS_Details" runat="server">
@@ -101,12 +114,12 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Quantity">
                                         <ItemTemplate>
-                                            <asp:TextBox autocomplete="off" runat="server" CssClass="form-control" ID="txtQuantity" Text='<%#(Eval("Quantity")!=null)?Eval("Quantity"):"0" %>'></asp:TextBox>
+                                            <asp:TextBox autocomplete="off" runat="server"  CssClass="form-control" ID="txtQuantity" Text='<%#(Eval("Quantity").ToString()!="")?Eval("Quantity"):"0" %>'></asp:TextBox>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Advanced Card">
                                         <ItemTemplate>
-                                            <asp:TextBox autocomplete="off" runat="server" CssClass="form-control" ID="txtAdvancedCard" Text='<%# (Eval("AdvancedCard")!=null)?Eval("AdvancedCard"):"0" %>' ReadOnly="true"></asp:TextBox>
+                                            <asp:TextBox autocomplete="off" runat="server" CssClass="form-control" ID="txtAdvancedCard" Text='<%# (Eval("AdvancedCard").ToString()!="")?Eval("AdvancedCard"):"0" %>' ReadOnly="true"></asp:TextBox>
 
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -117,7 +130,7 @@
                     <div class="col-12 mt-4">
                         <div class="row justify-content-center">
                             <div class="col-md-5 text-center">
-                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
+                                <asp:Button Text="Submit" class="mb-0 btn bg-gradient-success" runat="server" ID="BtnSubmit" OnClick="BtnSubmit_Click" ValidationGroup="Add" />
                                 <a href="AddDemand.aspx" class=" mb-0 btn bg-gradient-warning">Clear</a>
                             </div>
                         </div>
@@ -133,6 +146,31 @@
             Demands Details
         </div>
         <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">From Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="FromTxtdate" runat="server" class="form-control" ValidationGroup="Search"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date-picker" class="text-dark text-lg">To Date</label>
+                        <div class="col-md-10">
+                            <asp:TextBox autocomplete="off" TextMode="Date" ID="ToTxtdate" runat="server" class="form-control" ValidationGroup="Search"></asp:TextBox>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <asp:ValidationSummary runat="server" ValidationGroup="Search"  ShowMessageBox="true" ShowSummary="false"/>
+                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" type="button" CausesValidation="true" ValidationGroup="Search" />
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="table-responsive ">

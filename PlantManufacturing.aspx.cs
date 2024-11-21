@@ -38,17 +38,7 @@ public partial class _Default : System.Web.UI.Page
                 dtItems.Columns.Add("Quantity", typeof(int));
                 dtItems.Columns.Add("advance", typeof(int));
 
-                //foreach (GridViewRow row in gvMilkItems.Rows)
-                //{
-                //    DataRow dr = dtItems.NewRow();
-                //    dr["ItemID"] = ((HiddenField)row.FindControl("hfItemID")).Value;
-                //    dr["ItemName"] = ((Label)row.FindControl("GVItemName")).Text;
-                //    dr["Quantity"] = string.IsNullOrEmpty(((TextBox)row.FindControl("GVIQuantity")).Text)
-                //                     ? 0
-                //                     : int.Parse(((TextBox)row.FindControl("GVIQuantity")).Text);
 
-                //    dtItems.Rows.Add(dr);
-                //}
 
                 foreach (GridViewRow row in gvProductItems.Rows)
                 {
@@ -94,7 +84,7 @@ public partial class _Default : System.Web.UI.Page
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
                         FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
-                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
+                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
                         BtnSubmit.Text = "Submit";
                     }
                     else
@@ -211,7 +201,8 @@ public partial class _Default : System.Web.UI.Page
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
                         FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
-                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
+                        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert, new[] { "@FromDate", "@ToDate" },
+              new[] { FromTxtdate.Text, ToTxtdate.Text });
                     }
                     else
                     {
@@ -225,4 +216,12 @@ public partial class _Default : System.Web.UI.Page
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
+
+    }
+
 }

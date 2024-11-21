@@ -24,7 +24,9 @@
             <div class="row align-items-end">
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Select Name of Unit</label>
-                    <asp:DropDownList autocomplete="off" CssClass="form-select" ID="DdlUnit" runat="server" required="required">
+                    <asp:RequiredFieldValidator ErrorMessage="Unit is Required" ControlToValidate="DdlUnit" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
+
+                    <asp:DropDownList autocomplete="off" CssClass="form-select" ID="DdlUnit" runat="server">
                         <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
 
 
@@ -32,7 +34,8 @@
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2">
                     <label class="text-dark text-lg">Date</label>
-                    <asp:TextBox autocomplete="off" TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control" required></asp:TextBox>
+                    <asp:RequiredFieldValidator ErrorMessage="Date is Required" ControlToValidate="Txtdate" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Submit" Font-Size="Small" />
+                    <asp:TextBox autocomplete="off" TextMode="Date" runat="server" ID="TxtDate" CssClass="form-control"></asp:TextBox>
 
 
                 </div>
@@ -40,11 +43,12 @@
                     <label class="custom-label">
                         LYSD Qty (in KG)
                     </label>
-                    <asp:TextBox autocomplete="off"  runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" TextMode="number" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
                 </div>
                 <div class="col-lg-3 col-md-6 mt-2 text-center">
-                    <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
-                    <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" OnClick="btnMilk_Click" />
+                    <asp:ValidationSummary runat="server" ValidationGroup="Form" ShowMessageBox="true" ShowSummary="false" />
+                    <asp:Button ID="btnMilk" Text="Milk" runat="server" CssClass="mb-0 btn bg-gradient-primary" ValidationGroup="Form" OnClick="btnMilk_Click" />
+                    <asp:Button ID="btnProduct" Text="Product" runat="server" CssClass=" mb-0 btn bg-gradient-primary" ValidationGroup="Form" OnClick="btnMilk_Click" />
                 </div>
             </div>
             <div class="row">
@@ -136,22 +140,47 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-4" id="DvSubmit" runat="server" visible="false">
                 <div class="row justify-content-center">
                     <div class="col-md-5 text-center">
-                        <asp:Button Text="Submit" runat="server" CssClass=" mb-0 btn bg-gradient-success" ID="BtnSubmit" OnClick="BtnSubmit_Click" />
+
+
+                        <asp:ValidationSummary runat="server" ValidationGroup="Submit" ShowMessageBox="true" ShowSummary="false" />
+                        <asp:Button Text="Submit" runat="server" CssClass=" mb-0 btn bg-gradient-success" ID="BtnSubmit" OnClick="BtnSubmit_Click" ValidationGroup="Submit" />
                         <a href="OutFlowSales.aspx" class="mb-0 btn bg-gradient-warning">Clear</a>
-                        <%--<button type="button" class="Alert-Save mb-0 btn bg-gradient-success">Submit</button>
-                    <button type="reset" class=" mb-0 btn bg-gradient-warning">Clear</button> --%>
                     </div>
                 </div>
             </div>
             <div>
                 <div class="card-body p-5">
                     <div class="card-header pb-0 px-3 d-flex">
-
                         <div class="col text-end">
                             <button id="ExcelBtn" class="btn bg-gradient-info" onclick="exportToExcel()" type="button">Export Excel</button>
+                        </div>
+                    </div>
+                    <div class="row align-items-end">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">From Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox autocomplete="off" TextMode="Date" ID="FromTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="date-picker" class="text-dark text-lg">To Date</label>
+                                <div class="col-md-10">
+                                    <asp:TextBox autocomplete="off" TextMode="Date" ID="ToTxtdate" runat="server" class="form-control"></asp:TextBox>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <br />
+
+                            <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" type="button" />
                         </div>
                     </div>
                     <div class="row">
@@ -192,7 +221,7 @@
 
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                      
+
                                         <asp:TemplateField HeaderText="Action">
                                             <ItemTemplate>
                                                 <asp:LinkButton CssClass="btn btn-info btn-sm" runat="server" CommandArgument='<%# Eval("SalesID") %>' CommandName="EditData">
@@ -289,7 +318,7 @@
             if (<%= (ViewState["Category"]!= null)?1:0 %>) {
 
                 ResizeCol('<%= ViewState["Category"]%>');
-            } 
+            }
         }
         );
         //ButtonClick and load input fields

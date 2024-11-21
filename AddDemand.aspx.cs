@@ -18,7 +18,7 @@ public partial class AddDemand : System.Web.UI.Page
             divAlert.InnerHtml = "";
             FS_Details.Visible = false;
             Fillddl(DdlVehicleName, "Usp_GetUnit");
-            obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+            obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
         }
     }
 
@@ -84,7 +84,7 @@ public partial class AddDemand : System.Web.UI.Page
                         FS_Details.Visible = true;
                         BtnSubmit.Text = "Submit";
                     }
-                }                                                       
+                }
                 else if (ds.Tables.Count > 0)
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
@@ -166,7 +166,8 @@ public partial class AddDemand : System.Web.UI.Page
                         DdlDemandType.Items.FindByValue("Regular").Selected = true;
 
                         FS_Details.Visible = false;
-                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
+                        
                         BtnSubmit.Text = "Submit";
                     }
                     else
@@ -238,7 +239,7 @@ public partial class AddDemand : System.Web.UI.Page
                 {
                     obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
                 }
-              
+
             }
             else if (e.CommandName == "DeleteData")
             {
@@ -248,7 +249,8 @@ public partial class AddDemand : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+                        //obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert);
+                        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
                     }
                     else
                     {
@@ -261,7 +263,14 @@ public partial class AddDemand : System.Web.UI.Page
         {
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
 
     }
+
 }
 

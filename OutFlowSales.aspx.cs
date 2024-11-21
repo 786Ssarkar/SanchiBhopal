@@ -64,7 +64,7 @@ public partial class _Default : System.Web.UI.Page
                 {
                     td = GetGridData(grdMilk);
                     SubmitItems(td, "Milk");
-                    obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+                   
                 }
                 else if (ViewState["Category"].ToString() == "Product")
                 {
@@ -136,12 +136,15 @@ public partial class _Default : System.Web.UI.Page
                     grdMilk.DataSource = null;
                     grdMilk.DataBind();
                     ViewState["Category"] = null;
+                    DvSubmit.Visible = false;
                     colMilk.Attributes.CssStyle.Value = "col-md-6 mt-4";
                     colProducts.Attributes.CssStyle.Value = "col-md-6 mt-4";
                     TxtDate.Text = DateTime.Now.ToString();
                     DdlUnit.ClearSelection();
                     txtLYSDQty.Text = "";
-                    obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+                   
+                    obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
                     BtnSubmit.Text = "Submit";
                 }
                 else
@@ -277,6 +280,7 @@ public partial class _Default : System.Web.UI.Page
                     grdProduct.DataSource = null;
                     grdProduct.DataBind();
                     BtnSubmit.Text = "Update";
+                    DvSubmit.Visible = true;
                 }
                 else if (lblItemCategory.Text == "Product")
                 {
@@ -285,6 +289,7 @@ public partial class _Default : System.Web.UI.Page
                     grdMilk.DataSource = null;
                     grdMilk.DataBind();
                     BtnSubmit.Text = "Update";
+                    DvSubmit.Visible = true;
 
                 }
             }
@@ -296,7 +301,8 @@ public partial class _Default : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert);
+                        obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+                new[] { FromTxtdate.Text, ToTxtdate.Text });
                     }
                     else
                     {
@@ -309,6 +315,13 @@ public partial class _Default : System.Web.UI.Page
         {
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
+    }
+
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        obj.FillGrid(grdOutFlow, "Usp_GetItemDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
+
     }
 
 }

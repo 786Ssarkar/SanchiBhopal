@@ -82,23 +82,6 @@ public partial class Report : System.Web.UI.Page
         FillGrid(grdItems, "uspTransReport", new[] { "FromDate", "ToDate" },
                new[] { FromTxtdate.Text, ToTxtdate.Text });
 
-
-        //DateTime fromDateValue;
-        //DateTime toDateValue;
-        //if (DateTime.TryParse(FromTxtdate.Text, out fromDateValue) &&
-        //    DateTime.TryParse(ToTxtdate.Text, out toDateValue))
-        //{
-            
-        //    string[] prm = { "@FromDate", "@ToDate" };
-        //    string[] values = { fromDateValue.ToString("yyyy-MM-dd"), toDateValue.ToString("yyyy-MM-dd") };
-
-            
-        //    FillGrid(grdItems, "uspTransReport", prm, values);
-        //}
-        //else
-        //{
-        //    alertmsg("Invalid date format. Please enter valid dates.", "bg-warning");
-        //}
     }
 }
 

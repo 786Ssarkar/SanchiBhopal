@@ -20,7 +20,7 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             Fillddl(DdlUnit, "Usp_GetinflowUnit");
-            obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+            obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert);
             Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             Txtdate_TextChanged(sender, e);
         }
@@ -141,7 +141,7 @@ public partial class Default2 : System.Web.UI.Page
                     {
                         obj.clearFields((HtmlForm)Master.FindControl("form1"));
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+                        obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
                         btnSubmit.Text = "Submit";
                     }
                     else
@@ -304,7 +304,8 @@ public partial class Default2 : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(GVInflow, "Usp_GetInfloeDetails", Connstr, divAlert);
+                        obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+              new[] { FromTxtdate.Text, ToTxtdate.Text });
                     }
                     else
                     {
@@ -326,9 +327,10 @@ public partial class Default2 : System.Web.UI.Page
 
         getOpningBal(WBOpeningBln,WbManufacturer, "12", "WB");
         getOpningBal(MilkPowderBal,MilkPowderManuf, "10", "SMP");
-        getOpningBal(WMPblnc,WMPManuf, "43", "WMP");
+        getOpningBal(WMPblnc, WMPManuf, "43", "WMP");//on server
+        //getOpningBal(WMPblnc, WMPManuf, "47", "WMP");
         DdlUnit_SelectedIndexChanged(sender, e);
-
+        DdlGheeVerient_SelectedIndexChanged(sender, e);
     }
 
 
@@ -411,6 +413,13 @@ public partial class Default2 : System.Web.UI.Page
             getOpningBal(Gheebalnc,GheeManuf, DdlGheeVerient.SelectedValue, "Ghee");
         }
     }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
+
+    }
+
 }
 
 
