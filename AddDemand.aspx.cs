@@ -6,6 +6,7 @@ using System.Data;
 using System.Configuration;
 using System.Text;
 using System.Web.UI.HtmlControls;
+using System.Globalization;
 
 public partial class AddDemand : System.Web.UI.Page
 {
@@ -19,6 +20,11 @@ public partial class AddDemand : System.Web.UI.Page
             FS_Details.Visible = false;
             Fillddl(DdlVehicleName, "Usp_GetUnit");
             obj.FillGrid(grdDemands, "Usp_GetDemand", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
+        }
+        else
+        {
+
+            MaintainScrollPositionOnPostBack = true;
         }
     }
 
@@ -198,7 +204,7 @@ public partial class AddDemand : System.Web.UI.Page
                 HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
                 Label lblDemandType = (Label)row.FindControl("lblDemandType");
                 ViewState["DemandId"] = e.CommandArgument;
-                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                Txtdate.Text = DateTime.ParseExact(lblDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
 
                 DdlDemandType.ClearSelection();
                 DdlDemandType.Items.FindByValue(lblDemandType.Text).Selected = true;

@@ -155,7 +155,7 @@
 
                                 <asp:TemplateField HeaderText="Target Date">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblTargetmonth" Text='<%# DateTime.Parse(Eval("Targetmonth").ToString()).ToString("yyyy-MM-dd") %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblTargetmonth" Text='<%# Eval("Targetmonth").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Item Category">

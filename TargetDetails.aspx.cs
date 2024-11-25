@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Configuration;
+using System.Globalization;
 
 
 public partial class TargetDetails : System.Web.UI.Page
@@ -37,8 +38,11 @@ public partial class TargetDetails : System.Web.UI.Page
                 BtnAdd.Enabled = true;
                 BtnSubmit.Enabled = true;
             }
+        }
+        else
+        {
 
-
+            MaintainScrollPositionOnPostBack = true;
         }
 
     }
@@ -152,10 +156,10 @@ public partial class TargetDetails : System.Web.UI.Page
                 dtItems.Columns.Add("SaleAbsolute", typeof(decimal));
                 dtItems.Columns.Add("AvgGrowthPer", typeof(decimal));
 
-                decimal totalTarget = 0;
-                decimal totalCumulative = 0;
-                decimal totalAbsolute = 0;
-                decimal totalAvgGrowth = 0;
+                //decimal totalTarget = 0;
+                //decimal totalCumulative = 0;
+                //decimal totalAbsolute = 0;
+                //decimal totalAvgGrowth = 0;
 
                 foreach (GridViewRow row in grdItems.Rows)
                 {
@@ -168,10 +172,10 @@ public partial class TargetDetails : System.Web.UI.Page
                     dr["SaleAbsolute"] = ParseValue(((TextBox)row.FindControl("txtAchieved")));
                     dr["AvgGrowthPer"] = ParseValue(((TextBox)row.FindControl("txtPerc")));
 
-                    totalTarget += (decimal)dr["TargetData"];
-                    totalCumulative += (decimal)dr["SaleCumulative"];
-                    totalAbsolute += (decimal)dr["SaleAbsolute"];
-                    totalAvgGrowth += (decimal)dr["AvgGrowthPer"];
+                    //totalTarget += (decimal)dr["TargetData"];
+                    //totalCumulative += (decimal)dr["SaleCumulative"];
+                    //totalAbsolute += (decimal)dr["SaleAbsolute"];
+                    //totalAvgGrowth += (decimal)dr["AvgGrowthPer"];
 
                     dtItems.Rows.Add(dr);
                 }
@@ -189,7 +193,7 @@ public partial class TargetDetails : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Targetmonth", Txtdate.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@ItemCategory", DdlItemCat.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetItems", dtItems);
-    
+
                     sqlDataAdapter.Fill(ds);
                 }
 
@@ -229,7 +233,7 @@ public partial class TargetDetails : System.Web.UI.Page
                 Label lblItemCategory = (Label)row.FindControl("lblItemCategory");
                 Label lblTotalTarget = (Label)row.FindControl("lblTotalTarget");
                 ViewState["TargetId"] = e.CommandArgument;
-                Txtdate.Text = DateTime.Parse(lblTargetmonth.Text).ToString("yyyy-MM-dd");
+                Txtdate.Text = DateTime.ParseExact(lblTargetmonth.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                 DdlItemCat.ClearSelection();
                 DdlItemCat.Items.FindByValue(lblItemCategory.Text).Selected = true;
                 DataSet ds = obj.ByProcedure("Usp_GetTargetItems", new[] { "TargetId" }, new[] { e.CommandArgument.ToString() }, Connstr);

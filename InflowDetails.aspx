@@ -1,5 +1,4 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="InflowDetails.aspx.cs" Inherits="Default2" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
         .large-text {
@@ -199,7 +198,7 @@
                                             <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
                                             <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
                                             <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>
-                                          <%--  <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
+                                          <%-- <!-- Local-->  <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
                                             <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
                                             <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
                                             <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
@@ -213,7 +212,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance" ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-3">
@@ -237,9 +236,9 @@
                                 <div class="col-md-4 col-lg-3 ">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Total
+                                            Closing Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Closing Balance" />
                                     </div>
                                 </div>
 
@@ -259,7 +258,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance"  ReadOnly="true"> </asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -283,9 +282,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Total
+                                              Closing Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="  Closing Balance" />
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +303,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder=" Opening Balance"  ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -328,9 +327,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Total
+                                              Closing Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="  Closing Balance" />
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +348,7 @@
                                         <label class="custom-label">
                                             Opening Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance"></asp:TextBox>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance"  ReadOnly="true"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -373,9 +372,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="custom-label">
-                                            Total
+                                            Closing Balance
                                         </label>
-                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Enter Stock" />
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Closing Balance" />
                                     </div>
                                 </div>
                             </div>
@@ -448,7 +447,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Date of Inflow">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("yyyy-MM-dd") %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblDate" Text='<%#  Eval("Date").ToString()  %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Milk KG">
@@ -479,7 +478,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Date">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblLYSDDate" Text='<%#  DateTime.Parse(Eval("LYSDDate").ToString()).ToString("yyyy-MM-dd")  %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblLYSDDate" Text='<%#  Eval("LYSDDate").ToString()  %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="LYSD Milk KG">
@@ -524,7 +523,7 @@
                                         <asp:Label runat="server" ID="lblButterqty" Text='<%# Eval("Butterqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="WB Total ">
+                                <asp:TemplateField HeaderText="WB Closing Balance ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblButterstock" Text='<%# Eval("Butterstock").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -545,7 +544,7 @@
                                         <asp:Label runat="server" ID="lblMilkPowderqty" Text='<%# Eval("MilkPowderqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="SMP Total ">
+                                <asp:TemplateField HeaderText="SMP Closing Balance ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblMilkPowderstock" Text='<%# Eval("MilkPowderstock").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -566,7 +565,7 @@
                                         <asp:Label runat="server" ID="lblWholeMilkPowderqty" Text='<%# Eval("WholeMilkPowderqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="WMP Total ">
+                                <asp:TemplateField HeaderText="WMP Closing Balance">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblWholeMilkPowderstock" Text='<%# Eval("WholeMilkPowderstock").ToString() %>'></asp:Label>
                                     </ItemTemplate>
@@ -594,7 +593,7 @@
                                         <asp:Label runat="server" ID="lblGheeqty" Text='<%# Eval("Gheeqty").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Ghee Total ">
+                                <asp:TemplateField HeaderText="Ghee Closing Balance ">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblGheestock" Text='<%# Eval("Gheestock").ToString() %>'></asp:Label>
                                     </ItemTemplate>

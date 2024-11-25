@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -24,6 +25,12 @@ public partial class Default2 : System.Web.UI.Page
             Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             Txtdate_TextChanged(sender, e);
         }
+        else
+        {
+
+            MaintainScrollPositionOnPostBack = true;
+        }
+
     }
 
     private string ParseValue(TextBox textBox)
@@ -75,6 +82,14 @@ public partial class Default2 : System.Web.UI.Page
                         sqlDataAdapter.SelectCommand.CommandText = "usp_UpdateInFlow";
                         sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
                         sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@InflowId", ViewState["InflowId"].ToString());
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UpdatedByIP", Request.ServerVariables["REMOTE_ADDR"]);
+
+
+                    }
+                    if (btnSubmit.Text == "Submit")
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@CreatedByIP", Request.ServerVariables["REMOTE_ADDR"]);
+
                     }
                     if (!string.IsNullOrEmpty(Txtdate.Text))
                     {
@@ -109,26 +124,38 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc", string.IsNullOrEmpty(fatPercent.Text) ? "0" : fatPercent.Text);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNFperc", string.IsNullOrEmpty(snfPercent.Text) ? "0" : snfPercent.Text);
 
+
+
+
+
+
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBVerient", 12);
+
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBOBal", ParseValue(WBOpeningBln));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBManuf", ParseValue(WbManufacturer));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterqty", ParseValue(WbQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", GetTotal(ParseValue(WBOpeningBln), ParseValue(WbManufacturer), ParseValue(WbQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", GetTotal(ParseValue(WBOpeningBln), ParseValue(WbManufacturer), ParseValue(WbQty)));
 
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPVerient", 10);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPBal", ParseValue(MilkPowderBal));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPManuf", ParseValue(MilkPowderManuf));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
+                    // sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(WholeMilkPowderQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeVerient", DdlGheeVerient.SelectedValue);
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeBal", ParseValue(Gheebalnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeManuf", ParseValue(GheeManuf));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", ParseValue(txtGheeQty));
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
 
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", ParseValue(TargetDate));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
@@ -253,7 +280,7 @@ public partial class Default2 : System.Web.UI.Page
                 Label lblGheestock = (Label)row.FindControl("lblGheestock");
 
                 DdlUnit.ClearSelection();
-                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;  
+                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
                 //SMP
                 MilkPowderBal.Text = lblSMPBal.Text;
                 MilkPowderManuf.Text = lblSMPManuf.Text;
@@ -278,14 +305,14 @@ public partial class Default2 : System.Web.UI.Page
                 Wbstock.Text = lblWBTotal.Text;
 
                 //lysd
-                txtLYSDDate.Text = DateTime.Parse(lblLYSDDate.Text).ToString("yyyy-MM-dd");
+                txtLYSDDate.Text = DateTime.ParseExact(lblLYSDDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                 txtLYSDQty.Text = lbllysdqty.Text;
                 txtLYSDFatPercent.Text = lblLYSDFatPercent.Text;
                 txtLYSDFatKG.Text = lblLYSDFatKG.Text;
                 txtLYSDSNFPercent.Text = lblLYSDSNFPercent.Text;
                 txtLYSDSNFKG.Text = lblLYSDSNFKG.Text;
                 //cysd
-                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                Txtdate.Text = DateTime.ParseExact(lblDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                 qtyDispatched.Text = lblMilkQty.Text;
                 fatPercent.Text = lblMilkFatPerc.Text;
                 fatKg.Text = lblMilkFatKg.Text;
@@ -325,8 +352,8 @@ public partial class Default2 : System.Web.UI.Page
     {
         txtLYSDDate.Text = (DateTime.Parse(Txtdate.Text).AddYears(-1)).ToString("yyyy-MM-dd");
 
-        getOpningBal(WBOpeningBln,WbManufacturer, "12", "WB");
-        getOpningBal(MilkPowderBal,MilkPowderManuf, "10", "SMP");
+        getOpningBal(WBOpeningBln, WbManufacturer, "12", "WB");
+        getOpningBal(MilkPowderBal, MilkPowderManuf, "10", "SMP");
         getOpningBal(WMPblnc, WMPManuf, "43", "WMP");//on server
         //getOpningBal(WMPblnc, WMPManuf, "47", "WMP");
         DdlUnit_SelectedIndexChanged(sender, e);
@@ -381,7 +408,7 @@ public partial class Default2 : System.Web.UI.Page
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     balence.Text = ds.Tables[0].Rows[0]["OpeningBal"].ToString();
-                    mnf.Text = ds.Tables[0].Rows[0]["mnf"].ToString();
+                    //mnf.Text = ds.Tables[0].Rows[0]["mnf"].ToString();
 
                 }
                 else
@@ -410,7 +437,7 @@ public partial class Default2 : System.Web.UI.Page
     {
         if (DdlGheeVerient.SelectedValue != "")
         {
-            getOpningBal(Gheebalnc,GheeManuf, DdlGheeVerient.SelectedValue, "Ghee");
+            getOpningBal(Gheebalnc, GheeManuf, DdlGheeVerient.SelectedValue, "Ghee");
         }
     }
     protected void btnSearch_Click(object sender, EventArgs e)

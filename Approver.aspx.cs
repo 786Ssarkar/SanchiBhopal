@@ -23,6 +23,11 @@ public partial class Approver : System.Web.UI.Page
             obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
             obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
         }
+        else
+        {
+
+            MaintainScrollPositionOnPostBack = true;
+        }
     }
     private string ParseValue(TextBox textBox)
     {

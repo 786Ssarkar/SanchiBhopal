@@ -112,7 +112,7 @@
 
                                 <asp:TemplateField HeaderText="Date of Manufacturing">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("yyyy-MM-dd") %>'></asp:Label>
+                                        <asp:Label runat="server" ID="lblDate" Text='<%# Eval("Date").ToString()%>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Total Manufacturing">

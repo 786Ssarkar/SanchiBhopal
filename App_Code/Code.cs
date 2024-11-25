@@ -8,6 +8,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using System.Text;
+using System.Globalization;
 
 /// <summary>
 /// Summary description for Code
@@ -77,8 +78,8 @@ public class Code
         div.InnerHtml = sb.ToString();
 
     }
-    public void FillGrid(GridView grd, string proc, string ConnStr, HtmlGenericControl alertdiv, string[] prm = null, string[] values = null )
-    {                                                                                                         
+    public void FillGrid(GridView grd, string proc, string ConnStr, HtmlGenericControl alertdiv, string[] prm = null, string[] values = null)
+    {
         try
         {
             grd.DataSource = null;
@@ -129,4 +130,5 @@ public class Code
 
 
     }
+
 }

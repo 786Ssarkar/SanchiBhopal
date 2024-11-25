@@ -18,8 +18,11 @@ public partial class VerifierAndApprover : System.Web.UI.Page
         if (!IsPostBack)
         {
             FillGrid();
+        }
+        else
+        {
 
-
+            MaintainScrollPositionOnPostBack = true;
         }
     }
 

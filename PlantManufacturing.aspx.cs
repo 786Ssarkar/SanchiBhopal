@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -23,6 +24,11 @@ public partial class _Default : System.Web.UI.Page
             FillGrid(gvProductItems, "GetItemsByCategory", _connectionString, divAlert, new[] { "@ItemCategory" }, new[] { "Product" });
             obj.FillGrid(grdManufacturing, "Usp_GetPlantManf", _connectionString, divAlert);
             divAlert.InnerHtml = "";
+        }
+        else
+        {
+
+            MaintainScrollPositionOnPostBack = true;
         }
     }
 
@@ -167,7 +173,7 @@ public partial class _Default : System.Web.UI.Page
                 Label lblDate = (Label)row.FindControl("lblDate");
 
                 ViewState["MnfID"] = e.CommandArgument;
-                Txtdate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                Txtdate.Text = DateTime.ParseExact(lblDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
                 DataSet ds = obj.ByProcedure("Usp_GetPlantManfItems", new[] { "MnfId" }, new[] { e.CommandArgument.ToString() }, _connectionString);
 
                 if (ds.Tables.Count > 1)

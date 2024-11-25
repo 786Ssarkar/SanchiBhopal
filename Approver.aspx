@@ -66,7 +66,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Date of Inflow">
                                             <ItemTemplate>
-                                                <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
+                                                <asp:Label runat="server" ID="TxtDate" Text='<%# Eval("Date").ToString()%>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">
@@ -235,7 +235,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Date of Inflow">
                                             <ItemTemplate>
-                                                <asp:Label runat="server" ID="TxtDate" Text='<%# DateTime.Parse(Eval("Date").ToString()).ToString("dd/MM/yyyy") %>'></asp:Label>
+                                                <asp:Label runat="server" ID="TxtDate" Text='<%# Eval("Date").ToString() %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Milk KG">

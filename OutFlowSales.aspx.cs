@@ -10,6 +10,7 @@ using System.Text;
 using System.Configuration;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Globalization;
 public partial class _Default : System.Web.UI.Page
 {
     string Connstr = ConfigurationManager.ConnectionStrings["Conndb"].ConnectionString;
@@ -26,6 +27,11 @@ public partial class _Default : System.Web.UI.Page
             txtLYSDQty.Text = "";
 
         }
+        else
+        {
+
+            MaintainScrollPositionOnPostBack = true;
+        }
     }
     protected void btnMilk_Click(object sender, EventArgs e)
     {
@@ -39,6 +45,7 @@ public partial class _Default : System.Web.UI.Page
                 ViewState["Category"] = "Milk";
                 grdProduct.DataSource = null;
                 grdProduct.DataBind();
+                DvSubmit.Visible = true;
             }
             else if (((Button)sender).Text == "Product")
             {
@@ -46,6 +53,7 @@ public partial class _Default : System.Web.UI.Page
                 ViewState["Category"] = "Product";
                 grdMilk.DataSource = null;
                 grdMilk.DataBind();
+                DvSubmit.Visible = true;
             }
         }
         catch (Exception ex)
@@ -267,7 +275,7 @@ public partial class _Default : System.Web.UI.Page
                 Label lblItemCategory = (Label)row.FindControl("lblItemCategory");
 
                 ViewState["SalesID"] = e.CommandArgument;
-                TxtDate.Text = DateTime.Parse(lblDate.Text).ToString("yyyy-MM-dd");
+                TxtDate.Text = DateTime.ParseExact(lblDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
 
                 txtLYSDQty.Text = lblLYSDQty.Text;
                 DdlUnit.ClearSelection();
