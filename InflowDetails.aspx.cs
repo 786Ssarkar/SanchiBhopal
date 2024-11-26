@@ -319,7 +319,7 @@ public partial class Default2 : System.Web.UI.Page
             else if (e.CommandName == "DeleteData")
             {
 
-                DataSet ds = obj.ByProcedure("usp_DeleteInFlow", new[] { "InflowId" }, new[] { e.CommandArgument.ToString() }, Connstr);
+                DataSet ds = obj.ByProcedure("usp_DeleteInFlow", new[] { "InflowId" , "DeletedByIp" }, new[] { e.CommandArgument.ToString(), Request.ServerVariables["REMOTE_ADDR"] }, Connstr);
                 if (ds.Tables.Count > 0)
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
