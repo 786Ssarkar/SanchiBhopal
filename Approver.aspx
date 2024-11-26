@@ -24,7 +24,7 @@
         currentDate.setFullYear(currentDate.getFullYear() - 1);
     </script>
     <div runat="server" id="divAlert" clientidmode="Static"></div>
-    
+
     <div class="card">
 
         <div class="card-header catchy-title">
@@ -53,10 +53,10 @@
                 </div>
                 <div class="col-md-2">
                     <div class="d-flex justify-content-between px-3">
-                    <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" type="button" />
+                        <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-outline-success w-lg btn-border" OnClick="btnSearch_Click" type="button" />
 
-                                <asp:Button Text="Verify All" ID="VerifyAll" runat="server" OnClick="VerifyAll_Click" CssClass="btn bg-gradient-info" Visible="false"/>
-                            </div>
+                        <asp:Button Text="Verify All" ID="VerifyAll" runat="server" OnClick="VerifyAll_Click" CssClass="btn bg-gradient-info" Visible="false" />
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -228,7 +228,7 @@
                                         <asp:Label runat="server" ID="lblGheestock" Text='<%# Eval("Gheestock").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Is Verifed">
+                              <%--  <asp:TemplateField HeaderText="Is Verifed">
                                     <ItemTemplate>
                                         <asp:Label runat="server"
                                             CssClass='<%# (Eval("IsVerifed").ToString()=="True")?" text-success text-gradient  ":" text-info text-gradient " %>'
@@ -242,7 +242,7 @@
                                             CssClass='<%# (Eval("IsApproved").ToString()=="True")?" text-success text-gradient ":"text-info text-gradient " %>'
                                             Text='<%# (Eval("IsApproved").ToString()=="True")?"Approved":"Pending" %>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Action">
                                     <ItemTemplate>
                                         <asp:LinkButton runat="server" CssClass="btn btn-info btn-sm" CommandArgument='<%# Eval("InflowId") %>' CommandName="EditData">
@@ -251,7 +251,7 @@
                                             </svg>
                                         </asp:LinkButton>
                                         <asp:LinkButton runat="server" CssClass="btn btn-success btn-sm" CommandArgument='<%# Eval("InflowId") %>' CommandName="VerifyData">
-                                            Verify
+                                            Approve
                                       </asp:LinkButton>
                                         <asp:LinkButton runat="server" CssClass="btn btn-danger btn-sm" CommandArgument='<%# Eval("InflowId") %>' CommandName="RejectData">
                                           Reject
@@ -270,166 +270,167 @@
     </div>
 
     <div class="card mt-4" runat="server" id="dvEditInflowInfo" visible="false">
-    <div class="card-header catchy-title">
-        Edit InFlow Details
+        <div class="card-header catchy-title">
+            Edit InFlow Details
    
-    </div>
-
-    <div class="card-body">
-        <div class="row align-items-end m-2">
-            <div class="col-lg-4 col-md-6 mt-2">
-
-                <label class="text-dark text-lg">Select Name of Unit</label>
-                <asp:RequiredFieldValidator ErrorMessage="Unit is Required" ControlToValidate="DdlUnit" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
-
-                <asp:DropDownList CssClass="form-select" ID="DdlUnit" Enabled="false" runat="server" autocomplete="off" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
-                    <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
-
-
-                </asp:DropDownList>
-            </div>
-
-
         </div>
-        <div class="row align-items-end">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row text-center mb-2">
-                            <h2 class="catchy-title">Milk Details</h2>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <h5 class="catchy-title fs-5">Last Year Same Date Details</h5>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                Choose LYSD 
+
+        <div class="card-body">
+            <div class="row align-items-end m-2">
+                <div class="col-lg-4 col-md-6 mt-2">
+
+                    <label class="text-dark text-lg">Select Name of Unit</label>
+                    <asp:RequiredFieldValidator ErrorMessage="Unit is Required" ControlToValidate="DdlUnit" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
+
+                    <asp:DropDownList CssClass="form-select" ID="DdlUnit" Enabled="false" runat="server" autocomplete="off" AutoPostBack="true" OnSelectedIndexChanged="DdlUnit_SelectedIndexChanged">
+                        <asp:ListItem Text="--Select--" Value=""></asp:ListItem>
+
+
+                    </asp:DropDownList>
+                </div>
+
+
+            </div>
+            <div class="row align-items-end">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h2 class="catchy-title">Milk Details</h2>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h5 class="catchy-title fs-5">Last Year Same Date Details</h5>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    Choose LYSD 
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" TextMode="Date" ReadOnly="true" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
-                                            <%--<script>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" TextMode="Date" ReadOnly="true" ID="txtLYSDDate" CssClass="form-control" placeholder="Enter  LYSD Date"></asp:TextBox>
+                                                <%--<script>
                                                 document.getElementById('<%= txtLYSDDate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                LYSD Qty (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    LYSD Qty (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="txtLYSDQty" CssClass="form-control" placeholder="Enter  LYSD Quantity" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label catchy-title">
-                                                LYSD Fat %
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label catchy-title">
+                                                    LYSD Fat %
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDFatPercent" placeholder="Enter LYSD Fat %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+
+                                            </div>
 
                                         </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label catchy-title">
+                                                    LYSD SNF %
+                                           
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
+                                            </div>
 
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label catchy-title">
-                                                LYSD SNF %
-                                           
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtLYSDSNFPercent" placeholder="Enter LYSD SNF %" oninput="calculateLYSDPercentages()"></asp:TextBox>
                                         </div>
-
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                LYSD  Fat (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    LYSD  Fat (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDFatKG" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDFatKG" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                LYSD   SNF (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    LYSD   SNF (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDSNFKG" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="txtLYSDSNFKG" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-12 mt-3">
-                                <div class="row align-items-end">
-                                    <div class="col-lg-12">
-                                        <h5 class="catchy-title fs-5">Current Year Same Date Details</h5>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 mt-2">
-                                        <div class="form-group">
-                                            <label class="custom-label">Date</label>
+                                <div class="col-lg-12 mt-3">
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-12">
+                                            <h5 class="catchy-title fs-5">Current Year Same Date Details</h5>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 mt-2">
+                                            <div class="form-group">
+                                                <label class="custom-label">Date</label>
 
-                                            <asp:RequiredFieldValidator ErrorMessage="Date is Required" ControlToValidate="Txtdate" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
-                                            <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" ReadOnly="true" autocomplete="off" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
-                                            <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
+                                                <asp:RequiredFieldValidator ErrorMessage="Date is Required" ControlToValidate="Txtdate" ForeColor="Red" Display="None" SetFocusOnError="true" runat="server" ValidationGroup="Form" Font-Size="Small" />
+                                                <asp:TextBox TextMode="Date" ID="Txtdate" runat="server" ReadOnly="true" autocomplete="off" class="form-control" AutoPostBack="true" OnTextChanged="Txtdate_TextChanged"></asp:TextBox>
+                                                <%-- <script>currentDate.setFullYear(currentDate.getFullYear() + 1);
                                                 document.getElementById('<%= Txtdate.ClientID%>').value = currentDate.toISOString().substring(0, 10);</script>--%>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                Received Quantity (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    Received Quantity (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label catchy-title">
-                                                Fat %
-                                           
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
-
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ID="qtyDispatched" CssClass="form-control" placeholder="Enter  Received Quantity" oninput="calculatePercentages()"></asp:TextBox>
+                                            </div>
                                         </div>
 
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label catchy-title">
-                                                SNF %
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label catchy-title">
+                                                    Fat %
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="fatPercent" placeholder="Enter Fat %" oninput="calculatePercentages()"></asp:TextBox>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label catchy-title">
+                                                    SNF %
+                                           
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="snfPercent" placeholder="Enter SNF %" oninput="calculatePercentages()"></asp:TextBox>
+                                            </div>
+
                                         </div>
 
-                                    </div>
 
-
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                Fat (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    Fat (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="fatKg" CssClass="form-control" placeholder="Fat "></asp:TextBox>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label class="custom-label">
-                                                SNF (in KG)
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="form-group">
+                                                <label class="custom-label">
+                                                    SNF (in KG)
                                            
-                                            </label>
-                                            <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                                </label>
+                                                <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" ReadOnly="true" ID="snfKg" CssClass="form-control" placeholder="SNF"></asp:TextBox>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -437,244 +438,244 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card bg-white mt-3">
-                    <div class="card-body">
-                        <div class="row text-center mb-2">
-                            <h5 class="catchy-title">Ghee (in KG)</h5>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Choose Variant
+                <div class="col-md-12">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Ghee (in KG)</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Choose Variant
                                    
-                                    </label>
-                                    <asp:DropDownList autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
-                                        <asp:ListItem Value="0">Select</asp:ListItem>
-                                        <%--<asp:ListItem Value="44">Ghee 200g</asp:ListItem>
+                                        </label>
+                                        <asp:DropDownList autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
+                                            <asp:ListItem Value="0">Select</asp:ListItem>
+                                            <%--<asp:ListItem Value="44">Ghee 200g</asp:ListItem>
                                         <asp:ListItem Value="45">Ghee 500ml</asp:ListItem>
                                         <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
                                         <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
                                         <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>--%>
-                                        <%--Local--%>
-                                        <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
-                                        <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
-                                        <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
-                                        <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
-                                        <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>
-                                    </asp:DropDownList>
+                                            <%--Local--%>
+                                            <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
+                                            <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
+                                            <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
+                                            <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
+                                            <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>
+                                        </asp:DropDownList>
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Opening Balance
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Opening Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance" ReadOnly="true"></asp:TextBox>
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Gheebalnc" oninput="GheeTotal()" placeholder="Enter Opening Balance" ReadOnly="true"></asp:TextBox>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Manufactured
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufactured
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="GheeManuf" oninput="GheeTotal()" placeholder="Enter Manufacturer" />
+                                    </div>
                                 </div>
-                            </div>
 
 
-                            <div class="col-md-4 col-lg-3">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Received 
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received 
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="txtGheeQty" oninput="GheeTotal()" placeholder="Enter Received Quantity" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4 col-lg-3 ">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Closing Balance
+                                <div class="col-md-4 col-lg-3 ">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Closing Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Closing Balance" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control disabled" ID="txtGheeStock" ReadOnly="true" placeholder="Closing Balance" />
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 ">
-                <div class="card bg-white mt-3">
-                    <div class="card-body">
-                        <div class="row text-center mb-2">
-                            <h5 class=" catchy-title">White Butter (in KG)</h5>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Opening Balance
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance" ReadOnly="true"> </asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Manufactured
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Received
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Closing Balance
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="  Closing Balance" />
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 ">
-                <div class="card bg-white mt-3">
-                    <div class="card-body">
-                        <div class="row text-center mb-2">
-                            <h5 class="catchy-title">Skimmed Milk Powder (in KG)</h5>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Opening Balance
+                <div class="col-md-6 ">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class=" catchy-title">White Butter (in KG)</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Opening Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder=" Opening Balance" ReadOnly="true"></asp:TextBox>
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WBOpeningBln" oninput="WbTotal()" placeholder="Enter Opening Balance" ReadOnly="true"> </asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufactured
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbManufacturer" oninput="WbTotal()" placeholder="Enter Manufacturer" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Manufactured
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WbQty" oninput="WbTotal()" placeholder="Enter Received Quantity"></asp:TextBox>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Received
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Closing Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Closing Balance
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="  Closing Balance" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="Wbstock" ReadOnly="true" placeholder="  Closing Balance" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 ">
-                <div class="card bg-white mt-3">
-                    <div class="card-body">
-                        <div class="row text-center mb-2">
-                            <h5 class="catchy-title">Whole Milk Powder (in KG)</h5>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Opening Balance
+                <div class="col-md-6 ">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Skimmed Milk Powder (in KG)</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Opening Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance" ReadOnly="true"></asp:TextBox>
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderBal" oninput="SmpTotal()" placeholder=" Opening Balance" ReadOnly="true"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufactured
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderManuf" oninput="SmpTotal()" placeholder="Enter Manufacturer" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Manufactured
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderQty" oninput="SmpTotal()" placeholder="Enter Received Quantity" />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row align-items-end">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Received
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Closing Balance
                                    
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="custom-label">
-                                        Closing Balance
-                                   
-                                    </label>
-                                    <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Closing Balance" />
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="MilkPowderStock" ReadOnly="true" placeholder="  Closing Balance" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12">
-                <div class="row justify-content-center">
-                    <div class="col-md-12 text-center">
-                        <hr />
-                        <asp:ValidationSummary runat="server" ValidationGroup="Form" ShowMessageBox="true" ShowSummary="false" />
-
-                        <asp:Button Text="Update" runat="server" CssClass=" btn btn-outline-success btn-border  w-lg" ID="btnSubmit" OnClick="btnSubmit_Click" ValidationGroup="Form" />
-
-                        <a href="Verifier.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>
+                <div class="col-md-6 ">
+                    <div class="card bg-white mt-3">
+                        <div class="card-body">
+                            <div class="row text-center mb-2">
+                                <h5 class="catchy-title">Whole Milk Powder (in KG)</h5>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Opening Balance
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPblnc" oninput="WPTotal()" placeholder="Enter Opening Balance" ReadOnly="true"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Manufactured
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WMPManuf" oninput="WPTotal()" placeholder="Enter Manufacturer" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Received
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderQty" oninput="WPTotal()" placeholder="Enter Received Quantity" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="custom-label">
+                                            Closing Balance
+                                   
+                                        </label>
+                                        <asp:TextBox autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" ID="WholeMilkPowderStock" ReadOnly="true" placeholder="Closing Balance" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <div class="col-12">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12 text-center">
+                            <hr />
+                            <asp:ValidationSummary runat="server" ValidationGroup="Form" ShowMessageBox="true" ShowSummary="false" />
+
+                            <asp:Button Text="Update" runat="server" CssClass=" btn btn-outline-success btn-border  w-lg" ID="btnSubmit" OnClick="btnSubmit_Click" ValidationGroup="Form" />
+
+                            <a href="Verifier.aspx" class="btn btn-outline-danger btn-border w-lg">Clear</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
+    
     <script>
         function calculatePercentages() {
             const qtyDispatched = document.getElementById("qtyDispatched").value;

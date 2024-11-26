@@ -348,7 +348,6 @@ public partial class Default2 : System.Web.UI.Page
         getOpningBal(WBOpeningBln, WbManufacturer, "12", "WB");
         getOpningBal(MilkPowderBal, MilkPowderManuf, "10", "SMP");
         getOpningBal(WMPblnc, WMPManuf, "43", "WMP");//on server
-        //getOpningBal(WMPblnc, WMPManuf, "47", "WMP");
         DdlUnit_SelectedIndexChanged(sender, e);
         DdlGheeVerient_SelectedIndexChanged(sender, e);
     }

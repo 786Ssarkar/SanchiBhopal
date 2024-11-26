@@ -19,7 +19,7 @@ public partial class Approver : System.Web.UI.Page
         if (!IsPostBack)
         {
             Fillddl(DdlUnit, "Usp_GetinflowUnit");
-            obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert);
+            obj.FillGrid(GVInflow, "    ", Connstr, divAlert);
             Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
             Txtdate_TextChanged(sender, e);
         }
@@ -488,4 +488,5 @@ public partial class Approver : System.Web.UI.Page
         }
 
     }
+ 
 }

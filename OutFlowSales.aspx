@@ -222,7 +222,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="Action">
+                                       <%-- <asp:TemplateField HeaderText="Action">
                                             <ItemTemplate>
                                                 <asp:LinkButton CssClass="btn btn-info btn-sm" runat="server" CommandArgument='<%# Eval("SalesID") %>' CommandName="EditData">
                                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
@@ -235,7 +235,7 @@
                                                    </svg>
                                                 </asp:LinkButton>
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
                                     </Columns>
 
                                 </asp:GridView>

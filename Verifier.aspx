@@ -228,7 +228,7 @@
                                         <asp:Label runat="server" ID="lblGheestock" Text='<%# Eval("Gheestock").ToString() %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Is Verifed">
+                          <%--      <asp:TemplateField HeaderText="Is Verifed">
                                     <ItemTemplate>
                                         <asp:Label runat="server"
                                             CssClass='<%# (Eval("IsVerifed").ToString()=="True")?" text-success text-gradient  ":" text-info text-gradient " %>'
@@ -242,7 +242,7 @@
                                             CssClass='<%# (Eval("IsApproved").ToString()=="True")?" text-success text-gradient ":"text-info text-gradient " %>'
                                             Text='<%# (Eval("IsApproved").ToString()=="True")?"Approved":"Pending" %>'></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Action">
                                     <ItemTemplate>
                                         <asp:LinkButton runat="server" CssClass="btn btn-info btn-sm" CommandArgument='<%# Eval("InflowId") %>' CommandName="EditData">
@@ -453,17 +453,17 @@
                                     </label>
                                     <asp:DropDownList autocomplete="off" runat="server" ClientIDMode="Static" CssClass="form-control" AutoPostBack="true" ID="DdlGheeVerient" OnSelectedIndexChanged="DdlGheeVerient_SelectedIndexChanged">
                                         <asp:ListItem Value="0">Select</asp:ListItem>
-                                        <%--<asp:ListItem Value="44">Ghee 200g</asp:ListItem>
+                                        <asp:ListItem Value="44">Ghee 200g</asp:ListItem>
                                         <asp:ListItem Value="45">Ghee 500ml</asp:ListItem>
                                         <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
                                         <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
-                                        <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>--%>
+                                        <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>
                                         <%--Local--%>
-                                        <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
+                                        <%--<asp:ListItem Value="48">Ghee 200g</asp:ListItem>
                                         <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
                                         <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
                                         <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
-                                        <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>
+                                        <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>--%>
                                     </asp:DropDownList>
 
                                 </div>
