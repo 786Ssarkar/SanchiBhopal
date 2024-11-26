@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
-using System.EnterpriseServices;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Text;
-using System.Configuration;
-using System.Security.Cryptography;
 
 public partial class Approver : System.Web.UI.Page
 {
@@ -19,15 +18,17 @@ public partial class Approver : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            divAlert.InnerHtml = "";
-            obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
-            obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
+            Fillddl(DdlUnit, "Usp_GetinflowUnit");
+            obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert);
+            Txtdate.Text = (DateTime.Now).ToString("yyyy-MM-dd");
+            Txtdate_TextChanged(sender, e);
         }
         else
         {
 
             MaintainScrollPositionOnPostBack = true;
         }
+
     }
     private string ParseValue(TextBox textBox)
     {
@@ -35,10 +36,16 @@ public partial class Approver : System.Web.UI.Page
         {
             // Try to parse the value, return 0 if parsing fails
             int result;
+            decimal resultDecimal;
             if (int.TryParse(textBox.Text, out result)) // Use out parameter without declaration
             {
                 return result.ToString();
             }
+            else if (decimal.TryParse(textBox.Text, out resultDecimal))
+            {
+                return resultDecimal.ToString();
+            }
+
         }
         return "0"; // Return 0 if the TextBox is null or empty
     }
@@ -55,252 +62,421 @@ public partial class Approver : System.Web.UI.Page
             return Convert.ToDecimal(0.00);
         }
     }
-    protected void grdApprove_RowCommand(object sender, GridViewCommandEventArgs e)
+    protected void btnSubmit_Click(object sender, EventArgs e)
     {
         try
         {
-            if (e.CommandName == "Approve")
             {
-                GridViewRow row = (GridViewRow)((Control)e.CommandSource).NamingContainer;
-                TextBox Row_TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
+                DataSet ds = new DataSet();
+                using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("usp_UpdateInFlow", Connstr))
+                {
+                    sqlDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@InflowId", ViewState["InflowId"].ToString());
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UpdatedByIP", Request.ServerVariables["REMOTE_ADDR"]);
 
-                //TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFatKg");
-                //TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNFKg");
-                TextBox Row_TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
-                TextBox Row_TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
+                    if (!string.IsNullOrEmpty(Txtdate.Text))
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Date", Txtdate.Text);
 
-                string Row_TxtMilkFat = getPercent(Row_TxtMilkFatPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
-                string Row_TxtMilkSNF = getPercent(Row_TxtMilkSNFPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
+                    }
+                    else
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Date", DateTime.Now.ToString("yyyy-MM-dd"));
+                    }
+                    if (!string.IsNullOrEmpty(txtLYSDDate.Text))
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDDate", txtLYSDDate.Text);
 
-                TextBox Row_TxtButterQty = (TextBox)row.FindControl("TxtButterQty");
-                TextBox Row_TxtButterStck = (TextBox)row.FindControl("TxtButterStck");
-                TextBox Row_TxtMilkPwderQty = (TextBox)row.FindControl("TxtMilkPwderQty");
-                TextBox Row_TxtMilkPwderStk = (TextBox)row.FindControl("TxtMilkPwderStk");
-                TextBox Row_TxtWholeMilkPwderqty = (TextBox)row.FindControl("TxtWholeMilkPwderqty");
-                TextBox Row_TxtWholeMilkPwderStk = (TextBox)row.FindControl("TxtWholeMilkPwderStk");
-                TextBox Row_TxtGheeqty = (TextBox)row.FindControl("TxtGheeqty");
-                TextBox Row_TxtGheeStk = (TextBox)row.FindControl("TxtGheeStk");
+                    }
+                    else
+                    {
+                        sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDDate", ((DateTime.Now).AddYears(-1)).ToString("yyyy-MM-dd"));
+                    }
 
-                TextBox Row_Txtlysdqty = (TextBox)row.FindControl("Txtlysdqty");
-                TextBox Row_TxtLYSDFatPercent = (TextBox)row.FindControl("TxtLYSDFatPercent");
-                TextBox Row_TxtLYSDSNFPercent = (TextBox)row.FindControl("TxtLYSDSNFPercent");
-                //TextBox Row_TxtLYSDFatKG = (TextBox)row.FindControl("TxtLYSDFatKG");
-                //TextBox Row_TxtLYSDSNFKG = (TextBox)row.FindControl("TxtLYSDSNFKG");
-                string Row_TxtLYSDFatKG = getPercent(Row_TxtLYSDFatPercent.Text, Row_Txtlysdqty.Text).ToString("F2");
-                string Row_TxtLYSDSNFKG = getPercent(Row_TxtLYSDSNFPercent.Text, Row_Txtlysdqty.Text).ToString("F2");
-
-
-
-
-                DataSet ds = obj.ByProcedure("Usp_AproveInflow",
-                     new[] {
-                         "InflowId",
-                         "Milkqty",
-                         "Milkfat",
-                         "MilkSNF",
-                         "Milkfatperc",
-                         "MilkSNFperc",
-                         "Butterqty",
-                         "Butterstock",
-                         "MilkPowderqty",
-                         "MilkPowderstock",
-                         "WholeMilkPowderqty"  ,
-                         "WholeMilkPowderstock",
-                         "Gheeqty",
-                         "Gheestock",
-
-                         "lysdqty",
-                         "LYSDFatPercent",
-                         "LYSDSNFPercent",
-                         "LYSDFatKG",
-                         "LYSDSNFKG"
-                     },
-                     new[] {
-                         e.CommandArgument.ToString(),
-                         ParseValue(Row_TxtMilkQty),
-
-                         Row_TxtMilkFat,
-                         Row_TxtMilkSNF,
-                         (string.IsNullOrEmpty(Row_TxtMilkFatPerc.Text)?"0": Row_TxtMilkFatPerc.Text),
-                         (string.IsNullOrEmpty(Row_TxtMilkSNFPerc.Text) ? "0" : Row_TxtMilkSNFPerc.Text),
-                         ParseValue(Row_TxtButterQty),
-                         ParseValue(Row_TxtButterStck),
-                         ParseValue(Row_TxtMilkPwderQty) ,
-                         ParseValue(Row_TxtMilkPwderStk),
-                         ParseValue(Row_TxtWholeMilkPwderqty),
-                         ParseValue(Row_TxtWholeMilkPwderStk),
-                         ParseValue(Row_TxtGheeqty),
-                         ParseValue(Row_TxtGheeStk),
-
-                         ParseValue(Row_Txtlysdqty),
-                         (string.IsNullOrEmpty(Row_TxtLYSDFatPercent.Text) ? "0" : Row_TxtLYSDFatPercent.Text),
-                         (string.IsNullOrEmpty(Row_TxtLYSDSNFPercent.Text) ? "0" : Row_TxtLYSDSNFPercent.Text),
-                        Row_TxtLYSDFatKG,
-                        Row_TxtLYSDSNFKG
-                     }, Connstr);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@UnitID", DdlUnit.SelectedValue);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkqty", ParseValue(qtyDispatched));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@", ParseValue(txtLYSDDate)); //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@lysdqty", ParseValue(txtLYSDQty));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatPercent", string.IsNullOrEmpty(txtLYSDFatPercent.Text) ? "0" : txtLYSDFatPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFPercent", string.IsNullOrEmpty(txtLYSDSNFPercent.Text) ? "0" : txtLYSDSNFPercent.Text);      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDFatKG", getPercent(txtLYSDFatPercent.Text, txtLYSDQty.Text).ToString("F2"));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@LYSDSNFKG", getPercent(txtLYSDSNFPercent.Text, txtLYSDQty.Text).ToString("F2"));      //
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfat", getPercent(fatPercent.Text, qtyDispatched.Text).ToString("F2"));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNF", getPercent(snfPercent.Text, qtyDispatched.Text).ToString("F2"));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Milkfatperc", string.IsNullOrEmpty(fatPercent.Text) ? "0" : fatPercent.Text);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkSNFperc", string.IsNullOrEmpty(snfPercent.Text) ? "0" : snfPercent.Text);
 
 
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBVerient", 12);
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBOBal", ParseValue(WBOpeningBln));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WBManuf", ParseValue(WbManufacturer));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterqty", ParseValue(WbQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Butterstock", GetTotal(ParseValue(WBOpeningBln), ParseValue(WbManufacturer), ParseValue(WbQty)));
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPVerient", 10);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPBal", ParseValue(MilkPowderBal));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@SMPManuf", ParseValue(MilkPowderManuf));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
+
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderqty", ParseValue(WholeMilkPowderQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WholeMilkPowderstock", GetTotal(ParseValue(WMPblnc), ParseValue(WMPManuf), ParseValue(WholeMilkPowderQty)));
+
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeVerient", DdlGheeVerient.SelectedValue);
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeBal", ParseValue(Gheebalnc));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@GheeManuf", ParseValue(GheeManuf));
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheeqty", ParseValue(txtGheeQty));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@Gheestock", GetTotal(ParseValue(Gheebalnc), ParseValue(GheeManuf), ParseValue(txtGheeQty)));
+
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetDate", ParseValue(TargetDate));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@TargetMilk", ParseValue(txtTargetmilk));
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkCumulative", ParseValue(txtMilkCumulative));
+                    sqlDataAdapter.Fill(ds);
+                }
+                if (ds.Tables.Count > 0)
+                {
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.clearFields((HtmlForm)Master.FindControl("form1"));
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
+                        dvEditInflowInfo.Visible = false;
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
+                    }
+
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
+    }
+    public static decimal GetTotal(string bal, string manf, string Qty)
+    {
+        return (decimal.Parse(bal ?? "0")) + (decimal.Parse(manf ?? "0")) + (decimal.Parse(Qty ?? "0"));
+    }
+    public void Fillddl(DropDownList ddl, string proc)
+    {
+        try
+        {
+            ddl.DataSource = null;
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            SqlDataAdapter adpt = new SqlDataAdapter(proc, Connstr);
+            adpt.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ddl.DataSource = ds.Tables[0];
+                    ddl.DataTextField = "Name";
+                    ddl.DataValueField = "Id";
+                    ddl.DataBind();
+                }
+                else
+                {
+                    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+                }
+                ddl.Items.Insert(0, new ListItem("--Select--", ""));
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+            }
+        }
+        catch (Exception ex)
+        {
+
+            obj.alertmsg(ex.Message, divAlert, "bg-danger");
+        }
+    }
+    protected void GVInflow_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName == "EditData")
+            {
+                GridViewRow row = (GridViewRow)((LinkButton)e.CommandSource).NamingContainer;
+                HiddenField hfUnitID = (HiddenField)row.FindControl("hfUnitID");
+                Label lblDate = (Label)row.FindControl("lblDate");
+                Label lblMilkQty = (Label)row.FindControl("lblMilkQty");
+                Label lblMilkFatPerc = (Label)row.FindControl("lblMilkFatPerc");
+                Label lblMilkSNFPerc = (Label)row.FindControl("lblMilkSNFPerc");
+                Label lblMilkFatKg = (Label)row.FindControl("lblMilkFatKg");
+                Label lblMilkSNFKg = (Label)row.FindControl("lblMilkSNFKg");
+
+                Label lblLYSDDate = (Label)row.FindControl("lblLYSDDate");
+                Label lbllysdqty = (Label)row.FindControl("lbllysdqty");
+                Label lblLYSDFatPercent = (Label)row.FindControl("lblLYSDFatPercent");
+                Label lblLYSDSNFPercent = (Label)row.FindControl("lblLYSDSNFPercent");
+                Label lblLYSDFatKG = (Label)row.FindControl("lblLYSDFatKG");
+                Label lblLYSDSNFKG = (Label)row.FindControl("lblLYSDSNFKG");
+
+                Label lblWBOpeningBln = (Label)row.FindControl("lblWBOBal");
+                Label lblWbManufacturer = (Label)row.FindControl("lblWBManuf");
+                Label lblWbQty = (Label)row.FindControl("lblButterqty");
+                Label lblWBTotal = (Label)row.FindControl("lblButterstock");
+
+                Label lblSMPBal = (Label)row.FindControl("lblSMPBal");
+                Label lblSMPManuf = (Label)row.FindControl("lblSMPManuf");
+                Label lblMilkPowderqty = (Label)row.FindControl("lblMilkPowderqty");
+                Label lblMilkPowderstock = (Label)row.FindControl("lblMilkPowderstock");
+
+                Label lblWMPBal = (Label)row.FindControl("lblWMPBal");
+                Label lblWMPManuf = (Label)row.FindControl("lblWMPManuf");
+                Label lblWholeMilkPowderqty = (Label)row.FindControl("lblWholeMilkPowderqty");
+                Label lblWholeMilkPowderstock = (Label)row.FindControl("lblWholeMilkPowderstock");
+
+                HiddenField hfGheeID = (HiddenField)row.FindControl("hfGheeID");
+                Label lblGheeBal = (Label)row.FindControl("lblGheeBal");
+                Label lblGheeManuf = (Label)row.FindControl("lblGheeManuf");
+                Label lblGheeqty = (Label)row.FindControl("lblGheeqty");
+                Label lblGheestock = (Label)row.FindControl("lblGheestock");
+
+                DdlUnit.ClearSelection();
+                DdlUnit.Items.FindByValue(hfUnitID.Value).Selected = true;
+                //SMP
+                MilkPowderBal.Text = lblSMPBal.Text;
+                MilkPowderManuf.Text = lblSMPManuf.Text;
+                MilkPowderQty.Text = lblMilkPowderqty.Text;
+                MilkPowderStock.Text = lblMilkPowderstock.Text;
+                //WMP
+                WMPblnc.Text = lblWMPBal.Text;
+                WMPManuf.Text = lblWMPManuf.Text;
+                WholeMilkPowderQty.Text = lblWholeMilkPowderqty.Text;
+                WholeMilkPowderStock.Text = lblWholeMilkPowderstock.Text;
+                //Ghee
+                DdlGheeVerient.ClearSelection();
+                DdlGheeVerient.Items.FindByValue(hfGheeID.Value).Selected = true;
+                Gheebalnc.Text = lblGheeBal.Text;
+                GheeManuf.Text = lblGheeManuf.Text;
+                txtGheeQty.Text = lblGheeqty.Text;
+                txtGheeStock.Text = lblGheestock.Text;
+                //WB
+                WBOpeningBln.Text = lblWBOpeningBln.Text;
+                WbManufacturer.Text = lblWbManufacturer.Text;
+                WbQty.Text = lblWbQty.Text;
+                Wbstock.Text = lblWBTotal.Text;
+
+                //lysd
+                txtLYSDDate.Text = DateTime.ParseExact(lblLYSDDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+                txtLYSDQty.Text = lbllysdqty.Text;
+                txtLYSDFatPercent.Text = lblLYSDFatPercent.Text;
+                txtLYSDFatKG.Text = lblLYSDFatKG.Text;
+                txtLYSDSNFPercent.Text = lblLYSDSNFPercent.Text;
+                txtLYSDSNFKG.Text = lblLYSDSNFKG.Text;
+                //cysd
+                Txtdate.Text = DateTime.ParseExact(lblDate.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+                qtyDispatched.Text = lblMilkQty.Text;
+                fatPercent.Text = lblMilkFatPerc.Text;
+                fatKg.Text = lblMilkFatKg.Text;
+                snfPercent.Text = lblMilkSNFPerc.Text;
+                snfKg.Text = lblMilkSNFKg.Text;
+
+                ViewState["InflowId"] = e.CommandArgument;
+                dvEditInflowInfo.Visible = true;
+            }
+            else if (e.CommandName == "VerifyData")
+            {
+
+                DataSet ds = obj.ByProcedure("Usp_AproveInflow", new[] { "InflowId", "ApproveStatus" }, new[] { e.CommandArgument.ToString(), "1" }, Connstr);
                 if (ds.Tables.Count > 0)
                 {
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
-                        obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
+                        obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
                     }
                     else
                     {
-                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
                     }
                 }
-                else
+            }
+            else if (e.CommandName == "RejectData")
+            {
+
+                DataSet ds = obj.ByProcedure("Usp_AproveInflow", new[] { "InflowId", "ApproveStatus" }, new[] { e.CommandArgument.ToString(), "2" }, Connstr);
+                if (ds.Tables.Count > 0)
                 {
-                    obj.alertmsg("Somthing went wrong", divAlert, "bg-danger");
+                    if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
+                        obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text });
+                    }
+                    else
+                    {
+                        obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-danger");
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-
             obj.alertmsg(ex.Message, divAlert, "bg-danger");
         }
     }
-
-
-    protected void CalculateSnfAndFat(object sender, EventArgs e)
+    protected void Txtdate_TextChanged(object sender, EventArgs e)
     {
-        try
-        {
-            GridViewRow row = (GridViewRow)((TextBox)sender).NamingContainer;
-            TextBox TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
-            TextBox TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
-            TextBox TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
+        txtLYSDDate.Text = (DateTime.Parse(Txtdate.Text).AddYears(-1)).ToString("yyyy-MM-dd");
 
-            TextBox TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNF");
-            TextBox TxtMilkFat = (TextBox)row.FindControl("TxtMilkFat");
-
-            decimal milkQty = decimal.Parse(TxtMilkQty.Text);
-            decimal milkSNFPerc = decimal.Parse(TxtMilkSNFPerc.Text);
-            decimal milkFatPerc = decimal.Parse(TxtMilkFatPerc.Text);
-
-            decimal milkSNF = (milkQty * milkSNFPerc) / 100;
-            decimal milkFat = (milkQty * milkFatPerc) / 100;
-            TxtMilkSNF.Text = milkSNF.ToString();
-            TxtMilkFat.Text = milkFat.ToString();
-        }
-        catch (Exception ex)
-        {
-
-            obj.alertmsg(ex.Message, divAlert, "bg-danger");
-        }
-
+        getOpningBal(WBOpeningBln, WbManufacturer, "12", "WB");
+        getOpningBal(MilkPowderBal, MilkPowderManuf, "10", "SMP");
+        getOpningBal(WMPblnc, WMPManuf, "43", "WMP");//on server
+        //getOpningBal(WMPblnc, WMPManuf, "47", "WMP");
+        DdlUnit_SelectedIndexChanged(sender, e);
+        DdlGheeVerient_SelectedIndexChanged(sender, e);
     }
-
-    protected void ApproveAll_Click(object sender, EventArgs e)
+    protected void DdlUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        try
+        txtLYSDQty.Text = "0.00";
+        txtLYSDFatPercent.Text = "0.00";
+        txtLYSDFatKG.Text = "0.00";
+        txtLYSDSNFPercent.Text = "0.00";
+        txtLYSDSNFKG.Text = "0.00";
+
+        DataSet ds = obj.ByProcedure("Usp_GetLYSDQty", new[] { "date", "UnitID" }, new[] { Txtdate.Text, DdlUnit.SelectedValue }, Connstr);
+        if (ds.Tables.Count > 1)
         {
-            foreach (GridViewRow row in grdApprove.Rows)
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                TextBox Row_TxtMilkQty = (TextBox)row.FindControl("TxtMilkQty");
+                txtLYSDQty.Text = ds.Tables[0].Rows[0]["Milkqty"].ToString();
+                txtLYSDFatPercent.Text = ds.Tables[0].Rows[0]["Milkfatperc"].ToString();
+                txtLYSDFatKG.Text = ds.Tables[0].Rows[0]["Milkfat"].ToString();
+                txtLYSDSNFPercent.Text = ds.Tables[0].Rows[0]["MilkSNFperc"].ToString();
+                txtLYSDSNFKG.Text = ds.Tables[0].Rows[0]["MilkSNF"].ToString();
+            }
+        }
+        else if (ds.Tables.Count > 0)
+        {
+            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+            {
+                obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
 
-                //TextBox Row_TxtMilkFat = (TextBox)row.FindControl("TxtMilkFatKg");
-                //TextBox Row_TxtMilkSNF = (TextBox)row.FindControl("TxtMilkSNFKg");
-                TextBox Row_TxtMilkFatPerc = (TextBox)row.FindControl("TxtMilkFatPerc");
-                TextBox Row_TxtMilkSNFPerc = (TextBox)row.FindControl("TxtMilkSNFPerc");
+            }
+        }
+        else
+        {
+            obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+        }
 
-                string Row_TxtMilkFat = getPercent(Row_TxtMilkFatPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
-                string Row_TxtMilkSNF = getPercent(Row_TxtMilkSNFPerc.Text, Row_TxtMilkQty.Text).ToString("F2");
+    }
+    public void getOpningBal(TextBox balence, TextBox mnf, String ID, String Condition)
+    {
+        if (!string.IsNullOrEmpty(Txtdate.Text))
+        {
 
-                TextBox Row_TxtButterQty = (TextBox)row.FindControl("TxtButterQty");
-                TextBox Row_TxtButterStck = (TextBox)row.FindControl("TxtButterStck");
-                TextBox Row_TxtMilkPwderQty = (TextBox)row.FindControl("TxtMilkPwderQty");
-                TextBox Row_TxtMilkPwderStk = (TextBox)row.FindControl("TxtMilkPwderStk");
-                TextBox Row_TxtWholeMilkPwderqty = (TextBox)row.FindControl("TxtWholeMilkPwderqty");
-                TextBox Row_TxtWholeMilkPwderStk = (TextBox)row.FindControl("TxtWholeMilkPwderStk");
-                TextBox Row_TxtGheeqty = (TextBox)row.FindControl("TxtGheeqty");
-                TextBox Row_TxtGheeStk = (TextBox)row.FindControl("TxtGheeStk");
+            DataSet ds = obj.ByProcedure("Usp_GetOpeningBal",
+                new[] { "ItemID", "date", "Condition" },
+                new[] { ID, Txtdate.Text, Condition }, Connstr);
+            if (ds.Tables.Count > 1)
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    balence.Text = ds.Tables[0].Rows[0]["OpeningBal"].ToString();
+                    //mnf.Text = ds.Tables[0].Rows[0]["mnf"].ToString();
 
-                TextBox Row_Txtlysdqty = (TextBox)row.FindControl("Txtlysdqty");
-                TextBox Row_TxtLYSDFatPercent = (TextBox)row.FindControl("TxtLYSDFatPercent");
-                TextBox Row_TxtLYSDSNFPercent = (TextBox)row.FindControl("TxtLYSDSNFPercent");
-                //TextBox Row_TxtLYSDFatKG = (TextBox)row.FindControl("TxtLYSDFatKG");
-                //TextBox Row_TxtLYSDSNFKG = (TextBox)row.FindControl("TxtLYSDSNFKG");
-                string Row_TxtLYSDFatKG = getPercent(Row_TxtLYSDFatPercent.Text, Row_Txtlysdqty.Text).ToString("F2");
-                string Row_TxtLYSDSNFKG = getPercent(Row_TxtLYSDSNFPercent.Text, Row_Txtlysdqty.Text).ToString("F2");
+                }
+                else
+                {
+                    obj.alertmsg("Table is Empty", divAlert, "bg-warning");
+                }
+
+            }
+            else if (ds.Tables.Count > 0)
+            {
+                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                {
+                    obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-warning");
+
+                }
+            }
+            else
+            {
+                obj.alertmsg("Somthing went wrong", divAlert, "bg-warning");
+            }
+        }
+
+    }
+    protected void DdlGheeVerient_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DdlGheeVerient.SelectedValue != "")
+        {
+            getOpningBal(Gheebalnc, GheeManuf, DdlGheeVerient.SelectedValue, "Ghee");
+        }
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        obj.FillGrid(GVInflow, "Usp_GetInflowApproverDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
+               new[] { FromTxtdate.Text, ToTxtdate.Text });
+
+    }
+    protected void VerifyAll_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            foreach (GridViewRow row in GVInflow.Rows)
+            {
                 LinkButton BtnAction = ((LinkButton)row.FindControl("BtnAction"));
 
-
-                //ViewState["id"] = BtnAction.CommandArgument.ToString();
-
-
-                DataSet ds = obj.ByProcedure("Usp_AproveInflow",
-                    new[] {
-                         "InflowId",
-                         "Milkqty",
-                         "Milkfat",
-                         "MilkSNF",
-                         "Milkfatperc",
-                         "MilkSNFperc",
-                         "Butterqty",
-                         "Butterstock",
-                         "MilkPowderqty",
-                         "MilkPowderstock",
-                         "WholeMilkPowderqty"  ,
-                         "WholeMilkPowderstock",
-                         "Gheeqty",
-                         "Gheestock",
-
-                         "lysdqty",
-                         "LYSDFatPercent",
-                         "LYSDSNFPercent",
-                         "LYSDFatKG",
-                         "LYSDSNFKG"
-                    },
-                    new[] {
-                        BtnAction.CommandArgument.ToString(),
-                         ParseValue(Row_TxtMilkQty),
-
-                         Row_TxtMilkFat,
-                         Row_TxtMilkSNF,
-                         (string.IsNullOrEmpty(Row_TxtMilkFatPerc.Text)?"0": Row_TxtMilkFatPerc.Text),
-                         (string.IsNullOrEmpty(Row_TxtMilkSNFPerc.Text) ? "0" : Row_TxtMilkSNFPerc.Text),
-                         ParseValue(Row_TxtButterQty),
-                         ParseValue(Row_TxtButterStck),
-                         ParseValue(Row_TxtMilkPwderQty) ,
-                         ParseValue(Row_TxtMilkPwderStk),
-                         ParseValue(Row_TxtWholeMilkPwderqty),
-                         ParseValue(Row_TxtWholeMilkPwderStk),
-                         ParseValue(Row_TxtGheeqty),
-                         ParseValue(Row_TxtGheeStk),
-
-                         ParseValue(Row_Txtlysdqty),
-                         (string.IsNullOrEmpty(Row_TxtLYSDFatPercent.Text) ? "0" : Row_TxtLYSDFatPercent.Text),
-                         (string.IsNullOrEmpty(Row_TxtLYSDSNFPercent.Text) ? "0" : Row_TxtLYSDSNFPercent.Text),
-                        Row_TxtLYSDFatKG,
-                        Row_TxtLYSDSNFKG
-                    }, Connstr);
-
-                if (ds != null)
+                using (SqlConnection sqlConnection = new SqlConnection(Connstr))
                 {
-                    if (ds.Tables.Count > 0)
+                    DataSet ds = new DataSet();
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand("Usp_AproveInflow", sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@InflowId", BtnAction.CommandArgument.ToString());
+
+
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
-                        if (ds.Tables[0].Rows.Count > 0)
+
+                        sda.Fill(ds);
+                    }
+                    if (ds != null)
+                    {
+                        if (ds.Tables.Count > 0)
                         {
-                            if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
+                            if (ds.Tables[0].Rows.Count > 0)
                             {
+                                if (Convert.ToBoolean(ds.Tables[0].Rows[0]["sts"]))
+                                {
 
-                            }
-                            else
-                            {
-                                obj.alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), divAlert, "bg-danger");
 
+                                }
+                                else
+                                {
+                                    obj.alertmsg(ds.Tables[0].Rows[0]["msg"].ToString(), divAlert, "bg-danger");
+
+                                }
+                                ViewState["id"] = "";
                             }
                         }
                     }
                 }
             }
-
         }
         catch (Exception ex)
         {
@@ -308,19 +484,8 @@ public partial class Approver : System.Web.UI.Page
         }
         finally
         {
-            obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "0" });
-            obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved" }, new[] { "1" });
+            //FillGrid();
         }
 
-    }
-
-    protected void btnSearch_Click(object sender, EventArgs e)
-    {
-        obj.FillGrid(grdApproved, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved", "FromDate", "ToDate" }, new[] { "1",FromTxtdate.Text,ToTxtdate.Text });
-    }
-
-    protected void BtnSearch_Click2(object sender, EventArgs e)
-    {
-        obj.FillGrid(grdApprove, "Usp_GetInflowToAprove", Connstr, divAlert, new[] { "IsApproved", "FromDate", "ToDate" }, new[] { "0", txtFromDate.Text, txtToDate.Text });
     }
 }

@@ -1,14 +1,8 @@
-using Microsoft.SqlServer.Server;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
@@ -143,8 +137,8 @@ public partial class Default2 : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
-                    // sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
+                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
@@ -331,8 +325,7 @@ public partial class Default2 : System.Web.UI.Page
                     if (Convert.ToBoolean(ds.Tables[0].Rows[0]["status"]))
                     {
                         obj.alertmsg(Convert.ToString(ds.Tables[0].Rows[0]["msg"]), divAlert, "bg-success");
-                        obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
-              new[] { FromTxtdate.Text, ToTxtdate.Text });
+                        obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" }, new[] { FromTxtdate.Text, ToTxtdate.Text});
                     }
                     else
                     {
@@ -443,7 +436,7 @@ public partial class Default2 : System.Web.UI.Page
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         obj.FillGrid(GVInflow, "Usp_GetInflowDetails", Connstr, divAlert, new[] { "@FromDate", "@ToDate" },
-               new[] { FromTxtdate.Text, ToTxtdate.Text });
+               new[] { FromTxtdate.Text, ToTxtdate.Text});
 
     }
 
