@@ -121,7 +121,7 @@ public partial class Approver : System.Web.UI.Page
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
-                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
+
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));

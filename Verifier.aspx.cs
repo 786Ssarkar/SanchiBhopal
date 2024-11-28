@@ -115,8 +115,8 @@ public partial class Verifier : System.Web.UI.Page
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderqty", ParseValue(MilkPowderQty));
                     //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@MilkPowderstock", GetTotal(ParseValue(MilkPowderBal), ParseValue(MilkPowderManuf), ParseValue(MilkPowderQty)));
 
-                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43);  // server
-                    //sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 47);  //    local
+                    sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPVerient", 43); 
+         
 
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPBal", ParseValue(WMPblnc));
                     sqlDataAdapter.SelectCommand.Parameters.AddWithValue("@WMPManuf", ParseValue(WMPManuf));
@@ -339,7 +339,6 @@ public partial class Verifier : System.Web.UI.Page
         getOpningBal(WBOpeningBln, WbManufacturer, "12", "WB");
         getOpningBal(MilkPowderBal, MilkPowderManuf, "10", "SMP");
         getOpningBal(WMPblnc, WMPManuf, "43", "WMP");//on server
-        //getOpningBal(WMPblnc, WMPManuf, "47", "WMP");
         DdlUnit_SelectedIndexChanged(sender, e);
         DdlGheeVerient_SelectedIndexChanged(sender, e);
     }

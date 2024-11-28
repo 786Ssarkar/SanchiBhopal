@@ -199,12 +199,6 @@
                                             <asp:ListItem Value="46">Ghee 1 lit</asp:ListItem>
                                             <asp:ListItem Value="47">Ghee 5 lit</asp:ListItem>
                                             <asp:ListItem Value="48">Ghee 15 kg</asp:ListItem>
-                                           <%--Local--%>  
-                                           <%-- <asp:ListItem Value="48">Ghee 200g</asp:ListItem>
-                                            <asp:ListItem Value="49">Ghee 500ml</asp:ListItem>
-                                            <asp:ListItem Value="50">Ghee 1 lit</asp:ListItem>
-                                            <asp:ListItem Value="51">Ghee 5 lit</asp:ListItem>
-                                            <asp:ListItem Value="52">Ghee 15 kg</asp:ListItem>--%>
                                         </asp:DropDownList>
 
                                     </div>
@@ -433,6 +427,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
+
                     <div class="table-responsive ">
                         <asp:GridView runat="server" ID="GVInflow" AutoGenerateColumns="false" CssClass="table ps" OnRowCommand="GVInflow_RowCommand" HeaderStyle-CssClass="text-dark">
                             <Columns>
